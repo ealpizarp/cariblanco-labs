@@ -1,6 +1,6 @@
-import { interpolate, type Locale, htmlLang, getMessages } from '@/i18n';
+import { type Locale, htmlLang, getMessages } from '@/i18n';
 import { localizePath, routes } from '@/i18n/paths';
-import { getServiceTiers } from './services';
+import { getServices } from './services';
 import { site } from './site';
 
 /**
@@ -25,11 +25,11 @@ export function businessJsonLd(
     image: ogImageUrl.href,
     inLanguage: htmlLang(locale),
     areaServed: { '@type': 'Country', name: 'Costa Rica' },
-    founder: {
+    founder: site.founders.map((person, index) => ({
       '@type': 'Person',
-      name: site.founder.name,
-      jobTitle: t.meta.founderJobTitle,
-    },
+      name: person.name,
+      jobTitle: t.meta.founderJobTitles[index] ?? t.meta.founderJobTitle,
+    })),
     knowsAbout: [...t.meta.knowsAbout],
   };
 
@@ -71,30 +71,27 @@ export function breadcrumbJsonLd(
   };
 }
 
-/** Offer catalog for the three subscriptions. Amounts are quoted in writing. */
-export function subscriptionOffersJsonLd(siteUrl: URL, locale: Locale): Record<string, unknown> {
+/**
+ * The services as a catalog of Service entries offered by the business.
+ * No prices: every job is scoped and quoted in writing.
+ */
+export function servicesJsonLd(siteUrl: URL, locale: Locale): Record<string, unknown> {
   const t = getMessages(locale);
-  const tiers = getServiceTiers(locale);
   const servicios = localizePath(routes.servicios, locale);
 
   return {
     '@context': 'https://schema.org',
     '@type': 'OfferCatalog',
-    name: t.meta.offerCatalogName,
+    name: t.meta.servicesCatalogName,
     inLanguage: htmlLang(locale),
-    itemListElement: tiers.map((tier, index) => ({
-      '@type': 'Offer',
-      name: interpolate(t.meta.offerName, { name: tier.name }),
-      description: tier.description,
-      url: new URL(`${servicios}#${tier.id}`, siteUrl).href,
+    itemListElement: getServices(locale).map((service, index) => ({
+      '@type': 'Service',
+      name: service.name,
+      description: service.summary,
+      url: new URL(`${servicios}#${service.id}`, siteUrl).href,
       position: index + 1,
-      availability: 'https://schema.org/InStock',
-      priceSpecification: {
-        '@type': 'PriceSpecification',
-        priceCurrency: 'USD',
-        valueAddedTaxIncluded: false,
-        description: t.meta.offerPriceNote,
-      },
+      areaServed: { '@type': 'Country', name: 'Costa Rica' },
+      provider: { '@id': new URL('#business', siteUrl).href },
     })),
   };
 }

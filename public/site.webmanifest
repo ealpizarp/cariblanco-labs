@@ -1,12 +1,12 @@
 {
   "name": "Foresta Works",
   "short_name": "Foresta Works",
-  "description": "Sitios web y automatización para pymes en Costa Rica.",
+  "description": "Sitio, cuidado mensual y asistente de WhatsApp en Costa Rica.",
   "lang": "es-CR",
   "start_url": "/es/",
   "display": "browser",
-  "background_color": "#f6f5f2",
-  "theme_color": "#f6f5f2",
+  "background_color": "#e9e8dd",
+  "theme_color": "#e9e8dd",
   "icons": [
     {
       "src": "/favicon.svg",

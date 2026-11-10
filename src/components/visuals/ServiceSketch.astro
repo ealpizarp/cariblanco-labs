@@ -1,0 +1,216 @@
+---
+/**
+ * The drawing for each lead service, shared by the home index and the
+ * services page. Website: a page taking shape, grown from a seed.
+ * Store: a canopy spreading from one trunk. Assistant: roots joined
+ * at one node, with a single shoot. Colours come from custom properties so
+ * the same line work sits on mist or on moss.
+ * Each drawing runs once, when it scrolls in. Reduced motion shows it finished.
+ */
+import type { SketchId } from '@/data/services';
+
+interface Props {
+  stage: SketchId;
+  class?: string;
+}
+
+const { stage, class: className } = Astro.props;
+---
+
+<div class:list={['sketch', 'reveal', className]}>
+  {stage === 'site' && (
+    <svg class="plan__draw" viewBox="0 0 320 240" fill="none">
+      <ellipse class="plan__ground" cx="150" cy="214" rx="116" ry="13" />
+      <g class="plan__emboss" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M136 24 H236 C254 24 266 36 266 54 V138 C266 156 254 168 236 168 H136 C118 168 106 156 106 138 V54 C106 36 118 24 136 24 Z" />
+        <path d="M126 50 C156 44 188 50 228 44" />
+        <path d="M126 70 C154 76 180 66 210 72" />
+        <path d="M126 90 C148 96 168 88 188 94" />
+        <path d="M196 142 C220 134 246 116 238 94 C220 104 204 124 196 142 Z" />
+        <path d="M42 198 C52 174 68 156 88 144 C100 136 108 128 120 116" />
+        <path d="M72 160 C50 150 34 132 32 114 C50 122 66 142 72 160 Z" />
+      </g>
+      <g class="plan__ink" stroke-linecap="round" stroke-linejoin="round">
+        <path class="plan__path" pathLength="100" d="M136 24 H236 C254 24 266 36 266 54 V138 C266 156 254 168 236 168 H136 C118 168 106 156 106 138 V54 C106 36 118 24 136 24 Z" />
+        <path class="plan__path plan__path--later" pathLength="100" d="M126 50 C156 44 188 50 228 44" />
+        <path class="plan__path plan__path--later" pathLength="100" d="M126 70 C154 76 180 66 210 72" />
+        <path class="plan__path plan__path--later" pathLength="100" d="M126 90 C148 96 168 88 188 94" />
+        <path class="plan__path plan__path--last plan__leaf" pathLength="100" d="M196 142 C220 134 246 116 238 94 C220 104 204 124 196 142 Z" />
+        <path class="plan__path" pathLength="100" d="M42 198 C52 174 68 156 88 144 C100 136 108 128 120 116" />
+        <path class="plan__path plan__path--last plan__leaf" pathLength="100" d="M72 160 C50 150 34 132 32 114 C50 122 66 142 72 160 Z" />
+        <circle cx="40" cy="202" r="8" fill="none" stroke="currentColor" stroke-width="1" opacity="0.35" />
+        <circle cx="40" cy="202" r="3.3" fill="currentColor" stroke="none" />
+        <circle class="plan__bud" cx="118" cy="118" r="2.8" fill="currentColor" stroke="none" />
+      </g>
+    </svg>
+  )}
+
+  {stage === 'shop' && (
+    <svg class="plan__draw" viewBox="0 0 320 240" fill="none">
+      <ellipse class="plan__ground" cx="160" cy="214" rx="124" ry="14" />
+      <g class="plan__emboss" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M160 200 C158 178 156 160 158 140" />
+        <path d="M156 158 C120 148 88 136 62 122" />
+        <path d="M164 156 C200 146 232 134 258 120" />
+        <path d="M160 98 C138 76 144 44 160 32 C178 44 184 76 160 98 Z" />
+        <path d="M124 116 C104 98 108 70 128 60 C144 74 146 100 124 116 Z" />
+        <path d="M198 114 C178 96 184 68 204 58 C220 72 222 98 198 114 Z" />
+        <path d="M86 130 C66 114 68 88 90 76 C108 90 110 116 86 130 Z" />
+        <path d="M234 128 C214 112 218 86 238 74 C256 88 258 114 234 128 Z" />
+        <path d="M136 132 C118 116 122 94 140 86 C156 100 158 118 136 132 Z" />
+        <path d="M186 130 C168 114 174 92 190 84 C208 98 208 118 186 130 Z" />
+      </g>
+      <g class="plan__ink" stroke-linecap="round" stroke-linejoin="round">
+        <path class="plan__path" pathLength="100" d="M160 200 C158 178 156 160 158 140" />
+        <path class="plan__path plan__path--later" pathLength="100" d="M156 158 C120 148 88 136 62 122" />
+        <path class="plan__path plan__path--later" pathLength="100" d="M164 156 C200 146 232 134 258 120" />
+        <path class="plan__path plan__path--last plan__leaf" pathLength="100" d="M160 98 C138 76 144 44 160 32 C178 44 184 76 160 98 Z" />
+        <path class="plan__path plan__path--last plan__leaf" pathLength="100" d="M124 116 C104 98 108 70 128 60 C144 74 146 100 124 116 Z" />
+        <path class="plan__path plan__path--last plan__leaf" pathLength="100" d="M198 114 C178 96 184 68 204 58 C220 72 222 98 198 114 Z" />
+        <path class="plan__path plan__path--last plan__leaf" pathLength="100" d="M86 130 C66 114 68 88 90 76 C108 90 110 116 86 130 Z" />
+        <path class="plan__path plan__path--last plan__leaf" pathLength="100" d="M234 128 C214 112 218 86 238 74 C256 88 258 114 234 128 Z" />
+        <path class="plan__path plan__path--last plan__leaf" pathLength="100" d="M136 132 C118 116 122 94 140 86 C156 100 158 118 136 132 Z" />
+        <path class="plan__path plan__path--last plan__leaf" pathLength="100" d="M186 130 C168 114 174 92 190 84 C208 98 208 118 186 130 Z" />
+        <circle cx="160" cy="204" r="8" fill="none" stroke="currentColor" stroke-width="1" opacity="0.35" />
+        <circle cx="160" cy="204" r="3.3" fill="currentColor" stroke="none" />
+        <circle class="plan__bud plan__bud--clay" cx="160" cy="30" r="3.2" fill="currentColor" stroke="none" />
+      </g>
+    </svg>
+  )}
+
+  {stage === 'assistant' && (
+    <svg class="plan__draw" viewBox="0 0 320 240" fill="none">
+      <ellipse class="plan__ground" cx="160" cy="186" rx="132" ry="18" />
+      <g class="plan__emboss" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M150 124 C128 140 96 152 62 150 C40 148 24 158 18 172" />
+        <path d="M96 150 C84 136 70 132 54 142" />
+        <path d="M154 128 C136 156 100 170 64 168 C44 166 32 176 28 188" />
+        <path d="M170 124 C192 140 224 152 258 150 C280 148 296 158 302 172" />
+        <path d="M224 150 C236 136 250 132 266 142" />
+        <path d="M166 128 C184 156 220 170 256 168 C276 166 288 176 292 188" />
+        <path d="M160 128 C158 148 156 164 152 180" />
+        <path d="M154 166 C140 176 132 186 138 196" />
+        <path d="M156 168 C172 178 180 188 174 198" />
+        <path d="M70 156 C110 142 210 142 250 156" />
+        <path d="M166 110 C182 94 200 78 222 64" />
+        <path d="M198 80 C214 66 234 64 238 78 C222 84 204 86 198 80 Z" />
+        <circle cx="160" cy="118" r="11" />
+      </g>
+      <g class="plan__ink" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="160" cy="118" r="11" fill="var(--sketch-leaf)" stroke="currentColor" stroke-width="1.25" />
+        <path class="plan__path" pathLength="100" d="M150 124 C128 140 96 152 62 150 C40 148 24 158 18 172" />
+        <path class="plan__path plan__path--last" pathLength="100" d="M96 150 C84 136 70 132 54 142" />
+        <path class="plan__path" pathLength="100" d="M154 128 C136 156 100 170 64 168 C44 166 32 176 28 188" />
+        <path class="plan__path" pathLength="100" d="M170 124 C192 140 224 152 258 150 C280 148 296 158 302 172" />
+        <path class="plan__path plan__path--last" pathLength="100" d="M224 150 C236 136 250 132 266 142" />
+        <path class="plan__path" pathLength="100" d="M166 128 C184 156 220 170 256 168 C276 166 288 176 292 188" />
+        <path class="plan__path" pathLength="100" d="M160 128 C158 148 156 164 152 180" />
+        <path class="plan__path plan__path--last" pathLength="100" d="M154 166 C140 176 132 186 138 196" />
+        <path class="plan__path plan__path--last" pathLength="100" d="M156 168 C172 178 180 188 174 198" />
+        <path class="plan__path plan__path--later" pathLength="100" d="M70 156 C110 142 210 142 250 156" />
+        <path class="plan__path plan__path--later" pathLength="100" d="M166 110 C182 94 200 78 222 64" />
+        <path class="plan__path plan__path--last plan__leaf" pathLength="100" d="M198 80 C214 66 234 64 238 78 C222 84 204 86 198 80 Z" />
+        <circle cx="160" cy="118" r="3.1" fill="currentColor" stroke="none" />
+        <circle class="plan__bud plan__bud--clay" cx="226" cy="60" r="3.2" fill="currentColor" stroke="none" />
+      </g>
+    </svg>
+  )}
+</div>
+
+<style>
+  .sketch {
+    --sketch-ink: var(--color-moss-800);
+    --sketch-emboss: var(--color-line-soft);
+    --sketch-leaf: var(--color-wash-leaf);
+    --sketch-ground: var(--color-wash);
+    --sketch-bud: var(--color-clay);
+  }
+
+  .sketch :global(.plan__draw) {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    color: var(--sketch-ink);
+  }
+
+  .sketch :global(.plan__ground) {
+    fill: var(--sketch-ground);
+  }
+
+  .sketch :global(.plan__emboss),
+  .sketch :global(.plan__ink) {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.25;
+  }
+
+  .sketch :global(.plan__emboss) {
+    color: var(--sketch-emboss);
+    opacity: 0.9;
+    transform: translate(1.6px, 2px);
+  }
+
+  .sketch :global(.plan__ink) {
+    stroke-width: 1.3;
+  }
+
+  .sketch :global(.plan__leaf) {
+    fill: var(--sketch-leaf);
+  }
+
+  .sketch :global(.plan__bud--clay) {
+    color: var(--sketch-bud);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .sketch :global(.plan__path) {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: sketch-grow 0.85s var(--ease-out) 0.15s forwards;
+    }
+
+    .sketch :global(.plan__path--later) {
+      animation-duration: 0.7s;
+      animation-delay: 0.37s;
+    }
+
+    .sketch :global(.plan__path--last) {
+      animation-duration: 0.6s;
+      animation-delay: 0.57s;
+    }
+
+    .sketch :global(.plan__leaf) {
+      fill: transparent;
+      animation: sketch-leaf 0.4s var(--ease-out) 0.85s forwards;
+    }
+
+    .sketch :global(.plan__bud) {
+      opacity: 0;
+      animation: sketch-bud 0.35s var(--ease-out) 1.05s forwards;
+    }
+
+    /* Below the fold the motion script holds the drawing until it is seen. */
+    .sketch.reveal--wait:not(.is-in) :global(*) {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes sketch-grow {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes sketch-leaf {
+    to {
+      fill: var(--sketch-leaf);
+    }
+  }
+
+  @keyframes sketch-bud {
+    to {
+      opacity: 1;
+    }
+  }
+</style>

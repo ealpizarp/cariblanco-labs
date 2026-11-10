@@ -1,0 +1,309 @@
+---
+/**
+ * The services page body. The three lead services each get a plate:
+ * numeral, statement, who it is for, what it includes, what the client pays
+ * third parties directly, and its drawing on a mounted sheet. Monthly care
+ * follows as the base all three run on.
+ */
+import Button from '@/components/ui/Button.astro';
+import Plate from '@/components/ui/Plate.astro';
+import ServiceSketch from '@/components/visuals/ServiceSketch.astro';
+import { getServices, romanNumerals } from '@/data/services';
+import { routes, useI18n } from '@/i18n';
+
+const { locale, t, path } = useI18n(Astro);
+const services = getServices(locale);
+const lead = services.filter((service) => service.lead);
+const base = services.filter((service) => !service.lead);
+const contact = path(routes.contacto);
+const numeral = (id: string): string => romanNumerals[services.findIndex((s) => s.id === id)] ?? '';
+---
+
+{lead.map((service, index) => (
+  <section
+    class:list={['section', 'section--page', 'detail', { 'detail--flip': index % 2 === 1 }]}
+    id={service.id}
+    aria-labelledby={`${service.id}-title`}
+  >
+    <div class="container detail__layout">
+      <div class="detail__copy">
+        <p class="detail__name">
+          <span class="detail__num" aria-hidden="true">{numeral(service.id)}.</span>
+          {service.name}
+        </p>
+        <h2 class="detail__statement reveal" id={`${service.id}-title`}>{service.purpose}</h2>
+        <p class="detail__support reveal">{service.support}</p>
+        <div class="detail__list reveal">
+          <h3 class="detail__label">{t.services.includesLabel}</h3>
+          <ul class="detail__includes">
+            {service.includes.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        {service.separate.length > 0 && (
+          <div class="detail__list detail__list--separate">
+            <h3 class="detail__label">{t.services.separateLabel}</h3>
+            <ul class="detail__separate">
+              {service.separate.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        )}
+        <div class="detail__cta">
+          <Button href={contact} class="btn--wrap">
+            {t.services.talk}
+            <span class="sr-only"> {service.name}.</span>
+          </Button>
+        </div>
+      </div>
+
+      {service.sketch && (
+        <figure class="detail__mount" aria-hidden="true">
+          <ServiceSketch stage={service.sketch} />
+          <figcaption>
+            <span>{numeral(service.id)}</span>
+            {service.name}
+          </figcaption>
+        </figure>
+      )}
+    </div>
+  </section>
+))}
+
+{base.map((service) => (
+  <section class="section base" id={service.id} aria-labelledby={`${service.id}-title`}>
+    <div class="container base__grid">
+      <div class="base__copy">
+        <Plate numeral={numeral(service.id)} label={t.services.baseLabel} />
+        <h2 class="base__title" id={`${service.id}-title`}>{t.services.baseTitle}</h2>
+        <p class="base__name">{service.name}</p>
+        <p class="base__summary">{service.summary}</p>
+      </div>
+      <ul class="base__includes reveal">
+        {service.includes.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+))}
+
+<style>
+  /* ---- Lead service plates ---- */
+  .detail {
+    padding-block: var(--space-section-gap);
+    border-top: 1px solid var(--color-rule-strong);
+  }
+
+  main > .detail:first-of-type {
+    padding-top: var(--space-section-gap);
+  }
+
+  .detail__layout {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+  }
+
+  .detail__copy {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-4);
+  }
+
+  .detail__name {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .detail__num {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    font-style: italic;
+    font-weight: var(--weight-body);
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-clay);
+  }
+
+  .detail__statement {
+    max-width: 18ch;
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+  }
+
+  .detail__support {
+    max-width: 50ch;
+    font-size: var(--text-md);
+    color: var(--color-text-soft);
+  }
+
+  .detail__list {
+    width: min(100%, 34rem);
+    margin-top: var(--space-2);
+  }
+
+  .detail__label {
+    margin-bottom: var(--space-2);
+    font-family: inherit;
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-caps);
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .detail__includes {
+    border-top: 1px solid var(--color-rule-strong);
+  }
+
+  .detail__includes li {
+    display: grid;
+    grid-template-columns: 1.25rem minmax(0, 1fr);
+    padding-block: 0.7rem;
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .detail__includes li::before {
+    content: '';
+    width: 0.45rem;
+    height: 0.45rem;
+    margin-top: 0.55em;
+    border-radius: 50%;
+    background: var(--color-moss-700);
+  }
+
+  /* Third-party costs read as a quieter ledger under what is included. */
+  .detail__separate {
+    font-size: var(--text-sm);
+    color: var(--color-text-soft);
+    border-top: 1px dashed var(--color-rule-strong);
+  }
+
+  .detail__separate li {
+    display: grid;
+    grid-template-columns: 1.25rem minmax(0, 1fr);
+    padding-block: 0.55rem;
+    border-bottom: 1px dashed var(--color-rule);
+  }
+
+  .detail__separate li::before {
+    content: '+';
+    font-weight: var(--weight-semibold);
+    line-height: inherit;
+    color: var(--color-clay);
+  }
+
+  .detail__cta {
+    margin-top: var(--space-3);
+  }
+
+  /* The drawing sits on a mounted sheet, like a plate in a field guide. */
+  .detail__mount {
+    justify-self: center;
+    width: min(100%, 26rem);
+    padding: var(--space-6) var(--space-6) var(--space-4);
+    background: var(--color-surface);
+    border: 1px solid var(--color-rule-strong);
+    box-shadow: 0 0 0 0.5rem var(--color-bg), 0 0 0 calc(0.5rem + 1px) var(--color-rule);
+  }
+
+  .detail__mount figcaption {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-rule);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .detail__mount figcaption span {
+    font-family: var(--font-serif);
+    font-size: var(--text-sm);
+    font-style: italic;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-clay);
+  }
+
+  @media (min-width: 900px) {
+    .detail__layout {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      column-gap: clamp(3rem, 7vw, 7rem);
+    }
+
+    .detail--flip .detail__mount {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .detail--flip .detail__copy {
+      grid-column: 2;
+    }
+
+    .detail--flip .detail__layout {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    }
+  }
+
+  /* ---- The base: monthly care under every lead service ---- */
+  .base {
+    background: var(--color-wash-leaf);
+    border-block: 1px solid var(--color-rule);
+    scroll-margin-top: var(--header-height);
+  }
+
+  .base__grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .base__copy {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-4);
+  }
+
+  .base__title {
+    max-width: 18ch;
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+  }
+
+  .base__name {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .base__summary {
+    max-width: 44ch;
+    color: var(--color-text-soft);
+  }
+
+  .base__includes {
+    align-self: end;
+    border-top: 2px solid var(--color-text);
+  }
+
+  .base__includes li {
+    padding-block: 0.7rem;
+    border-bottom: 1px solid var(--color-rule-strong);
+  }
+
+  @media (min-width: 900px) {
+    .base__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--col-gap);
+    }
+  }
+</style>

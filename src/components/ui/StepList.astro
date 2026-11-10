@@ -1,0 +1,88 @@
+---
+/**
+ * The five working steps as a ruled list: number, step, what happens.
+ * Reads like the written plan it describes. `large` is the process page.
+ */
+import { romanNumerals } from '@/data/services';
+import { useI18n } from '@/i18n';
+
+interface Props {
+  size?: 'default' | 'large';
+}
+
+const { size = 'default' } = Astro.props;
+const { t } = useI18n(Astro);
+---
+
+<ol class:list={['steps', 'reveal', { 'steps--large': size === 'large' }]}>
+  {t.process.steps.map((step, index) => (
+    <li class="step">
+      <span class="step__num" aria-hidden="true">{romanNumerals[index]}.</span>
+      <h3 class="step__title">{step.title}</h3>
+      <p class="step__text">{step.text}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .steps {
+    border-top: 2px solid var(--color-text);
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 14rem) minmax(0, 1fr);
+    column-gap: var(--col-gap);
+    align-items: baseline;
+    padding-block: var(--space-5);
+    border-bottom: 1px solid var(--color-rule-strong);
+  }
+
+  .step__num {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    font-style: italic;
+    line-height: 1;
+    color: var(--color-clay);
+  }
+
+  .step__title {
+    font-size: var(--text-xl);
+    line-height: 1.15;
+  }
+
+  .step__text {
+    max-width: 60ch;
+    color: var(--color-text-soft);
+  }
+
+  .steps--large .step {
+    grid-template-columns: 3rem minmax(0, 16rem) minmax(0, 1fr);
+    padding-block: var(--space-6);
+  }
+
+  .steps--large .step__title {
+    font-size: var(--text-2xl);
+    line-height: 1.1;
+  }
+
+  .steps--large .step__text {
+    max-width: 58ch;
+    font-size: var(--text-md);
+  }
+
+  @media (max-width: 700px) {
+    .step,
+    .steps--large .step {
+      grid-template-columns: 2rem minmax(0, 1fr);
+      row-gap: var(--space-2);
+      padding-block: var(--space-4);
+    }
+
+    .step__text,
+    .steps--large .step__text {
+      grid-column: 2;
+      font-size: var(--text-base);
+    }
+  }
+</style>

@@ -1,0 +1,60 @@
+---
+/**
+ * Field-guide section label: "II — Servicios". The home page reads as a
+ * short natural-history survey of the business, one numeral per section.
+ */
+interface Props {
+  /** Roman numeral for the plate. */
+  numeral: string;
+  label: string;
+  onDark?: boolean;
+  class?: string;
+}
+
+const { numeral, label, onDark = false, class: className } = Astro.props;
+---
+
+<p class:list={['plate', { 'plate--on-dark': onDark }, className]}>
+  <span class="plate__num">{numeral}</span>
+  <span class="plate__rule" aria-hidden="true"></span>
+  <span class="plate__label">{label}</span>
+</p>
+
+<style>
+  .plate {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    max-width: none;
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .plate__num {
+    font-family: var(--font-serif);
+    font-size: var(--text-md);
+    font-style: italic;
+    font-weight: var(--weight-body);
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-clay);
+  }
+
+  .plate__rule {
+    width: 2.5rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+
+  .plate--on-dark {
+    color: var(--color-dark-text-faint);
+  }
+
+  .plate--on-dark .plate__num {
+    color: var(--color-dark-emphasis);
+  }
+</style>

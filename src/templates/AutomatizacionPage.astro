@@ -4,7 +4,7 @@ import CtaBand from '@/components/CtaBand.astro';
 import Automation from '@/components/sections/Automation.astro';
 import Button from '@/components/ui/Button.astro';
 import PageHeader from '@/components/ui/PageHeader.astro';
-import CapabilityField from '@/components/visuals/CapabilityField.astro';
+import ChatExample from '@/components/visuals/ChatExample.astro';
 import { breadcrumbJsonLd } from '@/data/structured-data';
 import { routes, useI18n } from '@/i18n';
 
@@ -23,13 +23,7 @@ const meta = t.pages.automatizacion;
 >
   <PageHeader eyebrow={meta.eyebrow} title={meta.heading} lede={meta.lede}>
     <Button slot="actions" href={path(routes.contacto)}>{t.nav.letsTalk}</Button>
-    <CapabilityField
-      slot="visual"
-      questions={meta.cues.questions}
-      afterHours={meta.cues.afterHours}
-      booking={meta.cues.booking}
-      followUp={meta.cues.followUp}
-    />
+    <ChatExample slot="visual" />
   </PageHeader>
   <Automation />
   <CtaBand title={meta.closeTitle} text={meta.closeText} />

@@ -3,7 +3,6 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import CtaBand from '@/components/CtaBand.astro';
 import ForestaStory from '@/components/sections/ForestaStory.astro';
 import PageHeader from '@/components/ui/PageHeader.astro';
-import ForestTree from '@/components/visuals/ForestTree.astro';
 import { breadcrumbJsonLd } from '@/data/structured-data';
 import { routes, useI18n } from '@/i18n';
 
@@ -20,9 +19,7 @@ const meta = t.pages.nosotros;
   description={meta.description}
   extraJsonLd={[breadcrumbJsonLd(Astro.site, [{ name: meta.eyebrow, path: path(routes.nosotros) }], locale)]}
 >
-  <PageHeader class="page-header--grove" eyebrow={meta.eyebrow} title={meta.heading} lede={meta.lede}>
-    <ForestTree slot="visual" fog="sage" />
-  </PageHeader>
+  <PageHeader eyebrow={meta.eyebrow} title={meta.heading} lede={meta.lede} />
   <ForestaStory />
   <CtaBand title={meta.closeTitle} />
 </BaseLayout>

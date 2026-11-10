@@ -39,7 +39,8 @@ export interface SiteConfig {
   readonly name: string;
   /** ISO 3166-1 alpha-2. */
   readonly country: 'CR';
-  readonly founder: Founder;
+  /** In the order they are named on the site. */
+  readonly founders: readonly Founder[];
   readonly contact: ContactInfo;
   readonly social: SocialLinks;
 }
@@ -47,9 +48,7 @@ export interface SiteConfig {
 export const site: SiteConfig = {
   name: 'Foresta Works',
   country: 'CR',
-  founder: {
-    name: 'Erick Alpízar Prendas',
-  },
+  founders: [{ name: 'Erick Alpízar Prendas' }, { name: 'Ernesto Pocasangre' }],
   contact: {
     whatsappNumber: null,
     email: null,

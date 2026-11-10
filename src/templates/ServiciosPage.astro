@@ -1,13 +1,9 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import CtaBand from '@/components/CtaBand.astro';
-import CompareTable from '@/components/sections/CompareTable.astro';
-import SubscriptionTerms from '@/components/sections/SubscriptionTerms.astro';
-import ServiceTiers from '@/components/sections/ServiceTiers.astro';
+import Button from '@/components/ui/Button.astro';
+import ServiceDetails from '@/components/sections/ServiceDetails.astro';
 import PageHeader from '@/components/ui/PageHeader.astro';
-import BranchField from '@/components/visuals/BranchField.astro';
-import { serviceTierFacts } from '@/data/services';
-import { breadcrumbJsonLd, subscriptionOffersJsonLd } from '@/data/structured-data';
+import { breadcrumbJsonLd, servicesJsonLd } from '@/data/structured-data';
 import { routes, useI18n } from '@/i18n';
 
 if (!Astro.site) {
@@ -16,12 +12,6 @@ if (!Astro.site) {
 
 const { locale, t, path } = useI18n(Astro);
 const meta = t.pages.servicios;
-
-function tierName(id: (typeof serviceTierFacts)[number]['id']): string {
-  const fact = serviceTierFacts.find((item) => item.id === id);
-  if (!fact) throw new Error(`Missing tier ${id}`);
-  return fact.name;
-}
 ---
 
 <BaseLayout
@@ -29,14 +19,34 @@ function tierName(id: (typeof serviceTierFacts)[number]['id']): string {
   description={meta.description}
   extraJsonLd={[
     breadcrumbJsonLd(Astro.site, [{ name: meta.eyebrow, path: path(routes.servicios) }], locale),
-    subscriptionOffersJsonLd(Astro.site, locale),
+    servicesJsonLd(Astro.site, locale),
   ]}
 >
-  <PageHeader eyebrow={meta.eyebrow} title={meta.heading} lede={meta.lede}>
-    <BranchField slot="visual" early={tierName('arranque')} middle={tierName('crecimiento')} later={tierName('inteligente')} />
-  </PageHeader>
-  <ServiceTiers />
-  <CompareTable />
-  <SubscriptionTerms />
-  <CtaBand />
+  <PageHeader eyebrow={meta.eyebrow} title={meta.heading} lede={meta.lede} />
+  <ServiceDetails />
+  <section class="section section--page plan-close" aria-labelledby="plan-unsure">
+    <div class="container">
+      <div class="plan-close__inner">
+        <h2 id="plan-unsure">{t.services.unsure}</h2>
+        <Button href={path(routes.contacto)}>{t.nav.letsTalk}</Button>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .plan-close__inner {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-5);
+    max-width: 36rem;
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-moss-800);
+  }
+
+  .plan-close__inner h2 {
+    max-width: 18ch;
+    font-size: var(--text-2xl);
+    line-height: var(--leading-snug);
+  }
+</style>

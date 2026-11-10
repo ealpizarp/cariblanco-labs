@@ -1,0 +1,226 @@
+---
+/**
+ * A plain WhatsApp exchange the assistant handles after hours. It is
+ * labelled as an example, not a client conversation.
+ */
+import { useI18n } from '@/i18n';
+
+const { t } = useI18n(Astro);
+const example = t.chatExample;
+
+/**
+ * Timeline, in seconds. A client message lands 0.8s after the one before
+ * it; an assistant reply waits for 0.9s of "typing…" in the header first.
+ */
+const TYPING = 0.9;
+let clock = 0;
+const typingWindows: number[] = [];
+const timed = example.messages.map((message, index) => {
+  if (index > 0) clock += 0.5;
+  if (message.from === 'assistant') {
+    typingWindows.push(clock);
+    clock += TYPING;
+  } else if (index > 0) {
+    clock += 0.3;
+  }
+  return { ...message, at: clock };
+});
+const during = (keyframes: string): string =>
+  typingWindows.map((start) => `${keyframes} ${TYPING}s linear ${start.toFixed(2)}s both`).join(', ');
+const typingAnimation = during('chat-typing');
+const statusAnimation = during('chat-status');
+---
+
+<figure class="chat-example" aria-label={example.label}>
+  <div class="chat">
+    <div class="chat__bar">
+      <span class="chat__avatar" aria-hidden="true">{example.business.charAt(0)}</span>
+      <span class="chat__who">
+        <strong>{example.business}</strong>
+        <span class="chat__status-line">
+          <span class="chat__status" style={`--status:${statusAnimation}`}>{example.status}</span>
+          <span class="chat__typing" aria-hidden="true" style={`--typing:${typingAnimation}`}>
+            {example.typing}
+          </span>
+        </span>
+      </span>
+    </div>
+    <ol class="chat__log">
+      {timed.map((message) => (
+        <li class:list={['chat__msg', `chat__msg--${message.from}`]} style={`--at:${message.at.toFixed(2)}s`}>
+          <span class="chat__text">{message.text}</span>
+          <span class="chat__time">{message.time}</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+  <figcaption class="chat-example__caption">
+    <span class="chat-example__label">{example.label}.</span>
+    {' '}
+    {example.caption}
+  </figcaption>
+</figure>
+
+<style>
+  .chat-example {
+    width: min(100%, 24rem);
+  }
+
+  .chat {
+    overflow: hidden;
+    border: 1px solid var(--color-rule-strong);
+    border-radius: var(--radius-lg);
+    background: var(--color-wash);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+    text-align: left;
+  }
+
+  .chat__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0.65rem var(--space-4);
+    background: var(--color-moss-800);
+    color: var(--color-dark-text);
+  }
+
+  .chat__avatar {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--color-mist-100);
+    color: var(--color-moss-800);
+    font-family: var(--font-serif);
+    font-size: var(--text-md);
+  }
+
+  .chat__who {
+    display: grid;
+    line-height: 1.25;
+  }
+
+  .chat__who span {
+    font-size: var(--text-xs);
+    color: var(--color-dark-text-muted);
+  }
+
+  .chat__log {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+  }
+
+  .chat__msg {
+    max-width: 85%;
+    padding: 0.45rem 0.65rem 0.35rem;
+    border-radius: 6px;
+    background: var(--color-paper);
+    color: var(--color-text);
+    box-shadow: 0 1px 0 rgb(16 24 22 / 0.08);
+  }
+
+  .chat__msg--client {
+    align-self: flex-start;
+    border-top-left-radius: 0;
+  }
+
+  .chat__msg--assistant {
+    align-self: flex-end;
+    border-top-right-radius: 0;
+    background: var(--color-lichen-100);
+  }
+
+  .chat__text {
+    display: block;
+  }
+
+  .chat__time {
+    display: block;
+    margin-top: 0.1rem;
+    text-align: right;
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .chat-example__caption {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .chat-example__label {
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-soft);
+  }
+
+  /* The status and "typing…" share one line; only one is visible. */
+  .chat__status-line {
+    display: grid;
+  }
+
+  .chat__status,
+  .chat__typing {
+    grid-area: 1 / 1;
+  }
+
+  .chat__typing {
+    opacity: 0;
+    color: var(--color-dark-accent);
+    font-style: italic;
+  }
+
+  /* Messages arrive one after another, once, on load. Before each reply the
+     header shows "typing…", as WhatsApp does. */
+  @media (prefers-reduced-motion: no-preference) {
+    .chat__msg {
+      animation: chat-in 0.45s var(--ease-out) var(--at, 0s) both;
+    }
+
+    .chat__typing {
+      animation: var(--typing);
+    }
+
+    .chat__status {
+      animation: var(--status);
+    }
+  }
+
+  @keyframes chat-status {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    12%,
+    88% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes chat-typing {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    12%,
+    88% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes chat-in {
+    from {
+      opacity: 0;
+      translate: 0 0.4rem;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+</style>

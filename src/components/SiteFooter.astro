@@ -1,7 +1,7 @@
 ---
 import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
 import Wordmark from '@/components/Wordmark.astro';
-import Botanical from '@/components/visuals/Botanical.astro';
+import Contours from '@/components/visuals/Contours.astro';
 import { primaryNav } from '@/data/navigation';
 import { site, whatsappUrl } from '@/data/site';
 import { routes, useI18n } from '@/i18n';
@@ -21,8 +21,8 @@ const hasContact = whatsapp !== null || site.contact.email !== null || socialLin
 ---
 
 <footer class="site-footer">
-  <div class="site-footer__vine" data-sway aria-hidden="true">
-    <Botanical variant="rule" />
+  <div class="site-footer__terrain" aria-hidden="true">
+    <Contours preset="footer" />
   </div>
   <div class="container site-footer__grid">
     <div class="site-footer__brand">
@@ -63,6 +63,7 @@ const hasContact = whatsapp !== null || site.contact.email !== null || socialLin
       <span>Costa Rica</span>
     </div>
   </div>
+  <p class="site-footer__giant" aria-hidden="true">Foresta</p>
 </footer>
 
 <style>
@@ -72,23 +73,34 @@ const hasContact = whatsapp !== null || site.contact.email !== null || socialLin
     border-top: 1px solid var(--color-dark-rule);
     padding-block: clamp(var(--space-7), 5vw, var(--space-8));
     font-size: var(--text-sm);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-bottom: 0;
   }
 
-  .site-footer__vine {
-    width: min(100% - (var(--gutter) * 2), var(--container-max));
-    margin: 0 auto var(--space-5);
-    color: var(--color-dark-accent);
-    opacity: 0.65;
+  .site-footer__terrain {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    --contour-color: var(--color-lichen-300);
+    --contour-opacity: 0.07;
   }
 
-  .site-footer__vine :global(svg) {
-    height: 2.75rem;
-  }
-
-  @media (max-width: 600px) {
-    .site-footer__vine {
-      display: none;
-    }
+  /* The name, set large and cut by the page edge, like a map title. */
+  .site-footer__giant {
+    max-width: none;
+    margin: var(--space-7) 0 -0.24em;
+    font-family: var(--font-serif);
+    font-size: clamp(5rem, 24vw, 22rem);
+    font-style: italic;
+    line-height: 0.8;
+    letter-spacing: -0.045em;
+    text-align: center;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(197 208 99 / 0.35);
+    user-select: none;
   }
 
   .site-footer__grid {
