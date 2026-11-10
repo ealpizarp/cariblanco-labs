@@ -6,58 +6,60 @@
 
 :root {
   /* ---- Colour: primitives ----
-     Bone and canopy stay recognizable. Clay is the one supporting note:
-     sentence emphasis and the featured frame, never a second button color.
-     Clay-400 is decorative only; it does not pass for small text. */
-  --color-bone-50: #f4efe6; /* page: warm paper */
-  --color-bone-100: #e8e0d2; /* recessed wash */
-  --color-paper: #fffaf3; /* sheets: cards, header, forms */
-  --color-ink-900: #1a2420; /* text */
-  --color-ink-950: #101816; /* deepest surface */
-  --color-forest-800: #1e3a34; /* secondary dark surface */
-  --color-gray-700: #3d4945; /* soft text: 8.2:1 on bone-50 */
-  --color-gray-500: #54605c; /* muted text: 5.7:1 on bone-50, 5.0:1 on bone-100 */
-  --color-teal-800: #084840; /* primary hover: 9.1:1 on bone-50 */
-  --color-teal-700: #0c5c52; /* primary: 6.9:1 on bone-50; bone on it is 6.9:1 */
-  --color-teal-300: #8fd8cb; /* accent on dark: 11.0:1 on ink-950 */
-  --color-teal-200: #b7e6de;
-  --color-sand-400: #c4b59a; /* hairline accent on dark stages only */
-  --color-clay-700: #8f4532; /* emphasis: 6.0:1 on bone-50, 5.2:1 on bone-100 */
-  --color-clay-400: #c56a4a; /* large shapes only */
-  --color-moss-800: #243f34; /* deep moss: large shapes, not small text */
-  --color-sage-100: #e4ebe3; /* leaf wash; similar luminance to bone-100 */
-  --color-sage-300: #c5d4c4; /* botanical line, decorative only */
+     Cloud forest. Moss and lichen carry the brand; poró (the Erythrina
+     tree's coral flower) is the one warm note for emphasis. Mist is the
+     paper. Lichen is for dark grounds; on light grounds it is a fill
+     behind ink, never text. */
+  --color-mist-50: #e9e8dd; /* page: mist paper */
+  --color-mist-100: #dcddcb; /* recessed wash */
+  --color-paper: #f4f2ea; /* sheets: cards, header, forms */
+  --color-ink: #171b12; /* text: 14.2:1 on mist */
+  --color-moss-950: #12160d; /* deepest ground */
+  --color-moss-900: #1b2114; /* dark sections */
+  --color-moss-800: #283019; /* primary: 11.2:1 with mist text */
+  --color-moss-700: #3b4527; /* line work on light */
+  --color-olive-600: #56613a; /* small accent text: 5.4:1 on mist */
+  --color-soft-700: #3e4536; /* soft text: 8.1:1 on mist */
+  --color-muted-500: #596050; /* muted text: 5.3:1 on mist, 4.7:1 on wash */
+  --color-lichen-300: #c5d063; /* accent on dark: 9.9:1 on moss-900 */
+  --color-lichen-200: #dce3a0; /* text on moss-800: 10.2:1 */
+  --color-lichen-100: #e7ebc4; /* pale fill */
+  --color-fern-400: #9ea88d; /* decorative line work only */
+  --color-poro-600: #a8442a; /* emphasis on light: 4.8:1 on mist */
+  --color-poro-400: #de6b45; /* emphasis on dark: 4.9:1 on moss-900 */
+  --color-bark-600: #6e5846; /* secondary warm text: 5.4:1 on mist */
 
   /* ---- Colour: semantic ---- */
-  --color-bg: var(--color-bone-50);
+  --color-bg: var(--color-mist-50);
   --color-surface: var(--color-paper);
-  --color-wash: var(--color-bone-100);
-  --color-text: var(--color-ink-900);
-  --color-text-soft: var(--color-gray-700);
-  --color-text-muted: var(--color-gray-500);
-  --color-primary: var(--color-teal-700);
-  --color-primary-strong: var(--color-teal-800);
-  --color-on-primary: var(--color-bone-50);
-  --color-clay: var(--color-clay-700);
-  --color-clay-soft: rgb(143 69 50 / 0.12);
-  --color-rule: rgb(21 35 32 / 0.09);
-  --color-rule-strong: rgb(21 35 32 / 0.2);
-  --color-focus: var(--color-teal-700);
-  --color-glass: var(--color-paper);
-  --color-glass-strong: var(--color-paper);
-  --color-glow: transparent;
-  --color-stage: #12211d;
-  --color-stage-mid: #1a332d;
-  --color-chrome: #1c302b;
+  --color-wash: var(--color-mist-100);
+  --color-wash-leaf: var(--color-lichen-100);
+  --color-text: var(--color-ink);
+  --color-text-soft: var(--color-soft-700);
+  --color-text-muted: var(--color-muted-500);
+  --color-primary: var(--color-moss-800);
+  --color-primary-strong: var(--color-moss-950);
+  --color-on-primary: var(--color-lichen-200);
+  --color-accent: var(--color-olive-600);
+  --color-clay: var(--color-poro-600);
+  --color-clay-soft: rgb(168 68 42 / 0.12);
+  --color-line: var(--color-moss-700);
+  --color-line-soft: var(--color-fern-400);
+  --color-rule: rgb(23 27 18 / 0.1);
+  --color-rule-strong: rgb(23 27 18 / 0.22);
+  --color-focus: var(--color-poro-600);
 
-  /* Dark surfaces (closing section, footer) */
-  --color-dark-bg: var(--color-ink-950);
-  --color-dark-text: var(--color-bone-50);
-  --color-dark-text-muted: rgb(245 243 238 / 0.74);
-  --color-dark-text-faint: rgb(245 243 238 / 0.68); /* ≥ 4.5:1 on ink-950 for sm legal text */
-  --color-dark-rule: rgb(245 243 238 / 0.16);
-  --color-dark-accent: var(--color-teal-300);
-  --color-dark-error: #f4c7b8; /* 11.4:1 on ink-950 */
+  /* Dark grounds (hero, plans, closing, footer) */
+  --color-dark-bg: var(--color-moss-900);
+  --color-dark-deep: var(--color-moss-950);
+  --color-dark-raised: var(--color-moss-800);
+  --color-dark-text: var(--color-mist-50);
+  --color-dark-text-muted: rgb(233 232 221 / 0.74);
+  --color-dark-text-faint: rgb(233 232 221 / 0.62);
+  --color-dark-rule: rgb(233 232 221 / 0.14);
+  --color-dark-accent: var(--color-lichen-300);
+  --color-dark-emphasis: var(--color-poro-400);
+  --color-dark-error: #f4c7b8;
 
   /* ---- Typography ---- */
   /* --font-serif and --font-sans are injected by Astro's <Font> component. */
@@ -70,16 +72,16 @@
   --text-2xl: clamp(1.75rem, 2.7vw, 2.6rem);
   --text-3xl: clamp(2rem, 3.6vw, 3.5rem);
   --text-display: clamp(2.65rem, 5.8vw, 5.35rem);
-  --weight-body: 500;
+  --weight-body: 400;
   --weight-medium: 500;
   --weight-semibold: 600;
-  --weight-heading: 500;
-  --weight-display: 500;
-  --leading-tight: 1.02;
+  --weight-heading: 400;
+  --weight-display: 400;
+  --leading-tight: 1.06;
   --leading-snug: 1.14;
   --leading-body: 1.65;
-  --tracking-caps: 0.14em;
-  --tracking-display: -0.032em;
+  --tracking-caps: 0.06em;
+  --tracking-display: -0.018em;
 
   /* ---- Spacing scale ----
      1–8 are the only fixed steps. Semantic tokens below are for repeated
@@ -119,19 +121,19 @@
      xl  a section clearing
      leaf  the one asymmetric frame: a path turning
      pill  discs only (an index, the wordmark mark) */
-  --radius-sm: 10px;
-  --radius-md: 18px;
-  --radius-lg: 32px;
-  --radius-xl: 48px;
-  --radius-leaf: 3rem 0.85rem 3rem 0.85rem;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 0;
+  --radius-leaf: 6px;
   --radius-pill: 999px;
   /* Leaf shade: short, cool, and tight. Not a floating-card shadow. */
   --shadow-sm: 0 1px 2px rgb(16 24 22 / 0.06);
   --shadow-md: none;
   --shadow-lg: none;
-  --shadow-leaf: 0 18px 32px -24px rgb(16 24 22 / 0.5);
-  --shadow-lift: 0 14px 24px -18px rgb(16 24 22 / 0.42);
-  --shadow-stage: 0 28px 48px -30px rgb(16 24 22 / 0.62);
+  --shadow-leaf: none;
+  --shadow-lift: none;
+  --shadow-stage: none;
   --inset-highlight: inset 0 1px 0 rgb(255 250 243 / 0.22);
 
   /* ---- Motion ---- */

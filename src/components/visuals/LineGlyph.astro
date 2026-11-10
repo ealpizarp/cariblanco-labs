@@ -1,0 +1,187 @@
+---
+/**
+ * Small field-guide glyphs drawn in one line weight. Each path has a
+ * pathLength of 100 so the parent can draw it in with a dash animation.
+ * Purely decorative: the text beside a glyph always carries the meaning.
+ *
+ * Drawing: add `glyph--draw` and put the glyph inside a `.reveal` block.
+ * The lines grow once when that block is seen; reduced motion, or no
+ * motion script, shows them finished.
+ */
+export type GlyphName =
+  | 'listen'
+  | 'choose'
+  | 'connect'
+  | 'tune'
+  | 'key'
+  | 'square'
+  | 'ledger'
+  | 'quiet'
+  | 'seed'
+  | 'sprout'
+  | 'sapling'
+  | 'young'
+  | 'tree';
+
+interface Props {
+  name: GlyphName;
+  class?: string;
+  /** Delay before this glyph starts drawing, in seconds. */
+  delay?: number;
+}
+
+const { name, class: className, delay = 0 } = Astro.props;
+
+/** Line work first, then the one accent mark (drawn last, in clay). */
+const glyphs: Record<GlyphName, { lines: string[]; accent?: string }> = {
+  // A speech bubble being read: Understand.
+  listen: {
+    lines: [
+      'M10 11 H38 C40.8 11 43 13.2 43 16 V29 C43 31.8 40.8 34 38 34 H21 L13 41 V34 H10 C7.2 34 5 31.8 5 29 V16 C5 13.2 7.2 11 10 11 Z',
+      'M12 20 H34',
+    ],
+    accent: 'M12 26 H25',
+  },
+  // Two ticked boxes: Choose.
+  choose: {
+    lines: ['M7 9 H17 V19 H7 Z', 'M23 14 H41', 'M7 29 H17 V39 H7 Z', 'M23 34 H35'],
+    accent: 'M9.5 14 L11.8 16.4 L15 11.6 M9.5 34 L11.8 36.4 L15 31.6',
+  },
+  // Two nodes joined by a stem with a sprig: Connect.
+  connect: {
+    lines: [
+      'M6 35 A6 6 0 1 0 18 35 A6 6 0 1 0 6 35',
+      'M30 13 A6 6 0 1 0 42 13 A6 6 0 1 0 30 13',
+      'M17 31 C 23 25 25 21 31 17',
+    ],
+    accent: 'M23 25 C 20 19 22 15 27 12',
+  },
+  // A turning arrow: Adjust.
+  tune: {
+    lines: ['M39 21 A15 15 0 1 0 37.6 31'],
+    accent: 'M40 12 V21 H31',
+  },
+  // A key: In your name.
+  key: {
+    lines: ['M5 24 A8.5 8.5 0 1 0 22 24 A8.5 8.5 0 1 0 5 24', 'M22 24 H43', 'M37 24 V31', 'M42 24 V29'],
+    accent: 'M10.5 24 A3 3 0 1 0 16.5 24 A3 3 0 1 0 10.5 24',
+  },
+  // A set square with its scale: Technical work.
+  square: {
+    lines: ['M8 41 V7 L42 41 Z', 'M15 34 V24 L25 34 Z', 'M8 14 H12', 'M8 20 H12', 'M8 26 H12'],
+    accent: 'M8 32 H14',
+  },
+  // A receipt: Costs in the open.
+  ledger: {
+    lines: [
+      'M12 5 H36 V43 L32 40 L28 43 L24 40 L20 43 L16 40 L12 43 Z',
+      'M17 14 H31',
+      'M17 21 H31',
+      'M17 28 H24',
+    ],
+    accent: 'M27 28 H31',
+  },
+  // A megaphone, struck through: Not marketing.
+  quiet: {
+    lines: ['M7 20 V29 H14 L29 37 V12 L14 20 Z', 'M14 20 V29', 'M34 19 C 36.5 21.5 36.5 27.5 34 30'],
+    accent: 'M6 42 L42 6',
+  },
+  // Growth stages for the process: a seed in the ground…
+  seed: {
+    lines: ['M7 40 H41', 'M18 33 C18 28.5 30 28.5 30 33 C30 37 18 37 18 33 Z'],
+    accent: 'M24 29 C24 25.5 25.5 23 28.5 21.5',
+  },
+  // …a sprout with its first two leaves…
+  sprout: {
+    lines: ['M7 40 H41', 'M24 40 V24'],
+    accent:
+      'M24 31 C18 31 14.5 27.5 14 23 C19.5 23 23.5 26 24 31 M24 27 C30 27 33.5 23.5 34 19 C28.5 19 24.5 22 24 27',
+  },
+  // …a sapling, taller, leaves up the stem…
+  sapling: {
+    lines: [
+      'M7 40 H41',
+      'M24 40 V13',
+      'M24 33 C18.5 33 14.5 30 13.5 26 C19 26 23 29 24 33',
+      'M24 25 C29.5 25 33.5 22 34.5 18 C29 18 25 21 24 25',
+    ],
+    accent: 'M24 13 C21.5 10.5 22 7 24 5 C26 7 26.5 10.5 24 13',
+  },
+  // …a young tree with a small crown…
+  young: {
+    lines: [
+      'M7 40 H41',
+      'M24 40 V24',
+      'M24 25 C15 25 11.5 19 14 13.5 C15.5 8.5 20.5 6.5 24 8 C28.5 6 33.5 9 34.5 13.5 C37 19 32.5 25 24 25 Z',
+    ],
+    accent: 'M24 32 L29 27',
+  },
+  // …and a full tree, rooted.
+  tree: {
+    lines: [
+      'M24 40 V27',
+      'M24 28 C12 28 6 22.5 8.5 15.5 C9.5 9.5 15.5 6 21 7 C24 3 31 3 34 7.5 C40 8 43.5 14.5 40.5 20 C40 26 32.5 28 24 28 Z',
+      'M24 34 L18.5 28.5 M24 32 L30 26.5',
+    ],
+    accent: 'M24 40 C21 42 18 42.5 14 43 M24 40 C27 42 30 42.5 34 43',
+  },
+};
+
+const glyph = glyphs[name];
+---
+
+<svg
+  class:list={['glyph', className]}
+  viewBox="0 0 48 48"
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+  style={`--glyph-delay:${delay}s`}
+>
+  {glyph.lines.map((d, index) => (
+    <path class="glyph__line" pathLength="100" d={d} style={`--glyph-step:${index}`} />
+  ))}
+  {glyph.accent && <path class="glyph__line glyph__accent" pathLength="100" d={glyph.accent} style={`--glyph-step:${glyph.lines.length}`} />}
+</svg>
+
+<style>
+  .glyph {
+    display: block;
+    width: var(--glyph-size, 3rem);
+    height: var(--glyph-size, 3rem);
+    color: var(--glyph-ink, var(--color-moss-800));
+    overflow: visible;
+  }
+
+  .glyph__line {
+    stroke: currentColor;
+    stroke-width: var(--glyph-stroke, 1.5);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .glyph__accent {
+    stroke: var(--glyph-accent, var(--color-clay));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .glyph--draw .glyph__line {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: glyph-draw 0.7s var(--ease-out) forwards;
+      animation-delay: calc(var(--glyph-delay, 0s) + var(--glyph-step, 0) * 0.12s);
+    }
+
+    /* Below the fold the motion script holds the drawing until it is seen. */
+    :global(.reveal--wait:not(.is-in)) .glyph--draw .glyph__line {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes glyph-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+</style>

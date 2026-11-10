@@ -1,38 +1,66 @@
 ---
 /**
- * The about page after the tree: why Foresta works the way it does,
- * the practical terms, and a short echo of the process.
+ * The about page after the header: why Foresta works the way it does
+ * (the photo on a cut of growth rings, made to last), the four commitments
+ * as field-guide cards, and the process as one vine that grows across.
+ * Every drawing runs once when seen; reduced motion shows it finished.
  */
 import { Image } from 'astro:assets';
-import CareRoots from '@/components/visuals/CareRoots.astro';
 import { site } from '@/data/site';
 import plasterImage from '@/assets/images/materials-stone-plaster.jpg';
+import Contours from '@/components/visuals/Contours.astro';
+import LineGlyph, { type GlyphName } from '@/components/visuals/LineGlyph.astro';
+import { romanNumerals } from '@/data/services';
 import { interpolate, routes, useI18n } from '@/i18n';
 
 const { t, path } = useI18n(Astro);
 const about = t.about;
+/** "A", "A y B", "A, B y C". */
+const names = site.founders.map((person) => person.name);
+const founderNames =
+  names.length < 2 ? (names[0] ?? '') : `${names.slice(0, -1).join(', ')} ${about.and} ${names.at(-1) ?? ''}`;
+const principleGlyphs: GlyphName[] = ['key', 'square', 'ledger', 'quiet'];
+const principles = about.principles.map((item, index) => ({
+  ...item,
+  glyph: principleGlyphs[index] ?? 'key',
+}));
+const steps = t.process.steps;
 ---
 
 <section class="section section--page story" aria-labelledby="story-approach">
   <div class="container story__approach">
-    <figure class="story__figure frame reveal">
-      <Image
-        src={plasterImage}
-        alt={about.photoAlt}
-        layout="constrained"
-        width={768}
-        height={1024}
-        widths={[420, 640, 768]}
-        sizes="(min-width: 900px) 28vw, 70vw"
-        loading="lazy"
-      />
-    </figure>
+    <div class="story__plate reveal">
+      <div class="story__rings" aria-hidden="true">
+        <Contours preset="rings" />
+      </div>
+      <figure class="story__figure frame">
+        <Image
+          src={plasterImage}
+          alt={about.photoAlt}
+          layout="constrained"
+          width={768}
+          height={1024}
+          widths={[420, 640, 768]}
+          sizes="(min-width: 900px) 28vw, 70vw"
+          loading="lazy"
+        />
+      </figure>
+    </div>
 
     <div class="story__copy reveal">
       <h2 id="story-approach">{about.statementTitle}</h2>
       <p class="story__lead">{about.statement}</p>
       <p class="story__more">{about.statementMore}</p>
-      <p class="story__origin">{interpolate(about.origin, { name: site.founder.name })}</p>
+      <p class="story__origin">
+        <span class="story__seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 21 C 12 15 12 10 12 5" />
+            <path d="M12 12 C 8 11 6 8 6 5 C 9 5.5 11.5 8 12 12 Z" />
+            <path d="M12 9 C 16 8.5 18 6 18 3 C 15 3.5 12.5 5.5 12 9 Z" />
+          </svg>
+        </span>
+        {interpolate(about.origin, { name: founderNames })}
+      </p>
     </div>
   </div>
 </section>
@@ -42,40 +70,56 @@ const about = t.about;
     <p class="eyebrow">{about.principlesLabel}</p>
     <h2 id="story-terms-title">{about.principlesTitle}</h2>
 
-    <div class="story-terms__row">
-      <div class="story-terms__mark reveal">
-        <CareRoots />
-      </div>
-      <ol class="story-terms__list">
-        {about.principles.map((item) => (
-          <li class="story-term reveal">
-            <h3>{item.title}</h3>
-            <p>{item.text}</p>
-          </li>
-        ))}
-      </ol>
-    </div>
+    <ol class="story-terms__grid">
+      {principles.map((item, index) => (
+        <li class="story-card reveal" style={`--i:${index}`}>
+          <div class="story-card__head">
+            <span class="story-card__num" aria-hidden="true">{romanNumerals[index]}</span>
+            <LineGlyph name={item.glyph} class="glyph--draw story-card__glyph" delay={0.2} />
+          </div>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </li>
+      ))}
+    </ol>
   </div>
 </section>
 
 <section class="section section--page story-together" aria-labelledby="story-together-title">
-  <div class="container story-together__grid">
-    <p class="eyebrow">{about.togetherLabel}</p>
-    <h2 id="story-together-title">{about.togetherTitle}</h2>
-    <p class="story-together__text reveal">{about.together}</p>
-    <ol class="story-path reveal" aria-label={t.process.stepsTitle}>
-      {t.process.steps.map((step, index) => (
-        <li>
-          {step.title}
-          {index < t.process.steps.length - 1 && <span class="story-path__dot" aria-hidden="true">·</span>}
-        </li>
-      ))}
-    </ol>
+  <div class="container">
+    <div class="story-together__head">
+      <p class="eyebrow">{about.togetherLabel}</p>
+      <h2 id="story-together-title">{about.togetherTitle}</h2>
+      <p class="story-together__text">{about.together}</p>
+    </div>
+
+    <div class="story-vine reveal">
+      <svg class="story-vine__line" viewBox="0 0 1000 80" preserveAspectRatio="none" fill="none" aria-hidden="true">
+        <path
+          class="story-vine__stem"
+          pathLength="100"
+          d="M0 44 C 60 20 120 30 100 40 S 220 66 300 40 S 420 14 500 40 S 620 66 700 40 S 820 14 900 40 S 980 58 1000 36"
+        />
+        <path class="story-vine__leaf" d="M200 46 C 214 62 236 64 250 58 C 238 46 220 42 200 46 Z" />
+        <path class="story-vine__leaf" d="M600 34 C 614 18 636 16 650 22 C 638 34 620 38 600 34 Z" />
+        <path class="story-vine__leaf story-vine__leaf--late" d="M800 46 C 812 62 832 66 846 60 C 836 48 818 42 800 46 Z" />
+      </svg>
+      <ol class="story-vine__steps" aria-label={t.process.stepsTitle}>
+        {steps.map((step, index) => (
+          <li class="story-vine__step" style={`--i:${index}`}>
+            <span class="story-vine__bud" aria-hidden="true">{romanNumerals[index]}</span>
+            <span class="story-vine__title">{step.title}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+
     <a class="link-underline story-together__link" href={path(routes.proceso)}>{t.homeProcess.seeProcess}</a>
   </div>
 </section>
 
 <style>
+  /* ---- Approach: the photo on a cut of growth rings ---- */
   .story__approach {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -84,9 +128,29 @@ const about = t.about;
     align-items: end;
   }
 
-  .story__figure {
+  .story__plate {
+    position: relative;
+    isolation: isolate;
     grid-column: 1 / 5;
+  }
+
+  .story__rings {
+    position: absolute;
+    inset: -14% -28% -10% -18%;
+    z-index: -1;
+    --contour-color: var(--color-moss-700);
+    --contour-opacity: 0.2;
+  }
+
+  .story__figure {
+    position: relative;
     border-radius: var(--radius-leaf);
+    transform: rotate(-1.5deg);
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+
+  .story__plate:hover .story__figure {
+    transform: rotate(0deg) translateY(-4px);
   }
 
   .story__figure :global(img) {
@@ -135,83 +199,118 @@ const about = t.about;
   }
 
   .story__origin {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
     margin-top: var(--space-2);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-rule);
     font-size: var(--text-sm);
     color: var(--color-text-muted);
   }
 
+  .story__seal {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--color-rule-strong);
+    border-radius: var(--radius-pill);
+    color: var(--color-moss-800);
+  }
+
+  .story__seal svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  .story__seal path {
+    stroke: currentColor;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ---- Commitments: four field-guide cards ---- */
   .story-terms {
     padding-top: var(--space-section-gap);
-    background-color: var(--color-sage-100);
-    background-image:
-      radial-gradient(ellipse 14rem 8rem at 10% 0%, rgb(255 250 243 / 0.72), transparent 72%),
-      radial-gradient(ellipse 12rem 7rem at 92% 88%, rgb(143 216 203 / 0.2), transparent 70%);
-    border-radius: var(--radius-xl);
+    background-color: var(--color-wash-leaf);
+    border-block: 1px solid var(--color-rule);
   }
 
   .story-terms .eyebrow {
     margin-bottom: var(--space-4);
   }
 
-  .story-terms__row {
+  .story-terms__grid {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    column-gap: var(--col-gap);
-    align-items: start;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--col-gap);
     margin-top: var(--space-7);
   }
 
-  .story-terms__mark {
-    grid-column: 1 / 4;
+  .story-card {
+    display: grid;
+    align-content: start;
+    gap: var(--space-3);
+    padding: var(--space-inset-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-rule-strong);
+    border-radius: var(--radius-lg);
+    transition:
+      transform var(--duration-base) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out);
   }
 
-  .story-terms__list {
-    grid-column: 5 / 13;
+  .story-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-moss-700);
+  }
+
+  .story-card__head {
     display: flex;
-    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
   }
 
-  .story-term {
-    padding-block: var(--space-5);
-    border-top: 1px solid var(--color-rule);
+  .story-card__num {
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    font-style: italic;
+    line-height: 1;
+    color: var(--color-clay);
   }
 
-  .story-term:last-child {
-    border-bottom: 1px solid var(--color-rule);
+  .story-card :global(.story-card__glyph) {
+    --glyph-size: 3.25rem;
+    transition: transform var(--duration-base) var(--ease-out);
   }
 
-  .story-term h3 {
+  .story-card:hover :global(.story-card__glyph) {
+    transform: rotate(-6deg) scale(1.06);
+  }
+
+  .story-card h3 {
     font-size: var(--text-lg);
     line-height: 1.2;
   }
 
-  .story-term p {
-    margin-top: var(--space-2);
-    max-width: 46ch;
+  .story-card p {
+    max-width: 40ch;
     font-size: var(--text-base);
     color: var(--color-text-soft);
   }
 
+  /* ---- With you: the process as one vine ---- */
   .story-together {
     padding-block: var(--space-section-gap);
   }
 
-  .story-together__grid {
+  .story-together__head {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    column-gap: var(--col-gap);
-    row-gap: var(--space-4);
-  }
-
-  .story-together .eyebrow,
-  .story-together h2,
-  .story-together__text,
-  .story-together__link {
-    grid-column: 1 / 9;
-  }
-
-  .story-path {
-    grid-column: 1 / -1;
+    gap: var(--space-4);
   }
 
   .story-together__text {
@@ -220,39 +319,125 @@ const about = t.about;
     color: var(--color-text-soft);
   }
 
-  .story-path {
-    margin-top: var(--space-4);
+  .story-vine {
+    position: relative;
+    margin-top: var(--space-7);
   }
 
-  .story-path li {
-    display: inline-block;
+  .story-vine__line {
+    display: none;
+  }
+
+  .story-vine__steps {
+    display: grid;
+    gap: var(--space-4);
+    border-left: 1px solid var(--color-rule-strong);
+    margin-left: 1.15rem;
+    padding-left: var(--space-5);
+  }
+
+  .story-vine__step {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .story-vine__bud {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.3rem;
+    height: 2.3rem;
+    margin-left: calc(-1 * (var(--space-5) + 1.15rem + 0.5px));
+    border-radius: var(--radius-pill);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    font-family: var(--font-serif);
+    font-size: var(--text-sm);
+    font-style: italic;
+  }
+
+  .story-vine__step:nth-child(even) .story-vine__bud {
+    background: var(--color-surface);
+    color: var(--color-primary-strong);
+    border: 1px solid var(--color-rule-strong);
+  }
+
+  .story-vine__title {
     font-family: var(--font-serif);
     font-size: var(--text-lg);
-    line-height: 1.45;
-    white-space: nowrap;
-  }
-
-  .story-path__dot {
-    margin-inline: 0.55rem;
-    color: var(--color-moss-800);
+    line-height: 1.25;
   }
 
   .story-together__link {
-    justify-self: start;
-    margin-top: var(--space-3);
+    display: inline-block;
+    margin-top: var(--space-6);
     color: var(--color-primary-strong);
   }
 
+  @media (min-width: 900px) {
+    /* The stem runs through the buds; the step names sit under them. */
+    .story-vine__line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 100%;
+      height: 5rem;
+      color: var(--color-moss-700);
+      pointer-events: none;
+    }
+
+    .story-vine__stem {
+      stroke: currentColor;
+      stroke-width: 1.3;
+      stroke-linecap: round;
+      vector-effect: non-scaling-stroke;
+      opacity: 0.55;
+    }
+
+    .story-vine__leaf {
+      fill: var(--color-lichen-100);
+      stroke: currentColor;
+      stroke-width: 1;
+      vector-effect: non-scaling-stroke;
+      opacity: 0.8;
+    }
+
+    .story-vine__steps {
+      position: relative;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--col-gap);
+      margin: 0;
+      padding: 0;
+      border-left: 0;
+    }
+
+    .story-vine__step {
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-4);
+      padding-top: 1.35rem;
+      text-align: center;
+    }
+
+    .story-vine__bud {
+      width: 2.6rem;
+      height: 2.6rem;
+      margin-left: 0;
+      font-size: var(--text-md);
+      box-shadow: 0 0 0 0.4rem var(--color-bg);
+    }
+
+    .story-vine__title {
+      max-width: 12ch;
+    }
+  }
+
   @media (max-width: 900px) {
-    .story__figure,
-    .story__copy,
-    .story-terms__mark,
-    .story-terms__list,
-    .story-together .eyebrow,
-    .story-together h2,
-    .story-together__text,
-    .story-path,
-    .story-together__link {
+    .story__plate,
+    .story__copy {
       grid-column: 1 / -1;
     }
 
@@ -260,31 +445,114 @@ const about = t.about;
       order: -1;
     }
 
-    .story__figure {
+    .story__plate {
       max-width: 16rem;
+      margin-inline: auto var(--space-7);
     }
 
-    .story-terms__mark {
-      max-width: 11rem;
-    }
-
-    .story-terms__row {
+    .story-terms__grid {
+      grid-template-columns: minmax(0, 1fr);
       margin-top: var(--space-6);
-      row-gap: var(--space-5);
+    }
+  }
+
+  /* ---- Motion: drawn once, when seen. Reduced motion shows it finished. ---- */
+  @media (prefers-reduced-motion: no-preference) {
+    .story__figure {
+      animation: story-settle 1.2s var(--ease-out) 0.3s both;
     }
 
-    .story__copy h2,
-    .story-terms h2,
-    .story-together h2 {
-      max-width: 22ch;
+    /* A wipe, not a dash: Chrome miscounts dashes on non-scaling strokes
+       in a stretched viewBox. */
+    .story-vine__line {
+      clip-path: inset(0 100% 0 0);
+      animation: story-wipe 2.2s var(--ease-out) 0.1s forwards;
     }
 
-    .story-path li {
-      display: block;
+    .story-vine__leaf {
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: left center;
+      animation: story-leaf 0.6s var(--ease-out) 1.1s forwards;
     }
 
-    .story-path__dot {
-      display: none;
+    .story-vine__leaf--late {
+      animation-delay: 1.8s;
+    }
+
+    .story-vine__bud {
+      animation: story-bud 0.5s var(--ease-out) both;
+      animation-delay: calc(0.3s + var(--i, 0) * 0.38s);
+    }
+
+    .story-vine__title {
+      animation: story-rise 0.6s var(--ease-out) both;
+      animation-delay: calc(0.45s + var(--i, 0) * 0.38s);
+    }
+
+    /* The cards arrive with the site-wide reveal, a beat apart. */
+    .story-card.reveal--wait.is-in {
+      animation-delay: calc(var(--i, 0) * 0.12s);
+    }
+
+    .reveal--wait:not(.is-in) :is(.story__figure, .story-vine__line, .story-vine__leaf, .story-vine__bud, .story-vine__title) {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes story-wipe {
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  @keyframes story-settle {
+    from {
+      opacity: 0;
+      rotate: 3deg;
+    }
+    to {
+      opacity: 1;
+      rotate: 0deg;
+    }
+  }
+
+  @keyframes story-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes story-leaf {
+    from {
+      opacity: 0;
+      scale: 0.2;
+    }
+    to {
+      opacity: 0.8;
+      scale: 1;
+    }
+  }
+
+  @keyframes story-bud {
+    from {
+      opacity: 0;
+      scale: 0.5;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+
+  @keyframes story-rise {
+    from {
+      opacity: 0;
+      translate: 0 0.6rem;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
     }
   }
 </style>

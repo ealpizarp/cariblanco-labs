@@ -103,6 +103,22 @@ const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' 
     }
   }
 
+  /* On moss, the primary action is lichen with moss ink: 9.9:1. */
+  .btn--primary.btn--on-dark {
+    background: var(--color-lichen-300);
+    border-color: var(--color-lichen-300);
+    color: var(--color-moss-950);
+    box-shadow: none;
+  }
+
+  .btn--primary.btn--on-dark:hover,
+  .btn--primary.btn--on-dark:focus-visible,
+  .btn--primary.btn--on-dark:active {
+    background: var(--color-lichen-200);
+    border-color: var(--color-lichen-200);
+    box-shadow: none;
+  }
+
   .btn--outline {
     background: var(--color-surface);
     color: var(--color-text);

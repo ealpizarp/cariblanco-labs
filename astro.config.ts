@@ -49,7 +49,7 @@ export default defineConfig({
   fonts: [
     {
       provider: fontProviders.fontsource(),
-      name: 'Cormorant Garamond',
+      name: 'Newsreader',
       cssVariable: '--font-serif',
       weights: [400, 500, 600],
       styles: ['normal'],
@@ -58,9 +58,9 @@ export default defineConfig({
     },
     {
       provider: fontProviders.fontsource(),
-      name: 'Cormorant Garamond',
+      name: 'Newsreader',
       cssVariable: '--font-serif',
-      weights: [500],
+      weights: [400],
       styles: ['italic'],
       subsets: ['latin'],
       fallbacks: ['Georgia', 'serif'],

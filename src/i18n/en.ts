@@ -2,17 +2,19 @@ import type { es } from './es';
 
 /**
  * English for businesses and organizations in Costa Rica. Natural, not a calque.
- * Product names (Arranque, Crecimiento, Inteligente) stay as they are.
  */
 export const en = {
   meta: {
     siteShortDescription: 'Website, monthly care, and a WhatsApp assistant in Costa Rica',
     siteDescription:
-      'We build your business’s website, look after it on a subscription, and, when it is needed, a WhatsApp assistant with a written scope. For businesses and organizations in Costa Rica. The build is quoted. If there are ads, you pay Meta for them.',
+      'We build and look after your business’s website, with a Google profile, a store that takes SINPE Móvil, and a WhatsApp assistant when it is needed. For businesses and organizations in Costa Rica. The build is quoted, and third-party costs are billed to you directly.',
     ogImageAlt: 'Illustration of an online shop in a browser frame: an example of the craft, not a client site.',
     skipToContent: 'Skip to content',
     homeAria: '{name}, home',
-    founderJobTitle: 'Founder and full-stack developer',
+    /** Fallback for a founder without a listed title. */
+    founderJobTitle: 'Co-founder',
+    /** Same order as `site.founders`. */
+    founderJobTitles: ['Co-founder and full-stack developer', 'Co-founder'],
     knowsAbout: [
       'Web development',
       'Process automation',
@@ -21,9 +23,7 @@ export const en = {
       'Local SEO',
       'Optimization for AI search',
     ],
-    offerCatalogName: 'Foresta Works subscription plans',
-    offerName: '{name}: build',
-    offerPriceNote: 'One-time build and monthly fee, according to scope, in the written plan.',
+    servicesCatalogName: 'Foresta Works services',
     whatsappMessage:
       'Hello, Foresta Works. I would like to talk about a website and automation for my business.',
     emailSubject: 'Inquiry from the website',
@@ -47,7 +47,7 @@ export const en = {
     items: {
       servicios: {
         label: 'Services',
-        summary: 'Arranque, Crecimiento, and Inteligente: subscriptions you can compare.',
+        summary: 'Website and Google, store and payments, a WhatsApp assistant, and care.',
       },
       automatizacion: {
         label: 'Automation',
@@ -69,12 +69,12 @@ export const en = {
   },
   pages: {
     servicios: {
-      title: 'Subscriptions for the website and the WhatsApp assistant',
+      title: 'Services: website and Google, store and payments, WhatsApp assistant',
       description:
-        'Arranque, Crecimiento, and Inteligente. The build and the monthly fee are confirmed in writing. Website, care, store, ads management, and a WhatsApp assistant. Ad spend is paid to Meta, separately.',
+        'A website with a Google profile, a store or bookings that take card and SINPE Móvil, a WhatsApp assistant, and monthly care. For companies and organizations in Costa Rica.',
       eyebrow: 'Services',
-      heading: 'The site, the care, and the assistant when it is needed.',
-      lede: 'For companies, businesses, and organizations. The build and the monthly fee are confirmed in writing.',
+      heading: 'The site, what sells, and what answers.',
+      lede: 'For companies, businesses, and organizations. Every job starts with a conversation and a written scope.',
     },
     automatizacion: {
       title: 'WhatsApp automation for what you already answer',
@@ -85,20 +85,14 @@ export const en = {
       lede: 'The scope is written before it is turned on.',
       closeTitle: 'Tell us how you serve people today.',
       closeText: 'We look at whether the assistant fits your operation. If we continue, the scope goes in writing.',
-      cues: {
-        questions: 'Questions',
-        afterHours: 'After hours',
-        booking: 'Appointment or order',
-        followUp: 'Reminder and review',
-      },
     },
     proceso: {
       title: 'How we work',
       description:
-        'A conversation, a written subscription plan, the build, launch, and month-to-month work. The domain, accounts, and code are in your name from day one.',
+        'A conversation, a written proposal, the build, launch, and month-to-month work. The domain, accounts, and code are in your name from day one.',
       eyebrow: 'Process',
-      heading: 'No surprises: a conversation, a written plan, and work every month.',
-      lede: 'The build gets the site ready. The monthly fee keeps it, improves it, and reports on it.',
+      heading: 'No surprises: a conversation, a written proposal, and work every month.',
+      lede: 'The build gets the site ready. Monthly care keeps it, improves it, and reports on it.',
     },
     nosotros: {
       title: 'About Foresta',
@@ -112,10 +106,10 @@ export const en = {
     contacto: {
       title: 'Contact',
       description:
-        'Tell us how your operation works. The conversation has no cost and no commitment. If we continue, you receive a written quote: build, monthly fee, and what is billed separately.',
+        'Tell us how your operation works. The conversation has no cost and no commitment. If we continue, you receive a written proposal: the scope, the timing, and what is billed separately.',
       eyebrow: 'Contact',
       heading: 'Tell us how your operation works today.',
-      lede: 'The conversation has no cost and no commitment. If we continue, you receive a written quote: the build, the monthly fee, and what is billed separately.',
+      lede: 'The conversation has no cost and no commitment. If we continue, you receive a written proposal: the scope, the timing, and what is billed separately.',
     },
   },
   notFound: {
@@ -128,6 +122,8 @@ export const en = {
     contact: 'Contact',
   },
   hero: {
+    place: 'Costa Rica · 9.75° N  83.75° W',
+    offer: 'Websites · Monthly care · WhatsApp assistant',
     title: 'We transform your business for a new era of',
     titleEm: 'artificial intelligence.',
     lede: 'A studio based in Costa Rica, with the mission of delivering modern digital infrastructure to businesses.',
@@ -137,12 +133,25 @@ export const en = {
     cueAuto: 'Automation',
     cueCare: 'Care',
   },
+  chatExample: {
+    label: 'Example conversation',
+    business: 'Hair salon',
+    status: 'After hours · assistant',
+    typing: 'typing…',
+    messages: [
+      { from: 'client', time: '21:47', text: 'Hi, are you open tomorrow? Do you have a slot for a haircut at 10?' },
+      { from: 'assistant', time: '21:47', text: 'Hi. Tomorrow we are open 9:00 to 18:00, and 10:00 is free. What name should we hold it under?' },
+      { from: 'client', time: '21:48', text: 'Ana Mora' },
+      { from: 'assistant', time: '21:48', text: 'Done, Ana. It is held for tomorrow at 10:00. The salon will confirm first thing in the morning.' },
+    ],
+    caption: 'It answers with what you approved and leaves the booking for you to confirm.',
+  },
   positioning: {
     eyebrow: 'Where we start',
     statement: 'Many businesses serve people on WhatsApp, with a loose catalog and a website that is not current.',
     statementEm: 'We put that in order.',
     p1: 'Hours, contact, and replies tend to live in different places.',
-    p2: 'If there are ads, you pay Meta directly. That spend is not part of the monthly fee.',
+    p2: 'Payment gets settled by hand: a SINPE Móvil transfer and a screenshot in the chat.',
     p3: 'We are not a marketing agency, and we do not run your social media or work with influencers.',
     audienceTitle: 'A few examples',
     audiences: [
@@ -153,21 +162,18 @@ export const en = {
       'Professional services',
       'Workshops and technical trades',
     ],
-    photoAlt:
-      'Woman paying by card at a salon counter, next to a product catalog on a tablet.',
     outcomesLabel: 'Concrete outcomes',
     outcomes: [
       'Reply to customers while you are busy or closed.',
       'Be findable: services, hours, and contact, clear on Google and on your site.',
       'Fewer missed appointments and less manual follow-up.',
-      'Bring conversations from Facebook and Instagram onto WhatsApp or your site.',
+      'Get paid online by card or SINPE Móvil, without chasing receipts.',
     ],
   },
-  homePlans: {
-    label: 'Plans',
-    title: 'Three subscriptions, according to what the operation needs.',
-    compare: 'Compare the plans',
-    seeIncludes: 'See what is included',
+  homeServices: {
+    label: 'Services',
+    title: 'What we do for your business.',
+    seeAll: 'See the services',
   },
   homeProcess: {
     label: 'How we work',
@@ -177,265 +183,84 @@ export const en = {
   cta: {
     eyebrow: "Let's begin",
     title: 'The next step is a conversation.',
-    text: 'We talk about your operation. If we continue, the plan is in writing.',
+    text: 'We talk about your operation. If we continue, the proposal is in writing.',
     goContact: 'Go to contact',
     otherContact: 'Other ways to reach us',
     writeWhatsApp: 'Write to us on WhatsApp',
   },
   services: {
-    plansTitle: 'Subscription plans',
-    overviewTitle: 'The three plans.',
-    monthly: 'Monthly fee',
-    monthlyWritten: 'in writing',
-    oneTimeBuild: 'One-time build',
-    oneTimeBuildWritten: 'according to scope',
-    monthlyHeading: 'Each month',
-    buildHeading: 'In the build',
-    billedApart: 'Billed separately',
-    outcomeLabel: 'What it is for',
-    wantPlan: 'I want this plan',
-    howBilled: 'How billing works',
-    whatWeDont: 'What we do not do',
-    foldOpen: 'Open',
-    foldClose: 'Close',
-    whatWeDontBody:
-      'We do not run your social media every day. We do not promise sales, a position in Google, or a citation in an AI answer.',
-    compareEyebrow: 'Compare',
-    compareTitle: 'Side by side.',
-    compareLede:
-      'They are not rungs. Inteligente handles demand; it does not replace the site. They can be combined.',
-    compareCaption: 'Comparison of what is included and billed between Arranque, Crecimiento, and Inteligente',
-    compareColumn: "What's included",
-    compareMarks: {
-      yes: 'Included',
-      no: 'Not included',
-      add: 'Can be added',
-      extra: 'Billed separately',
-    },
-    compareRows: {
-      responsiveSite: 'Responsive website',
-      googleProfile: 'Google Business Profile',
-      seoAi: 'Basic SEO and copy an AI tool can read',
-      hosting: 'Hosting, backups, and maintenance',
-      report: 'Written monthly report',
-      contact: 'Contact by WhatsApp or email',
-      shop: 'Store, catalog, or bookings',
-      payments: 'Payments, including SINPE Móvil',
-      metaAds: 'Meta Ads management',
-      adSpend: 'Meta ads budget',
-      assistant: 'WhatsApp assistant',
-      reminders: 'Reminders and reviews',
-    },
-    termsEyebrow: 'Terms',
-    termsTitle: 'Month to month, with notice to leave.',
-    termsLede: 'Four conditions. The rest is written in the plan.',
-    terms: {
-      commitment: 'Term',
-      cancellation: 'Cancellation',
-      renewal: 'Renewal',
-      extras: 'Beyond the allowance',
-    },
-    currencyNote:
-      'Amounts in USD, excluding 13% VAT. Confirmed in writing, according to scope.',
-    billing:
-      'The build is charged once, at the start. The monthly fee begins when the site or the assistant is live.',
-    commitment:
-      'We recommend {months} months, so the site and the SEO have time to work.',
-    cancellation:
-      'You can cancel with {days} days’ notice in writing. The build is not refunded. The site, accounts, and code stay in your name.',
-    renewal: 'The subscription renews month to month, unless you give notice to cancel. There is no mandatory annual charge.',
-    extras: 'Work beyond the plan’s rounds or hours is quoted before we do it. Extra hours are USD {hour}.',
-    adSpend:
-      'In Crecimiento, ads management is in the monthly fee. You pay the ads budget straight to Meta, in your account.',
-    upgradeNote:
-      'The move from Arranque to Crecimiento is billed as an expansion, not as a new build. The amount is in writing.',
-    domainNote: 'The domain, if we register it for you, is charged at cost.',
-    notOffered: [
-      'Day-to-day social media management',
-      'Influencer campaigns',
-      'Content calendar',
-      'Ads on Google or TikTok',
-    ],
-    detail: {
-      talk: "Let's talk about this service.",
-      unsure: 'If you are not yet sure which plan fits.',
-      arranque: {
-        purpose: 'A clear site, looked after each month.',
+    overviewTitle: 'Three services on one base.',
+    talk: 'Let’s talk about this service.',
+    includesLabel: 'Includes',
+    separateLabel: 'Paid separately, in your name',
+    baseLabel: 'The base',
+    baseTitle: 'Everything we build continues with monthly care.',
+    unsure: 'If you are not sure where to start yet.',
+    items: {
+      sitio: {
+        name: 'Website and Google profile',
+        summary: 'A clear site on mobile and your business on Google Maps, with hours and contact kept current.',
+        purpose: 'So people find you and write to you.',
         support:
-          'For companies, businesses, and organizations whose services and hours still live in messages or on a loose profile. Someone searching does not reach a page that is kept current.',
-        steps: [
-          'A site in your name, with Google and a way to get in touch connected.',
-          'Each month, one round of changes and a report.',
+          'For companies, businesses, and organizations whose services and hours live in messages or on a loose profile. People who look you up on Google or the map do not reach a current page.',
+        includes: [
+          'Design and build for mobile and desktop',
+          'A verified Google Business Profile: hours, photos, services, and location',
+          'A button and form that reach your WhatsApp or email',
+          'Local SEO and copy an AI tool can read',
         ],
-        note: null,
+        separate: ['The .cr or .com domain, registered in your name'],
       },
-      crecimiento: {
-        purpose: 'The offer on the site. The ads budget, in your account.',
+      tienda: {
+        name: 'Store, payments, and bookings',
+        summary: 'To sell or take bookings online and get paid by card or SINPE Móvil.',
+        purpose: 'So people can pay you without going through the chat.',
         support:
-          'For companies, businesses, and organizations that already serve customers and still handle payment, booking, or ads by hand.',
-        steps: [
-          'A catalog, store, or bookings, with payments and SINPE Móvil when it applies.',
-          'Meta ads are reviewed each month. You load the budget.',
+          'For businesses that take SINPE Móvil today and confirm it with a screenshot, or that handle orders, bookings, or stock by hand.',
+        includes: [
+          'An online store, catalog, or booking calendar',
+          'Card and SINPE Móvil payments, in colones or dollars',
+          'Orders and bookings that reach you organized',
+          'Technical SEO: speed and structured data',
         ],
-        note: 'New photo or video, if you do not already have material, is quoted separately.',
+        separate: [
+          'The payment gateway’s commission on each sale',
+          'The platform plan, if the store runs on Shopify',
+          'New photos or video, if you have no material',
+        ],
       },
-      inteligente: {
+      asistente: {
+        name: 'WhatsApp assistant',
+        summary: 'It answers what you already answer, within a written scope.',
         purpose: 'WhatsApp, only with what you approved.',
         support:
-          'For companies, businesses, and organizations that answer the same questions on WhatsApp, including when no one is there. It adds to the site. It does not replace it.',
-        steps: [
-          'The scope is written first: questions, closed hours, reminders, and reviews.',
-          'What it cannot resolve comes back to you. It does not close a sale or decide for you.',
+          'For anyone who answers the same questions on WhatsApp, including when the business is closed. It works alongside your site; it does not replace it.',
+        includes: [
+          'Frequent questions that you define',
+          'After-hours messages, with a heads-up for you',
+          'Details for appointments or orders, which you confirm',
+          'Reminders and review requests',
         ],
-        note: 'If WhatsApp or Meta charge per conversation, you pay that.',
+        separate: ['WhatsApp’s per-message charges, which Meta bills to your account'],
+      },
+      cuidado: {
+        name: 'Monthly care',
+        summary: 'What we build does not sit still: we maintain it, update it, and report back every month.',
+        purpose: '',
+        support: '',
+        includes: [
+          'Hosting, security certificate, backups, and updates',
+          'Changes to copy, hours, photos, or prices',
+          'Google profile kept current',
+          'Review and adjustment of the assistant, if you have one',
+          'A short written report and support by WhatsApp or email',
+        ],
+        separate: [] as string[],
       },
     },
-    tiers: {
-      arranque: {
-        audience: 'For the business that needs to exist properly online, and stay that way.',
-        description:
-          'A site that is clear on a phone, with Google and contact kept current, written so an AI tool can understand the business too. The build gets it ready; the monthly fee looks after it.',
-        highlights: ['Mobile website', 'Google Profile', 'Month-to-month care'],
-        setupIncludes: [
-          'Responsive website, in your name',
-          'Google Business Profile configured',
-          'Contact form connected to WhatsApp or email',
-          'Basic SEO and a first pass of copy so an AI tool can understand the business',
-        ],
-        monthlyIncludes: [
-          'Hosting, SSL certificate, backups, and technical updates',
-          'Up to 1 round of changes a month (copy, hours, photos, or contact), maximum 1 hour',
-          'Review of basic SEO and of the copy an AI tool can read',
-          'A short written report: what was done and what we recommend',
-          'Support by WhatsApp or email; reply within 2 business days',
-        ],
-        billedSeparately: [
-          'VAT (13%)',
-          'Domain, if we register it for you (at cost)',
-          'Meta ads: this plan does not include advertising',
-          'Work beyond the monthly round, quoted before we do it',
-        ],
-        upgrade: 'When you already sell online or want to run ads, you move to Crecimiento.',
-        outcome: 'So people can find you, write to you, and the site does not sit still.',
-        badge: null,
-      },
-      crecimiento: {
-        audience: 'For the business that already sells and wants to sell with less effort.',
-        description:
-          'A catalog or store, payments, and ads management on Facebook and Instagram. You pay Meta for the ads; the monthly fee covers the work, not the ads budget.',
-        highlights: ['Store or catalog', 'Payments and SINPE', 'Ads management; spend separate'],
-        setupIncludes: [
-          'Site with an online store or catalog',
-          'Payments integration, including SINPE Móvil when it applies',
-          'A simple bookings or inventory system',
-          'Set-up of the Meta ads account, in your name',
-          'Technical SEO (speed and structured data) and copy an AI tool can read',
-        ],
-        monthlyIncludes: [
-          'All of Arranque’s monthly care',
-          'Up to 2 rounds of changes a month, maximum 2 hours (including catalog or prices)',
-          'Meta Ads management: adjustments, tracking, and one report a month',
-          'Review of SEO and of the copy an AI tool can read',
-          'Support by WhatsApp or email; reply within 2 business days',
-        ],
-        billedSeparately: [
-          'VAT (13%)',
-          'Domain, if we register it for you (at cost)',
-          'Meta ads budget: you load it in your account',
-          'New photo or video, if you do not already have material',
-          'Work beyond the 2 hours, quoted before we do it',
-        ],
-        upgrade: 'Inteligente adds WhatsApp coverage; it does not replace this plan.',
-        outcome: 'Fewer steps between a customer’s interest and the sale, with the site and the ads running.',
-        badge: 'If you already sell',
-      },
-      inteligente: {
-        audience: 'For the business that wants to serve people better without growing headcount.',
-        description:
-          'A WhatsApp assistant with a written scope. It adds to Arranque or Crecimiento; it does not replace the site.',
-        highlights: ['WhatsApp assistant', 'After hours', 'Adjusted each month'],
-        setupIncludes: [
-          'Written scope of what the assistant does and does not do',
-          'Set-up of frequent questions, after hours, reminders, and reviews, according to that scope',
-        ],
-        monthlyIncludes: [
-          'Hosting and operation of the assistant',
-          'Up to 1 adjustment cycle a month (questions, hours, or flows you approve)',
-          'Review of messages the assistant could not resolve',
-          'A short written report',
-          'Support by WhatsApp or email; reply within 2 business days',
-        ],
-        billedSeparately: [
-          'VAT (13%)',
-          'A site plan (Arranque or Crecimiento) if you do not already have one',
-          'WhatsApp or Meta conversation costs, if they apply: you pay them',
-          'New capabilities outside the written scope, quoted first',
-        ],
-        upgrade: 'If you do not yet have a site, Arranque or Crecimiento is added. This plan does not replace it.',
-        outcome: 'It handles what was written down, without adding staff.',
-        badge: null,
-      },
-    },
-  },
-  aiSearch: {
-    eyebrow: 'In Arranque and Crecimiento',
-    title: 'Optimization for AI search',
-    lede: 'When someone looks for a service like yours, in Google or in an AI tool, those tools read your site and your data. We prepare content, structure, and local signals so they can understand the business.',
-    noteLabel: 'Alongside SEO, not instead of it',
-    distinction:
-      'Basic SEO helps Google organize the page: titles, structure, and Google Profile. Optimization for AI search helps AI tools understand what you offer, where you are, and whom you serve. They are done together. Neither guarantees a ranking, a citation in an AI answer, or more customers.',
-    includedNote:
-      'It is in Arranque and Crecimiento, in the build and each month. On Inteligente it can be added if there is a site.',
-    caption: 'Illustrative diagram: clear data a tool can read. It is not a ranking or a citation.',
-    includesLabel: 'What it includes',
-    excludesLabel: 'What it does not promise',
-    includes: [
-      'Clear information on services and location',
-      'Structured data (schema) and the technical basics of SEO',
-      'Service pages and frequently asked questions, when the site needs them',
-      'Business details kept consistent on the profiles you already use (for example, Google)',
-      'Copy written around questions a customer already asks',
-      'A monthly review based on visibility opportunities, within the plan’s hours',
-    ],
-    excludes: [
-      'We do not promise a position in Google or in another search engine',
-      'We do not promise that an AI will cite, recommend, or include you in an answer',
-      'We do not promise more calls, messages, or sales',
-      'It does not replace basic SEO: it is delivered together with it',
-    ],
-  },
-  metaAds: {
-    eyebrow: 'Inside Crecimiento',
-    title: 'Advertising on Facebook and Instagram',
-    lede: 'Management is in the Crecimiento monthly fee. You pay for the ads themselves straight to Meta, in your account. We do not mix that into the subscription.',
-    caption: 'Diagram of a monthly report. No client figures and no promised results.',
-    spendLabel: 'Ad spend and management are not mixed',
-    spendNote:
-      'You set the ads budget and load it in Meta. We do not advance it or treat it as part of the subscription. Management is in the Crecimiento monthly fee; ad spend is not.',
-    includesLabel: 'What management includes',
-    excludesLabel: 'What it does not include',
-    includes: [
-      'Set-up and configuration of the ads account (Meta Ads Manager), in your name',
-      'Campaigns on Facebook and Instagram with a written objective: conversations, visits, or sales',
-      'Targeting by area (province or canton), interests, and audiences you approve',
-      'Creative guidance: which photo, offer, and copy to use, with the material you already have',
-      'Adjustments during the month (this is not day-to-day comment or social-media management)',
-      'A clear report each month: spend, results, and what we will change',
-    ],
-    excludes: [
-      'Ad spend (the ads budget): you pay Meta, separately from the monthly fee',
-      'Day-to-day social media, replies in comments, or a content calendar',
-      'Influencer campaigns',
-      'Ads on Google, TikTok, or other platforms',
-      'A guarantee of sales, clicks, or a cost per result',
-      'New photo or video production, if you do not already have material',
-    ],
   },
   automation: {
     doesNot: 'What it does not do',
-    caption: 'Illustrative conversation. The real scope is written in the plan.',
-    photoAlt:
-      'A WhatsApp mockup of the assistant: a conversation about hours and an appointment, with light bubbles on a deep-green ground.',
     workLabel: 'How it comes together',
     workTitle: 'From your operation to the message.',
     work: [
@@ -456,18 +281,47 @@ export const en = {
         text: 'We review what it could not resolve and refine what is written.',
       },
     ],
+    hours: {
+      label: 'After hours',
+      title: 'Your business closes. The conversation goes on.',
+      text: 'You serve people during your hours. Outside them, the assistant answers what you approved and leaves everything noted for the morning.',
+      open: 'Your hours',
+      openValue: '9:00 to 18:00, for example',
+      assistant: 'The assistant',
+      assistantValue: 'The rest of the day, and weekends',
+      arrival: 'A message arrives',
+      arrivalValue: '21:47, like the example above',
+    },
     flowLabel: 'What it does',
     flowTitle: 'One message, inside what you approved.',
+    /** One short exchange per capability, in the same order as stepTitles. */
+    examples: [
+      [
+        { from: 'client', text: 'Do you take SINPE Móvil?' },
+        { from: 'assistant', text: 'Yes. Card and cash at the shop, too.' },
+      ],
+      [
+        { from: 'client', text: 'Are you still open?' },
+        { from: 'assistant', text: 'We have closed for today. Your message is noted, and the team will reply at 9:00 tomorrow.' },
+      ],
+      [
+        { from: 'client', text: 'Two casados to pick up at 12, please.' },
+        { from: 'assistant', text: 'Noted: two casados at 12:00. We will confirm shortly.' },
+      ],
+      [
+        { from: 'assistant', text: 'A reminder of your appointment tomorrow at 10:00. Can you confirm?' },
+        { from: 'client', text: 'Confirmed, thank you.' },
+      ],
+    ] as Array<Array<{ from: 'client' | 'assistant'; text: string }>>,
     stepTitles: [
       'What it may say',
       'After hours',
       'Appointment or order',
       'Reminder and review',
     ],
-    exampleLabel: 'Example',
-    exampleTitle: 'This is how the assistant talks.',
-    planTitle: 'On Inteligente.',
-    planText: 'The assistant is written before it is turned on. It is added to a site; it does not replace one.',
+    planTitle: 'Alongside your site.',
+    planText: 'The assistant is written before it is turned on. It works alongside your site; it does not replace it.',
+    planLink: 'See the service',
     doesItems: [
       'Answers frequent questions you define: hours, location, services, and ways to pay.',
       'Takes messages after hours, confirms to the customer they were received, and notifies you.',
@@ -483,6 +337,34 @@ export const en = {
   },
   process: {
     stepsTitle: 'Stages of the work',
+    /** Decorative scenes beside each step, in step order. */
+    scenes: {
+      example: 'Example',
+      chat: [
+        { from: 'client', text: 'We run a bakery and WhatsApp orders keep getting lost.' },
+        { from: 'us', text: 'Walk me through a normal day: who answers, and when?' },
+      ] as Array<{ from: 'client' | 'us'; text: string }>,
+      proposal: 'Proposal',
+      proposalRows: ['Scope', 'Timing', 'Limits', 'Billed separately'],
+      review: 'Can we swap this photo?',
+      launch: [
+        { label: 'Domain', optional: false },
+        { label: 'Hosting', optional: false },
+        { label: 'Google Business Profile', optional: false },
+        { label: 'Online payments', optional: true },
+        { label: 'WhatsApp Business', optional: true },
+        { label: 'Session with your team', optional: false },
+      ],
+      optional: 'if it applies',
+      live: 'Live',
+      rings: 'Each month, one more ring.',
+      monthly: ['Maintenance', 'Changes', 'SEO', 'Report'],
+    },
+    own: {
+      label: 'From day one',
+      stamp: 'In your name',
+      items: ['Domain', 'Accounts', 'Code', 'Access'],
+    },
     note: 'Everything we build is yours: the domain, the accounts, the code, and the access stay in your name from day one.',
     steps: [
       {
@@ -490,26 +372,27 @@ export const en = {
         text: 'We talk on WhatsApp or in a short call about how your business works today and what is taking your time.',
       },
       {
-        title: 'Written plan',
-        text: 'We send the plan, the monthly fee, the build, the limits, and what is billed separately. If there are Meta Ads, management and ad spend are listed apart.',
+        title: 'Written proposal',
+        text: 'We send the scope, the timing, the limits, and what is billed separately: the domain, payment fees, or WhatsApp charges, when they apply.',
       },
       {
         title: 'Build',
-        text: 'We build the site, the integrations, or the assistant, according to the plan. You review real progress, not mockups.',
+        text: 'We build the site, the integrations, or the assistant, according to the proposal. You review real progress, not mockups.',
       },
       {
         title: 'Launch',
-        text: 'Domain, hosting, Google Business Profile, and, if it applies, the Meta Ads account. A session so your team knows how to use it. That is when the monthly fee starts.',
+        text: 'Domain, hosting, Google Business Profile, and, if they apply, the payment gateway and WhatsApp Business. A session so your team knows how to use it. That is when monthly care starts.',
       },
       {
         title: 'Month to month',
-        text: 'Maintenance, changes within the allowance, SEO and copy for AI tools, a report, and, if they apply, ads management or an assistant adjustment.',
+        text: 'Maintenance, agreed changes, SEO and copy for AI tools, a report, and, if it applies, an assistant adjustment.',
       },
     ],
   },
   about: {
     statementTitle: 'Work done closely.',
     origin: 'Foresta Works was founded by {name}.',
+    and: 'and',
     statement: 'We talk, we put the scope in writing, and you see real progress.',
     statementMore:
       'We prefer a few tools, well connected, made to last and for the people who use them every day.',
@@ -527,8 +410,8 @@ export const en = {
         text: 'So people can find you, pay, and get an answer.',
       },
       {
-        title: 'You set the budget.',
-        text: 'If there are ads on Facebook or Instagram, you set the amount and pay Meta directly.',
+        title: 'Costs in the open',
+        text: 'What third parties charge (domain, payment fees, WhatsApp) is billed separately, in your name, with no markup.',
       },
       {
         title: 'Not marketing',
@@ -537,7 +420,7 @@ export const en = {
     ],
     togetherLabel: 'With you',
     togetherTitle: 'The scope fits. You can see the progress.',
-    together: 'We work closely, and with clarity. The plan is written for your business.',
+    together: 'We work closely, and with clarity. The scope is written for your business.',
   },
   contact: {
     methodsTitle: 'Ways to reach us',
@@ -549,7 +432,7 @@ export const en = {
     prepareItems: [
       'How you serve people today: website, WhatsApp, appointments, or orders.',
       'What you want solved first: being found, being able to sell, or answering after hours.',
-      'If you already advertise on Facebook or Instagram, the amount you have in mind.',
+      'How you take payment today: SINPE Móvil, card, bank transfer, or in person.',
     ],
     openChat: 'Open a conversation',
     writeWhatsApp: 'Write to us on WhatsApp',
@@ -559,21 +442,5 @@ export const en = {
     hint: 'Sending opens WhatsApp with your message ready. This site does not store what you write.',
     error: 'Tell us a little more: at least 20 characters.',
     submit: 'Send on WhatsApp',
-  },
-  mockup: {
-    url: 'site.example',
-    query: 'business nearby · hours · contact',
-    chips: ['Services', 'Area', 'WhatsApp'],
-    reportKicker: 'Monthly report',
-    investment: 'Spend',
-    conversations: 'Conversations',
-    nextStep: 'Next step',
-    composer: 'Type a message',
-    chat: [
-      'Hi, are you open tomorrow?',
-      'Yes. We open at 8. Would you like an appointment?',
-      'At 10, please.',
-      'Done. We will confirm the time.',
-    ],
   },
 } satisfies typeof es;

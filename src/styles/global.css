@@ -22,9 +22,7 @@ html {
 body {
   margin: 0;
   overflow-wrap: break-word;
-  background-color: transparent;
-  background-image: radial-gradient(rgb(16 24 22 / 0.16) 0.55px, transparent 0.55px);
-  background-size: 3px 3px;
+  background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
   font-weight: var(--weight-body);
@@ -124,12 +122,8 @@ strong {
 
 .section--wash {
   position: relative;
-  background-color: var(--color-sage-100);
-  background-image:
-    radial-gradient(ellipse 16rem 9rem at 8% 0%, rgb(255 250 243 / 0.72), transparent 72%),
-    radial-gradient(ellipse 12rem 7rem at 86% 18%, rgb(143 216 203 / 0.28), transparent 70%),
-    radial-gradient(ellipse 14rem 8rem at 62% 100%, rgb(196 181 154 / 0.22), transparent 72%);
-  border-radius: var(--radius-xl);
+  background-color: var(--color-wash-leaf);
+  border-block: 1px solid var(--color-rule);
 }
 
 /* Inner-page blocks after PageHeader. Bottom is one gap so stacked
@@ -354,74 +348,12 @@ main > .section--page:first-of-type {
   }
 }
 
+/* The hero's root drawing eases a few pixels with the pointer. Touch screens
+   keep the still drawing; the entrance is their motion. */
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  /* Shade opens across the paper and follows the pointer, then settles
-     when it leaves. Touch and reduced motion stay still. */
-  html::before {
-    content: '';
-    position: fixed;
-    z-index: -1;
-    inset: 0;
-    pointer-events: none;
-    background-repeat: no-repeat;
-    background-image: radial-gradient(
-      ellipse 78% 64% at 50% 46%,
-      rgb(255 250 243 / 0.92) 0%,
-      rgb(255 250 243 / 0.2) 36%,
-      transparent 52%,
-      rgb(16 24 22 / 0.13) 100%
-    );
-    background-size: 170% 170%;
-    background-position: calc(16% + var(--px, 0) * 46%) calc(10% + var(--py, 0) * 40%);
-    transition: background-position 1.35s var(--ease-out);
-  }
-
-  body {
-    background-position: calc(var(--px, 0) * 1.15rem) calc(var(--py, 0) * 0.75rem);
-    transition: background-position 1.35s var(--ease-out);
-  }
-
-  /* Botanical lines ease a few pixels with the pointer. Touch screens keep
-     the still drawing; the entrance and the scroll reveal are their motion. */
   [data-sway] {
     transform: translate3d(calc(var(--px, 0) * -0.7rem), calc(var(--py, 0) * -0.45rem), 0);
     transition: transform 1s var(--ease-out);
-  }
-
-  /* Sage fields take the same opening, behind the type. */
-  .page-header,
-  .section--wash {
-    isolation: isolate;
-  }
-
-  .page-header::before,
-  .section--wash::before {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    inset: 0;
-    pointer-events: none;
-    border-radius: inherit;
-    background-repeat: no-repeat;
-    background-image: radial-gradient(
-      ellipse 78% 64% at 50% 46%,
-      rgb(255 250 243 / 0.62) 0%,
-      transparent 42%,
-      rgb(16 24 22 / 0.11) 100%
-    );
-    background-size: 170% 170%;
-    background-position: calc(16% + var(--px, 0) * 46%) calc(10% + var(--py, 0) * 40%);
-    transition: background-position 1.35s var(--ease-out);
-  }
-}
-
-@media (prefers-reduced-transparency: reduce) {
-  body {
-    background-image: none;
-  }
-
-  html::before {
-    content: none;
   }
 }
 

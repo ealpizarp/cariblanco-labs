@@ -4,7 +4,6 @@
  * and an optional lede. The breadcrumb names the page; a second eyebrow
  * would only repeat it.
  */
-import Botanical from '@/components/visuals/Botanical.astro';
 import { routes, useI18n } from '@/i18n';
 
 interface Props {
@@ -25,9 +24,6 @@ const hasActions = Astro.slots.has('actions');
 ---
 
 <header class:list={['page-header', className]}>
-  <div class="page-header__sprig" data-sway aria-hidden="true">
-    <Botanical />
-  </div>
   <div class:list={['container', 'page-header__grid', { 'page-header__grid--visual': hasVisual }]}>
     <nav class="page-header__crumb" aria-label={t.nav.breadcrumb}>
       <a class="link-underline" href={path(routes.home)}>{t.nav.home}</a>
@@ -59,15 +55,7 @@ const hasActions = Astro.slots.has('actions');
     overflow: hidden;
     padding-top: var(--space-page);
     padding-bottom: var(--space-section-gap);
-    background-color: var(--color-sage-100);
-    background-image:
-      radial-gradient(ellipse 14rem 8rem at 12% 0%, rgb(255 250 243 / 0.75), transparent 72%),
-      radial-gradient(ellipse 10rem 6rem at 78% 20%, rgb(143 216 203 / 0.22), transparent 70%);
-    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
-  }
-
-  .page-header__sprig {
-    display: none;
+    border-bottom: 1px solid var(--color-rule-strong);
   }
 
   .page-header__grid {
@@ -152,24 +140,6 @@ const hasActions = Astro.slots.has('actions');
     align-self: end;
     justify-self: end;
     width: min(100%, 30rem);
-  }
-
-  @media (min-width: 900px) {
-    .page-header__sprig {
-      display: block;
-      position: absolute;
-      top: 1rem;
-      left: max(var(--gutter), calc((100% - var(--container-max)) / 2));
-      width: 2.6rem;
-      color: var(--color-moss-800);
-      opacity: 0.55;
-      pointer-events: none;
-    }
-
-    .page-header__sprig :global(svg) {
-      width: 100%;
-      height: auto;
-    }
   }
 
   @media (max-width: 1100px) {

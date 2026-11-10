@@ -3,25 +3,24 @@
  * Eyebrow plus section title on the 12-column grid. The heading is always an
  * <h2>: sections are children of the page's <h1>.
  */
+import Plate from '@/components/ui/Plate.astro';
+
 interface Props {
   label: string;
+  /** Roman numeral: shows the label as a field-guide plate (home page). */
+  plate?: string;
   title: string;
   /** Element id for the heading, referenced by the section's aria-labelledby. */
   titleId: string;
-  /** Optional index shown before the label (home page only). */
-  number?: string;
   /** Optional link shown at the end of the header row, e.g. "Ver todos". */
   link?: { href: string; label: string };
 }
 
-const { label, title, titleId, number, link } = Astro.props;
+const { label, plate, title, titleId, link } = Astro.props;
 ---
 
 <div class="section-header reveal">
-  <p class="eyebrow">
-    {number && <span class="eyebrow__num">{number}</span>}
-    {label}
-  </p>
+  {plate ? <Plate numeral={plate} label={label} class="eyebrow" /> : <p class="eyebrow">{label}</p>}
   <h2 class="section-header__title" id={titleId}>{title}</h2>
   {link && (
     <a class="section-header__link" href={link.href}>
@@ -41,7 +40,8 @@ const { label, title, titleId, number, link } = Astro.props;
     margin-bottom: var(--space-6);
   }
 
-  .eyebrow {
+  .eyebrow,
+  .section-header :global(.plate) {
     grid-column: 1 / -1;
     grid-row: 1;
     align-self: start;
@@ -51,8 +51,8 @@ const { label, title, titleId, number, link } = Astro.props;
   .section-header__title {
     grid-column: 1 / 10;
     grid-row: 2;
-    font-size: var(--text-2xl);
-    line-height: var(--leading-snug);
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
   }
 
   .section-header__link {

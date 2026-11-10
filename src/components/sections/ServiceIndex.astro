@@ -1,0 +1,247 @@
+---
+/**
+ * Home: the services as one plate on moss. The three lead services are
+ * drawn; monthly care, the base under all three, follows as a ruled row.
+ * Each entry links to its place on the services page.
+ */
+import Plate from '@/components/ui/Plate.astro';
+import Contours from '@/components/visuals/Contours.astro';
+import ServiceSketch from '@/components/visuals/ServiceSketch.astro';
+import { getServices, romanNumerals } from '@/data/services';
+import { routes, useI18n } from '@/i18n';
+
+const { locale, t, path } = useI18n(Astro);
+const services = getServices(locale);
+const servicesPath = path(routes.servicios);
+const lead = services.filter((service) => service.lead);
+const more = services.filter((service) => !service.lead);
+const numeral = (id: string): string => romanNumerals[services.findIndex((s) => s.id === id)] ?? '';
+---
+
+<section class="section index" aria-labelledby="services-title">
+  <div class="index__terrain" aria-hidden="true">
+    <Contours preset="band" />
+  </div>
+
+  <div class="container">
+    <div class="index__head">
+      <Plate numeral="II" label={t.homeServices.label} onDark />
+      <h2 class="index__title" id="services-title">{t.homeServices.title}</h2>
+      <a class="index__all" href={servicesPath}>
+        <span>{t.homeServices.seeAll}</span>
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <ol class="index__lead">
+      {lead.map((service) => (
+        <li class="reveal">
+          <a class="specimen" href={`${servicesPath}#${service.id}`}>
+            <span class="specimen__num" aria-hidden="true">{numeral(service.id)}.</span>
+            {service.sketch && <ServiceSketch stage={service.sketch} class="specimen__sketch" />}
+            <h3 class="specimen__name">{service.name}</h3>
+            <p class="specimen__summary">{service.summary}</p>
+            <span class="specimen__more" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+
+    <ol class="index__more">
+      {more.map((service) => (
+        <li class="reveal">
+          <a href={`${servicesPath}#${service.id}`}>
+            <span class="index__more-num" aria-hidden="true">{numeral(service.id)}.</span>
+            <span class="index__more-name">{service.name}</span>
+            <span class="index__more-summary">{service.summary}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .index {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--color-dark-bg);
+    color: var(--color-dark-text);
+  }
+
+  .index__terrain {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    --contour-color: var(--color-lichen-300);
+    --contour-opacity: 0.08;
+  }
+
+  .index__head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: var(--space-4) var(--col-gap);
+    margin-bottom: var(--space-7);
+  }
+
+  .index__head :global(.plate) {
+    grid-column: 1 / -1;
+  }
+
+  .index__title {
+    max-width: 16ch;
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+  }
+
+  .index__all {
+    display: inline-flex;
+    gap: var(--space-2);
+    padding-block: 0.35rem;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-dark-accent);
+    border-bottom: 1px solid currentColor;
+  }
+
+  .index__all:hover,
+  .index__all:focus-visible {
+    color: var(--color-lichen-200);
+  }
+
+  /* ---- Lead specimens ---- */
+  .index__lead {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--col-gap);
+  }
+
+  .index__lead > li {
+    display: flex;
+  }
+
+  .specimen {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: var(--space-5) var(--space-5) var(--space-6);
+    background: rgb(40 48 25 / 0.72);
+    border: 1px solid var(--color-dark-rule);
+    border-radius: var(--radius-md);
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      background-color var(--duration-base) var(--ease-out);
+  }
+
+  .specimen:hover,
+  .specimen:focus-visible {
+    border-color: rgb(197 208 99 / 0.55);
+    background: var(--color-dark-raised);
+  }
+
+  .specimen__num {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    font-style: italic;
+    line-height: 1;
+    color: var(--color-dark-emphasis);
+  }
+
+  .specimen :global(.specimen__sketch) {
+    width: min(100%, 15rem);
+    margin: var(--space-4) auto var(--space-5);
+    --sketch-ink: var(--color-lichen-200);
+    --sketch-emboss: rgb(197 208 99 / 0.28);
+    --sketch-leaf: rgb(197 208 99 / 0.18);
+    --sketch-ground: rgb(233 232 221 / 0.06);
+    --sketch-bud: var(--color-poro-400);
+  }
+
+  .specimen__name {
+    font-size: var(--text-2xl);
+    line-height: 1.1;
+  }
+
+  .specimen__summary {
+    margin-top: var(--space-3);
+    color: var(--color-dark-text-muted);
+  }
+
+  .specimen__more {
+    position: absolute;
+    top: var(--space-5);
+    right: var(--space-5);
+    color: var(--color-dark-accent);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  .specimen:hover .specimen__more,
+  .specimen:focus-visible .specimen__more {
+    transform: translateX(4px);
+  }
+
+  /* ---- Supporting services ---- */
+  .index__more {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    column-gap: var(--col-gap);
+    margin-top: var(--space-7);
+    border-top: 1px solid var(--color-dark-rule);
+  }
+
+  .index__more a {
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    gap: var(--space-1) var(--space-2);
+    padding-top: var(--space-5);
+  }
+
+  .index__more-num {
+    grid-row: 1 / 3;
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-style: italic;
+    line-height: 1.2;
+    color: var(--color-dark-emphasis);
+  }
+
+  .index__more-name {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    line-height: 1.2;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .index__more a:hover .index__more-name,
+  .index__more a:focus-visible .index__more-name {
+    color: var(--color-dark-accent);
+  }
+
+  .index__more-summary {
+    font-size: var(--text-sm);
+    color: var(--color-dark-text-faint);
+  }
+
+  @media (max-width: 900px) {
+    .index__head {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .index__all {
+      justify-self: start;
+    }
+
+    .index__lead,
+    .index__more {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .index__more li + li a {
+      margin-top: var(--space-2);
+      border-top: 1px solid var(--color-dark-rule);
+    }
+  }
+</style>

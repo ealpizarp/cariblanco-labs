@@ -11,7 +11,7 @@ Costa Rican Spanish lives at `/es/`; English at `/en/`. There is no database, CM
 | Site | Astro 7, static output, TypeScript (`astro/tsconfigs/strict` plus extra flags) |
 | Runtime | Node.js 22.12 or newer (see `.nvmrc`) |
 | i18n | `es` (html `es-CR`) default, `en`. Default locale is prefixed. Slugs differ by language. |
-| Fonts | Fontsource at build time: Cormorant Garamond (serif), Instrument Sans (sans) |
+| Fonts | Fontsource at build time: Newsreader (serif), Instrument Sans (sans) |
 | Images | `astro:assets` + sharp for editorial photos; decorative hero mockups in `public/images/mockup/` |
 | Tests | Vitest (`npm test`) |
 | Deploy | Cloudflare Workers: static `dist/` plus `src/edge/worker.ts`. Wrangler is not a project dependency; use `npx wrangler`. |
@@ -54,9 +54,9 @@ Every page lives under `/es/…` or `/en/…`. Public slugs follow the language:
 | About | `/es/nosotros/` | `/en/about/` |
 | Contact | `/es/contacto/` | `/en/contact/` |
 
-Copy lives in `src/i18n/es.ts` (Costa Rican *usted*) and `src/i18n/en.ts`. Product names **Arranque**, **Crecimiento**, and **Inteligente** stay in Spanish in both locales.
+Copy lives in `src/i18n/es.ts` (Costa Rican *usted*) and `src/i18n/en.ts`.
 
-Facts that do not change with language (business name, founder, contact IDs, plan IDs) live in `src/data/`. English and Spanish inner pages are separate files under `src/pages/[locale]/` that share a template; each file calls `localeStaticPathsFor(['es'])` or `(['en'])`.
+Facts that do not change with language (business name, founder, contact IDs, the order of the services) live in `src/data/`. English and Spanish inner pages are separate files under `src/pages/[locale]/` that share a template; each file calls `localeStaticPathsFor(['es'])` or `(['en'])`.
 
 ### Locale cookie
 
@@ -106,7 +106,7 @@ Anything the business has not confirmed is `null` in `src/data/site.ts` (or the 
 - **Official logo**: text wordmark (`Wordmark.astro`) and `public/favicon.svg`.
 - **Street address**: omitted from JSON-LD until a public location is confirmed.
 
-Stay, cancellation notice, and extra-hour amounts live in `src/data/services.ts` (`subscriptionNumbers`) and are interpolated into the subscription terms.
+The services shown on the home and services pages are listed in `src/data/services.ts` (`serviceFacts`: order, which three are lead services with a drawing); their copy is under `services.items` in each dictionary. No prices are published.
 
 `ContactPanel.astro` logs a console warning in dev and builds when neither WhatsApp nor email is set.
 

@@ -58,7 +58,7 @@ const { site, auto, care } = Astro.props;
   }
 
   .root-field__emboss {
-    color: var(--color-sage-300);
+    color: var(--root-emboss, var(--color-line-soft));
     opacity: 0.85;
   }
 
@@ -69,7 +69,7 @@ const { site, auto, care } = Astro.props;
     font-size: var(--text-md);
     font-weight: var(--weight-heading);
     line-height: 1;
-    color: var(--color-primary-strong);
+    color: var(--root-label, var(--color-primary-strong));
     white-space: nowrap;
   }
 
