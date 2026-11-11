@@ -21,7 +21,11 @@ export type GlyphName =
   | 'sprout'
   | 'sapling'
   | 'young'
-  | 'tree';
+  | 'tree'
+  | 'night'
+  | 'pin'
+  | 'calendar'
+  | 'card';
 
 interface Props {
   name: GlyphName;
@@ -85,6 +89,38 @@ const glyphs: Record<GlyphName, { lines: string[]; accent?: string }> = {
   quiet: {
     lines: ['M7 20 V29 H14 L29 37 V12 L14 20 Z', 'M14 20 V29', 'M34 19 C 36.5 21.5 36.5 27.5 34 30'],
     accent: 'M6 42 L42 6',
+  },
+  // A message under the moon: answered while closed.
+  night: {
+    lines: [
+      'M17 19 H40 C41.7 19 43 20.3 43 22 V33 C43 34.7 41.7 36 40 36 H27 L21 41 V36 H17 C15.3 36 14 34.7 14 33 V22 C14 20.3 15.3 19 17 19 Z',
+      'M20 27.5 H36',
+    ],
+    accent: 'M12.5 4 A7.5 7.5 0 1 0 20 13.5 A6 6 0 0 1 12.5 4 Z',
+  },
+  // A map pin: found on Google.
+  pin: {
+    lines: ['M24 42 C 24 42 11 29 11 19 A13 13 0 0 1 37 19 C 37 29 24 42 24 42 Z', 'M15 44.5 H33'],
+    accent: 'M20 19 A4 4 0 1 0 28 19 A4 4 0 1 0 20 19',
+  },
+  // A calendar page with one day ticked: appointments kept.
+  calendar: {
+    lines: [
+      'M10 10 H38 C39.7 10 41 11.3 41 13 V39 C41 40.7 39.7 42 38 42 H10 C8.3 42 7 40.7 7 39 V13 C7 11.3 8.3 10 10 10 Z',
+      'M7 18 H41',
+      'M15 6 V13 M33 6 V13',
+      'M13 25 H17 M22 25 H26 M13 32 H17 M22 32 H26',
+    ],
+    accent: 'M30 32 L32.6 35 L37.5 28.5',
+  },
+  // A card: paid by card or SINPE Móvil.
+  card: {
+    lines: [
+      'M8 12 H40 C41.7 12 43 13.3 43 15 V34 C43 35.7 41.7 37 40 37 H8 C6.3 37 5 35.7 5 34 V15 C5 13.3 6.3 12 8 12 Z',
+      'M5 19.5 H43',
+      'M10 30 H21',
+    ],
+    accent: 'M30 27 H37 V32 H30 Z',
   },
   // Growth stages for the process: a seed in the ground…
   seed: {

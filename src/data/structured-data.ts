@@ -29,6 +29,7 @@ export function businessJsonLd(
       '@type': 'Person',
       name: person.name,
       jobTitle: t.meta.founderJobTitles[index] ?? t.meta.founderJobTitle,
+      ...(person.alumniOf ? { alumniOf: { '@type': 'CollegeOrUniversity', name: person.alumniOf } } : {}),
     })),
     knowsAbout: [...t.meta.knowsAbout],
   };

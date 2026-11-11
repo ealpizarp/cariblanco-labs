@@ -1,14 +1,14 @@
 ---
 /**
  * The services page body. The three lead services each get a plate:
- * numeral, statement, who it is for, what it includes, what the client pays
+ * name, statement, who it is for, what it includes, what the client pays
  * third parties directly, and its drawing on a mounted sheet. Monthly care
  * follows as the base all three run on.
  */
 import Button from '@/components/ui/Button.astro';
 import Plate from '@/components/ui/Plate.astro';
 import ServiceSketch from '@/components/visuals/ServiceSketch.astro';
-import { getServices, romanNumerals } from '@/data/services';
+import { getServices } from '@/data/services';
 import { routes, useI18n } from '@/i18n';
 
 const { locale, t, path } = useI18n(Astro);
@@ -16,7 +16,6 @@ const services = getServices(locale);
 const lead = services.filter((service) => service.lead);
 const base = services.filter((service) => !service.lead);
 const contact = path(routes.contacto);
-const numeral = (id: string): string => romanNumerals[services.findIndex((s) => s.id === id)] ?? '';
 ---
 
 {lead.map((service, index) => (
@@ -28,7 +27,6 @@ const numeral = (id: string): string => romanNumerals[services.findIndex((s) => 
     <div class="container detail__layout">
       <div class="detail__copy">
         <p class="detail__name">
-          <span class="detail__num" aria-hidden="true">{numeral(service.id)}.</span>
           {service.name}
         </p>
         <h2 class="detail__statement reveal" id={`${service.id}-title`}>{service.purpose}</h2>
@@ -59,7 +57,6 @@ const numeral = (id: string): string => romanNumerals[services.findIndex((s) => 
         <figure class="detail__mount" aria-hidden="true">
           <ServiceSketch stage={service.sketch} />
           <figcaption>
-            <span>{numeral(service.id)}</span>
             {service.name}
           </figcaption>
         </figure>
@@ -72,7 +69,7 @@ const numeral = (id: string): string => romanNumerals[services.findIndex((s) => 
   <section class="section base" id={service.id} aria-labelledby={`${service.id}-title`}>
     <div class="container base__grid">
       <div class="base__copy">
-        <Plate numeral={numeral(service.id)} label={t.services.baseLabel} />
+        <Plate label={t.services.baseLabel} />
         <h2 class="base__title" id={`${service.id}-title`}>{t.services.baseTitle}</h2>
         <p class="base__name">{service.name}</p>
         <p class="base__summary">{service.summary}</p>
@@ -116,16 +113,6 @@ const numeral = (id: string): string => romanNumerals[services.findIndex((s) => 
     letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
     color: var(--color-text-muted);
-  }
-
-  .detail__num {
-    font-family: var(--font-serif);
-    font-size: var(--text-xl);
-    font-style: italic;
-    font-weight: var(--weight-body);
-    letter-spacing: 0;
-    text-transform: none;
-    color: var(--color-clay);
   }
 
   .detail__statement {

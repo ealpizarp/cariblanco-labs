@@ -5,6 +5,8 @@
 export const es = {
   meta: {
     siteShortDescription: 'Sitio, cuidado mensual y asistente de WhatsApp en Costa Rica',
+    /** Footer credit: how this site itself is built and served. */
+    builtWith: 'Hecho con Astro · servido desde Cloudflare',
     siteDescription:
       'Construimos y cuidamos el sitio de su negocio, con perfil de Google, tienda con SINPE Móvil y un asistente de WhatsApp cuando hace falta. Para empresas y organizaciones en Costa Rica.',
     ogImageAlt:
@@ -14,7 +16,7 @@ export const es = {
     /** Fallback for a founder without a listed title. */
     founderJobTitle: 'Cofundador',
     /** Same order as `site.founders`. */
-    founderJobTitles: ['Cofundador y desarrollador full-stack', 'Cofundador'],
+    founderJobTitles: ['Cofundador · Ingeniero en software', 'Cofundador · Ingeniero en mecatrónica'],
     knowsAbout: [
       'Desarrollo web',
       'Automatización de procesos',
@@ -171,10 +173,39 @@ export const es = {
       'Cobre en línea con tarjeta o SINPE Móvil, sin perseguir comprobantes.',
     ],
   },
+  showcase: {
+    label: 'En el celular',
+    title: 'Así lo ve su cliente.',
+    text: 'Un sitio claro y rápido en el celular: aparece en Google, explica lo que usted ofrece y abre la conversación por WhatsApp.',
+    example: 'Ejemplo',
+    business: 'Clínica Valle Sereno',
+    tagline: 'Odontología estética y general en Escazú.',
+    open: 'Abierto · cierra a las 18:00',
+    servicesLabel: 'Servicios',
+    services: ['Diseño de sonrisa', 'Implantes dentales', 'Ortodoncia invisible'],
+    locationLabel: 'Ubicación',
+    location: 'Escazú, San José',
+    directions: 'Cómo llegar',
+    hoursLabel: 'Horario',
+    hours: 'Lunes a viernes, 8:00 a 18:00',
+    book: 'Agendar por WhatsApp',
+    call: 'Llamar',
+    callouts: [
+      'Aparece en Google, con horario al día',
+      'Servicios, ubicación y horario, claros',
+      'Un toque para escribir por WhatsApp',
+    ],
+  },
   homeServices: {
     label: 'Servicios',
     title: 'Lo que hacemos por su negocio.',
     seeAll: 'Ver los servicios',
+    /** Technical tags on each lead card, by service id. */
+    tags: {
+      sitio: ['SEO local', 'Google Business', 'Datos estructurados'],
+      tienda: ['SINPE Móvil', 'Pago con tarjeta', 'Reservas'],
+      asistente: ['WhatsApp Business API', 'IA', 'Paso a una persona'],
+    } as Record<string, string[]>,
   },
   homeProcess: {
     label: 'Cómo trabajamos',
@@ -342,7 +373,7 @@ export const es = {
     scenes: {
       example: 'Ejemplo',
       chat: [
-        { from: 'client', text: 'Tenemos una panadería y los pedidos por WhatsApp se nos pierden.' },
+        { from: 'client', text: 'Tenemos una clínica dental y las citas por WhatsApp se nos pierden.' },
         { from: 'us', text: 'Cuénteme un día normal: ¿quién responde y a qué hora?' },
       ] as Array<{ from: 'client' | 'us'; text: string }>,
       proposal: 'Propuesta',
@@ -392,13 +423,13 @@ export const es = {
   },
   about: {
     statementTitle: 'Un trabajo de cerca.',
-    origin: 'Foresta Works fue fundada por {name}.',
+    origin: 'Foresta Works fue fundada por {name}, ingenieros graduados del Tecnológico de Costa Rica.',
     and: 'y',
     statement: 'Conversamos, dejamos el alcance por escrito y usted ve avances reales.',
     statementMore:
       'Preferimos pocas herramientas, bien conectadas, hechas para durar y para quien las usa cada día.',
-    photoAlt:
-      'Esquina de una casa: muro de piedra apilada junto a una pared de repello claro, bajo un techo de lámina oscura y árboles al fondo.',
+    /** Tag on each founder portrait until real photos are added. */
+    portraitPending: 'Foto próximamente',
     principlesLabel: 'Compromisos',
     principlesTitle: 'Así queda el acuerdo.',
     principles: [

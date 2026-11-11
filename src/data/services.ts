@@ -38,5 +38,3 @@ export function getServices(locale: Locale): readonly Service[] {
   return serviceFacts.map((fact) => ({ ...fact, ...copy[fact.id] }));
 }
 
-/** Roman numerals for the field-guide numbering (I–VI). */
-export const romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI'] as const;

@@ -1,0 +1,88 @@
+---
+/**
+ * The technical layer laid over the terrain: a faint dot grid, like
+ * drafting paper, and registration marks in the corners, as on a
+ * blueprint. Decorative only. Place it inside a positioned section.
+ */
+interface Props {
+  /** Where the grid is strongest, as a CSS position (e.g. "75% 40%"). */
+  focus?: string;
+  tone?: 'dark' | 'light';
+  class?: string;
+}
+
+const { focus = '70% 40%', tone = 'dark', class: className } = Astro.props;
+---
+
+<div class:list={['tech-grid', `tech-grid--${tone}`, className]} style={`--grid-focus:${focus}`} aria-hidden="true">
+  <span class="tech-grid__dots"></span>
+  <span class="tech-grid__mark tech-grid__mark--tl"></span>
+  <span class="tech-grid__mark tech-grid__mark--tr"></span>
+  <span class="tech-grid__mark tech-grid__mark--bl"></span>
+  <span class="tech-grid__mark tech-grid__mark--br"></span>
+</div>
+
+<style>
+  .tech-grid {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    --grid-ink: rgb(197 208 99 / 0.22);
+    --mark-ink: rgb(233 232 221 / 0.35);
+  }
+
+  .tech-grid--light {
+    --grid-ink: rgb(40 48 25 / 0.16);
+    --mark-ink: rgb(40 48 25 / 0.35);
+  }
+
+  /* Dots every 24px, strongest around the focus and fading out from it. */
+  .tech-grid__dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, var(--grid-ink) 1px, transparent 1.4px);
+    background-size: 24px 24px;
+    -webkit-mask-image: radial-gradient(ellipse 55% 60% at var(--grid-focus), #000 0%, transparent 100%);
+    mask-image: radial-gradient(ellipse 55% 60% at var(--grid-focus), #000 0%, transparent 100%);
+  }
+
+  /* Registration marks: a small cross at each corner of the section. */
+  .tech-grid__mark {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+  }
+
+  .tech-grid__mark::before,
+  .tech-grid__mark::after {
+    content: '';
+    position: absolute;
+    background: var(--mark-ink);
+  }
+
+  .tech-grid__mark::before {
+    left: 0;
+    right: 0;
+    top: calc(50% - 0.5px);
+    height: 1px;
+  }
+
+  .tech-grid__mark::after {
+    top: 0;
+    bottom: 0;
+    left: calc(50% - 0.5px);
+    width: 1px;
+  }
+
+  .tech-grid__mark--tl { top: 1rem; left: 1rem; }
+  .tech-grid__mark--tr { top: 1rem; right: 1rem; }
+  .tech-grid__mark--bl { bottom: 1rem; left: 1rem; }
+  .tech-grid__mark--br { bottom: 1rem; right: 1rem; }
+
+  @media (max-width: 700px) {
+    .tech-grid__mark {
+      display: none;
+    }
+  }
+</style>

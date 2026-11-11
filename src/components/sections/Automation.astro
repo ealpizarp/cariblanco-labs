@@ -10,7 +10,6 @@ import Plate from '@/components/ui/Plate.astro';
 import Contours from '@/components/visuals/Contours.astro';
 import HoursDial from '@/components/visuals/HoursDial.astro';
 import LineGlyph, { type GlyphName } from '@/components/visuals/LineGlyph.astro';
-import { romanNumerals } from '@/data/services';
 import { routes, useI18n } from '@/i18n';
 
 const { t, path } = useI18n(Astro);
@@ -45,7 +44,6 @@ const hours = t.automation.hours;
             <span class="auto-work__bud">
               <LineGlyph name={step.glyph} class="glyph--draw" delay={0.35 + index * 0.28} />
             </span>
-            <span class="auto-work__num" aria-hidden="true">{romanNumerals[index]}.</span>
             <h3>{step.title}</h3>
             <p>{step.text}</p>
           </li>
@@ -93,7 +91,7 @@ const hours = t.automation.hours;
     <ol class="auto-flow__steps">
       {steps.map((step, index) => (
         <li class="auto-flow__step reveal">
-          <span class="auto-flow__num" aria-hidden="true">{romanNumerals[index]}</span>
+          <span class="auto-flow__num" aria-hidden="true"></span>
           {index < steps.length - 1 && (
             <svg class="auto-flow__stem" viewBox="0 0 44 80" preserveAspectRatio="none" fill="none" aria-hidden="true">
               <path
@@ -223,14 +221,6 @@ const hours = t.automation.hours;
   .auto-work__step:hover .auto-work__bud {
     transform: translateY(-3px) rotate(-4deg);
     border-color: var(--color-moss-700);
-  }
-
-  .auto-work__num {
-    font-family: var(--font-serif);
-    font-size: var(--text-md);
-    font-style: italic;
-    line-height: 1;
-    color: var(--color-clay);
   }
 
   .auto-work__step h3 {
@@ -365,7 +355,7 @@ const hours = t.automation.hours;
   }
 
   /* A stem through the buds. It leans, the way the other drawings do,
-     and stops in the last numeral. The type stays to the right of it. */
+     and stops in the last bud. The type stays to the right of it. */
   .auto-flow__stem {
     position: absolute;
     z-index: 0;
@@ -402,6 +392,19 @@ const hours = t.automation.hours;
     font-family: var(--font-serif);
     font-size: var(--text-md);
     font-style: italic;
+  }
+
+  /* A seed in each bud. */
+  .auto-flow__num::after {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-lichen-300);
+  }
+
+  .auto-flow__step:nth-child(even) .auto-flow__num::after {
+    background: var(--color-clay);
   }
 
   .auto-flow__step:nth-child(even) .auto-flow__num {
