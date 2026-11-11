@@ -45,6 +45,8 @@ export const en = {
     previous: 'Previous',
     next: 'Next',
     letsTalk: "Let's talk",
+    /** Header and menu button: goes to the contact page. */
+    contactCta: 'Contact',
     newWindow: ' (opens in a new window)',
     items: {
       servicios: {
@@ -124,7 +126,7 @@ export const en = {
     contact: 'Contact',
   },
   hero: {
-    place: 'Costa Rica · 9.75° N  83.75° W',
+    place: 'Costa Rica',
     offer: 'Websites · Monthly care · WhatsApp assistant',
     title: 'We transform your business for a new era of',
     titleEm: 'artificial intelligence.',

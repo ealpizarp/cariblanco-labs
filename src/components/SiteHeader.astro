@@ -4,11 +4,9 @@ import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
 import Wordmark from '@/components/Wordmark.astro';
 import Contours from '@/components/visuals/Contours.astro';
 import { isCurrentPage, primaryNav } from '@/data/navigation';
-import { whatsappUrl } from '@/data/site';
 import { routes, useI18n } from '@/i18n';
 
 const { locale, t, path } = useI18n(Astro);
-const whatsapp = whatsappUrl(t.meta.whatsappMessage);
 const currentPath = Astro.url.pathname;
 const nav = primaryNav(locale);
 const onContact = isCurrentPage(path(routes.contacto), currentPath);
@@ -36,12 +34,7 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
     <div class="site-header__actions">
       <LanguageSwitcher />
 
-      {!onContact &&
-        (whatsapp !== null ? (
-          <Button href={whatsapp} size="sm" external>WhatsApp</Button>
-        ) : (
-          <Button href={path(routes.contacto)} size="sm">{t.nav.letsTalk}</Button>
-        ))}
+      {!onContact && <Button href={path(routes.contacto)} size="sm">{t.nav.contactCta}</Button>}
 
       {/*
         The mobile menu uses the HTML popover API: no JavaScript is needed to
@@ -94,11 +87,7 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
     <div class="site-menu__foot" style={`--i:${nav.length}`}>
       {!onContact && (
         <div class="site-menu__talk">
-          {whatsapp !== null ? (
-            <Button href={whatsapp} external onDark>WhatsApp</Button>
-          ) : (
-            <Button href={path(routes.contacto)} onDark>{t.nav.letsTalk}</Button>
-          )}
+          <Button href={path(routes.contacto)} onDark>{t.nav.contactCta}</Button>
         </div>
       )}
       <p>{t.meta.siteShortDescription}</p>

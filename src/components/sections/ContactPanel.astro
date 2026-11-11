@@ -4,7 +4,7 @@
  * page so the form is not buried in a dark band.
  */
 import Button from '@/components/ui/Button.astro';
-import { emailUrl, site, whatsappUrl } from '@/data/site';
+import { emailUrl, formatWhatsapp, site, whatsappUrl } from '@/data/site';
 import { useI18n } from '@/i18n';
 
 const { t } = useI18n(Astro);
@@ -39,6 +39,9 @@ if (whatsapp === null && email === null) {
                 <a class="link-underline" href={whatsapp} target="_blank" rel="noopener noreferrer">
                   {t.contact.openChat}<span class="sr-only">{t.nav.newWindow}</span>
                 </a>
+                {site.contact.whatsappNumber !== null && (
+                  <span class="contact-panel__number">{formatWhatsapp(site.contact.whatsappNumber)}</span>
+                )}
               </dd>
             </div>
           )}
@@ -258,5 +261,14 @@ if (whatsapp === null && email === null) {
     .contact-form {
       grid-column: 1 / -1;
     }
+  }
+
+  .contact-panel__number {
+    display: block;
+    margin-top: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
   }
 </style>
