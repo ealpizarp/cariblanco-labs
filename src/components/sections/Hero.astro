@@ -216,6 +216,26 @@ const whatsapp = whatsappUrl(t.meta.whatsappMessage);
     }
   }
 
+  /* Tablet: copy and the root drawing side by side, so the drawing is not
+     left stranded under the button. */
+  @media (min-width: 700px) and (max-width: 999px) {
+    .hero__layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+      column-gap: var(--space-6);
+      align-items: center;
+    }
+
+    .hero__title {
+      font-size: clamp(2.5rem, 5.9vw, 3.4rem);
+    }
+
+    .hero__field {
+      width: 100%;
+      justify-self: end;
+    }
+  }
+
   @media (min-width: 1000px) {
     .hero {
       min-height: min(52rem, calc(100svh - var(--header-height)));

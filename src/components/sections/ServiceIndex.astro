@@ -374,4 +374,38 @@ const more = services.filter((service) => !service.lead);
       margin-block: var(--space-2) var(--space-4);
     }
   }
+
+  /* Tablet: one card per row is wide, so the drawing sits beside the text
+     instead of floating above it. */
+  @media (min-width: 601px) and (max-width: 900px) {
+    .specimen {
+      display: grid;
+      grid-template-columns: 12rem minmax(0, 1fr);
+      grid-template-rows: auto auto 1fr;
+      column-gap: var(--space-6);
+      align-items: start;
+      padding: var(--space-5) var(--space-6);
+    }
+
+    .specimen :global(.specimen__sketch) {
+      grid-column: 1;
+      grid-row: 1 / -1;
+      align-self: center;
+      width: 100%;
+      margin: 0;
+    }
+
+    .specimen__name,
+    .specimen__summary,
+    .specimen__tags {
+      grid-column: 2;
+    }
+
+    .specimen__more {
+      position: absolute;
+      right: var(--space-5);
+      bottom: var(--space-5);
+      padding: 0;
+    }
+  }
 </style>

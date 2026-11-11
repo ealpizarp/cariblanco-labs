@@ -222,7 +222,7 @@ const contact = path(routes.contacto);
 
   /* Phones: the drawing opens its section as a short band, so the copy and
      its button are not followed by a screen-tall plate. */
-  @media (max-width: 899px) {
+  @media (max-width: 699px) {
     .detail__mount {
       order: -1;
       justify-self: stretch;
@@ -241,7 +241,8 @@ const contact = path(routes.contacto);
     }
   }
 
-  @media (min-width: 900px) {
+  /* Tablet and up: copy and drawing side by side, alternating sides. */
+  @media (min-width: 700px) {
     .detail__layout {
       grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
       column-gap: clamp(3rem, 7vw, 7rem);
@@ -308,7 +309,7 @@ const contact = path(routes.contacto);
     border-bottom: 1px solid var(--color-rule-strong);
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 700px) {
     .base__grid {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       column-gap: var(--col-gap);

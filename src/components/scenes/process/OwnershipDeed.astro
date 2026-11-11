@@ -133,7 +133,7 @@ const own = t.process.own;
     rotate: -12deg;
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 700px) {
     .own__grid {
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
       column-gap: clamp(2rem, 6vw, 6rem);
@@ -144,6 +144,8 @@ const own = t.process.own;
     }
   }
 
+  /* Below desktop the deed reaches the content edge, so the stamp tucks
+     inside it instead of hanging past the gutter. */
   @media (max-width: 899px) {
     .own__deed {
       padding-bottom: var(--space-8);
