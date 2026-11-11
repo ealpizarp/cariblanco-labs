@@ -4,7 +4,8 @@
 // Deploy (after `npm run build`):   npx wrangler deploy
 {
   "$schema": "https://unpkg.com/wrangler/config-schema.json",
-  "name": "foresta-works-website",
+  // Must match the Worker that Cloudflare Workers Builds deploys.
+  "name": "foresta-works",
   "compatibility_date": "2026-09-01",
   "main": "src/edge/worker.ts",
   "assets": {
@@ -12,7 +13,17 @@
     "binding": "ASSETS",
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash",
-    "run_worker_first": true
+    // The worker only decides redirects for page URLs. Hashed build output,
+    // decor, icons and metadata files are served straight from the edge.
+    "run_worker_first": [
+      "/*",
+      "!/_astro/*",
+      "!/decor/*",
+      "!/favicon.svg",
+      "!/*.webmanifest",
+      "!/robots.txt",
+      "!/sitemap-*"
+    ]
   },
   "previews": {}
 }

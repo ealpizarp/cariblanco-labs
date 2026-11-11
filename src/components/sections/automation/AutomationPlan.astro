@@ -1,0 +1,49 @@
+---
+/**
+ * Automation page, part 5: where the assistant lives among the services.
+ */
+import Button from '@/components/ui/Button.astro';
+import { routes, useI18n } from '@/i18n';
+
+const { t, path } = useI18n(Astro);
+---
+
+<section class="section section--page auto-plan" aria-labelledby="auto-plan-title">
+  <div class="container auto-plan__row">
+    <h2 class="auto-plan__title" id="auto-plan-title">{t.automation.planTitle}</h2>
+    <p>{t.automation.planText}</p>
+    <Button href={`${path(routes.servicios)}#asistente`} variant="text">{t.automation.planLink}</Button>
+  </div>
+</section>
+
+<style>
+  /* ---- Where the plan lives ---- */
+  section.auto-plan {
+    padding-top: var(--space-section-gap);
+  }
+
+  /* The measure goes on the lines, not the container, so the row keeps the
+     page's left edge instead of centring. */
+  .auto-plan__row {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-3);
+  }
+
+  .auto-plan__row > * {
+    max-width: 42ch;
+  }
+
+  .auto-plan__title {
+    margin: 0;
+    font-size: var(--text-xl);
+    font-weight: var(--weight-display);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-display);
+  }
+
+  .auto-plan__row p {
+    margin: 0;
+    color: var(--color-text-soft);
+  }
+</style>

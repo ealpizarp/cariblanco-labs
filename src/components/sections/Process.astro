@@ -1,48 +1,24 @@
 ---
 /**
  * The process page: five stages on one growing stem, from seed to tree.
- * Each stage has a small scene beside it (a chat, the written proposal,
- * a build under review, the launch checklist, a growth ring a month).
- * Scenes are decorative; the step text carries the meaning.
+ * Each stage has a small scene beside it (scenes/process/*). Scenes are
+ * decorative; the step text carries the meaning.
  *
  * Every drawing runs once, when its stage is seen. Reduced motion, or no
  * motion script, shows the finished state.
  */
+import BuildScene from '@/components/scenes/process/BuildScene.astro';
+import ChatScene from '@/components/scenes/process/ChatScene.astro';
+import LaunchScene from '@/components/scenes/process/LaunchScene.astro';
+import OwnershipDeed from '@/components/scenes/process/OwnershipDeed.astro';
+import ProposalScene from '@/components/scenes/process/ProposalScene.astro';
+import RingsScene from '@/components/scenes/process/RingsScene.astro';
+import '@/components/scenes/process/keyframes.css';
 import LineGlyph, { type GlyphName } from '@/components/visuals/LineGlyph.astro';
 import { useI18n } from '@/i18n';
 
 const { t } = useI18n(Astro);
-const scenes = t.process.scenes;
-const own = t.process.own;
 const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
-
-/** Proposal ink: two lines a row, of varied length, like handwriting. */
-const inkWidths = [
-  [86, 58],
-  [70, 40],
-  [92, 64],
-  [62, 34],
-];
-
-/** Growth rings, built here: wobbly closed curves around one pith. */
-function ringPath(k: number): string {
-  const samples = 24;
-  const radius = 14 + k * 13;
-  const points: Array<[number, number]> = [];
-  for (let i = 0; i < samples; i += 1) {
-    const a = (i / samples) * Math.PI * 2;
-    const wobble = 1 + 0.05 * Math.sin(3 * a + 1.4 + k * 0.5) + 0.03 * Math.sin(5 * a - k * 0.7);
-    points.push([100 + Math.cos(a) * radius * wobble * 1.06, 100 + Math.sin(a) * radius * wobble * 0.94]);
-  }
-  const at = (i: number): [number, number] => points[((i % samples) + samples) % samples] ?? [0, 0];
-  let d = `M${at(0)[0].toFixed(1)} ${at(0)[1].toFixed(1)}`;
-  for (let i = 0; i < samples; i += 1) {
-    const [p0, p1, p2, p3] = [at(i - 1), at(i), at(i + 1), at(i + 2)];
-    d += ` C${(p1[0] + (p2[0] - p0[0]) / 6).toFixed(1)} ${(p1[1] + (p2[1] - p0[1]) / 6).toFixed(1)} ${(p2[0] - (p3[0] - p1[0]) / 6).toFixed(1)} ${(p2[1] - (p3[1] - p1[1]) / 6).toFixed(1)} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
-  }
-  return `${d} Z`;
-}
-const rings = Array.from({ length: 6 }, (_, k) => ringPath(k));
 ---
 
 <section class="section section--page process" aria-labelledby="process-steps-title">
@@ -65,113 +41,11 @@ const rings = Array.from({ length: 6 }, (_, k) => ringPath(k));
           </div>
 
           <div class="grow__scene" aria-hidden="true">
-            {index === 0 && (
-              <div class="scene scene--chat">
-                <span class="scene__tag">{scenes.example}</span>
-                {scenes.chat.map((message, k) => (
-                  <span class:list={['chat-b', `chat-b--${message.from}`]} style={`--k:${k}`}>
-                    {message.text}
-                  </span>
-                ))}
-                <span class="chat-b chat-b--client chat-b--typing" style="--k:2">
-                  <i></i><i></i><i></i>
-                </span>
-              </div>
-            )}
-
-            {index === 1 && (
-              <div class="scene scene--sheet">
-                <div class="sheet__head">
-                  <span class="sheet__title">{scenes.proposal}</span>
-                  <span class="sheet__fold"></span>
-                </div>
-                {scenes.proposalRows.map((row, k) => (
-                  <div class:list={['sheet__row', { 'sheet__row--aside': k === scenes.proposalRows.length - 1 }]}>
-                    <span class="sheet__label">{row}</span>
-                    <span class="sheet__lines">
-                      {(inkWidths[k] ?? [70, 40]).map((width, j) => (
-                        <span class="sheet__ink" style={`--w:${width}%;--k:${k * 2 + j}`}></span>
-                      ))}
-                    </span>
-                  </div>
-                ))}
-                <svg class="sheet__sign" viewBox="0 0 120 36" fill="none" focusable="false">
-                  <path
-                    pathLength="100"
-                    d="M4 26 C 12 6 22 6 19 24 C 18 32 27 28 33 17 C 37 9 42 11 40 22 C 39 30 49 28 55 19 C 59 13 63 15 61 24 C 70 22 84 19 116 21"
-                  />
-                </svg>
-              </div>
-            )}
-
-            {index === 2 && (
-              <div class="scene scene--browser">
-                <div class="browser__bar">
-                  <i></i><i></i><i></i>
-                  <span class="browser__url"></span>
-                </div>
-                <div class="browser__page">
-                  <span class="browser__block browser__block--nav" style="--k:0"></span>
-                  <span class="browser__block browser__block--hero" style="--k:1">
-                    <svg viewBox="0 0 60 30" fill="none" preserveAspectRatio="xMidYMax meet" focusable="false">
-                      <path d="M0 30 L18 12 L28 21 L40 8 L60 30 Z" />
-                      <circle cx="48" cy="8" r="3.5" />
-                    </svg>
-                  </span>
-                  <span class="browser__block browser__block--line" style="--k:2"></span>
-                  <span class="browser__block browser__block--line browser__block--short" style="--k:3"></span>
-                  <span class="browser__cards">
-                    <span class="browser__block" style="--k:4"></span>
-                    <span class="browser__block" style="--k:5"></span>
-                    <span class="browser__block" style="--k:6"></span>
-                  </span>
-                  <span class="browser__comment">{scenes.review}</span>
-                </div>
-              </div>
-            )}
-
-            {index === 3 && (
-              <ul class="scene scene--list">
-                {scenes.launch.map((item, k) => (
-                  <li class="launch__item" style={`--k:${k}`}>
-                    <svg class="launch__check" viewBox="0 0 20 20" fill="none" focusable="false">
-                      <circle class="launch__ring" cx="10" cy="10" r="8.5" pathLength="100" />
-                      <path class="launch__tick" d="M6 10.4 L8.8 13.1 L14 7.6" pathLength="100" />
-                    </svg>
-                    <span>{item.label}</span>
-                    {item.optional && <em>{scenes.optional}</em>}
-                  </li>
-                ))}
-                <li class="launch__live" style={`--k:${scenes.launch.length}`}>
-                  <span class="launch__dot"></span>
-                  {scenes.live}
-                </li>
-              </ul>
-            )}
-
-            {index === 4 && (
-              <div class="scene scene--rings">
-                <svg class="rings" viewBox="0 0 200 200" fill="none" focusable="false">
-                  <circle class="rings__pith" cx="100" cy="100" r="3" />
-                  {rings.map((d, k) => (
-                    <path
-                      class:list={['rings__ring', { 'rings__ring--new': k === rings.length - 1 }]}
-                      d={d}
-                      pathLength="100"
-                      style={`--k:${k}`}
-                    />
-                  ))}
-                </svg>
-                <div class="rings__side">
-                  <p class="rings__caption">{scenes.rings}</p>
-                  <ul class="rings__tags">
-                    {scenes.monthly.map((tag, k) => (
-                      <li style={`--k:${k}`}>{tag}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )}
+            {index === 0 && <ChatScene />}
+            {index === 1 && <ProposalScene />}
+            {index === 2 && <BuildScene />}
+            {index === 3 && <LaunchScene />}
+            {index === 4 && <RingsScene />}
           </div>
         </li>
       ))}
@@ -179,31 +53,7 @@ const rings = Array.from({ length: 6 }, (_, k) => ringPath(k));
   </div>
 </section>
 
-<section class="own" aria-labelledby="own-title">
-  <div class="container own__grid">
-    <div class="own__copy">
-      <LineGlyph name="key" class="glyph--draw own__glyph" />
-      <p class="eyebrow">{own.label}</p>
-      <h2 class="own__note" id="own-title">{t.process.note}</h2>
-    </div>
-    <div class="own__deed reveal">
-      <ul class="own__items">
-        {own.items.map((item, k) => (
-          <li style={`--k:${k}`}>
-            <span>{item}</span>
-            <span class="own__leader" aria-hidden="true"></span>
-            <svg class="own__tick" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
-              <path d="M5 10.5 L8.5 14 L15 6.5" pathLength="100" />
-            </svg>
-          </li>
-        ))}
-      </ul>
-      <span class="own__stamp" aria-hidden="true">
-        <span>{own.stamp}</span>
-      </span>
-    </div>
-  </div>
-</section>
+<OwnershipDeed />
 
 <style>
   /* ---- The stem ---- */
@@ -317,7 +167,7 @@ const rings = Array.from({ length: 6 }, (_, k) => ringPath(k));
   }
 
   /* ---- Scenes, shared ---- */
-  .scene {
+  .grow__scene :global(.scene) {
     position: relative;
     border: 1px solid var(--color-rule-strong);
     border-radius: var(--radius-lg);
@@ -326,7 +176,7 @@ const rings = Array.from({ length: 6 }, (_, k) => ringPath(k));
     line-height: 1.4;
   }
 
-  .scene__tag {
+  .grow__scene :global(.scene__tag) {
     align-self: flex-start;
     font-size: var(--text-xs);
     font-weight: var(--weight-semibold);
@@ -335,462 +185,6 @@ const rings = Array.from({ length: 6 }, (_, k) => ringPath(k));
     color: var(--color-text-muted);
   }
 
-  /* I. Conversation */
-  .scene--chat {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    padding: var(--space-4);
-  }
-
-  .chat-b {
-    max-width: 85%;
-    padding: 0.45rem 0.65rem;
-    border-radius: 6px;
-    background: var(--color-paper);
-    box-shadow: 0 1px 0 rgb(16 24 22 / 0.08);
-  }
-
-  .chat-b--client {
-    align-self: flex-start;
-    border-top-left-radius: 0;
-  }
-
-  .chat-b--us {
-    align-self: flex-end;
-    border-top-right-radius: 0;
-    background: var(--color-lichen-100);
-  }
-
-  .chat-b--typing {
-    display: inline-flex;
-    gap: 0.25rem;
-    padding-block: 0.6rem;
-  }
-
-  .chat-b--typing i {
-    width: 0.35rem;
-    height: 0.35rem;
-    border-radius: 50%;
-    background: var(--color-text-muted);
-    opacity: 0.6;
-  }
-
-  /* II. Written proposal */
-  .scene--sheet {
-    display: grid;
-    gap: var(--space-3);
-    padding: var(--space-5) var(--space-5) var(--space-4);
-    /* A second sheet behind, drawn as an offset outline. */
-    box-shadow:
-      6px 6px 0 -1px var(--color-bg),
-      6px 6px 0 0 var(--color-rule-strong);
-    rotate: -1.5deg;
-  }
-
-  .sheet__head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding-bottom: var(--space-3);
-    border-bottom: 2px solid var(--color-text);
-  }
-
-  .sheet__title {
-    font-family: var(--font-serif);
-    font-size: var(--text-lg);
-    font-style: italic;
-  }
-
-  .sheet__fold {
-    width: 0.9rem;
-    height: 0.9rem;
-    border-radius: 50%;
-    background: var(--color-clay);
-  }
-
-  .sheet__row {
-    display: grid;
-    grid-template-columns: 6.5rem minmax(0, 1fr);
-    gap: var(--space-3);
-    align-items: start;
-  }
-
-  .sheet__label {
-    font-size: var(--text-xs);
-    font-weight: var(--weight-semibold);
-    color: var(--color-text-soft);
-  }
-
-  .sheet__lines {
-    display: grid;
-    gap: 0.4rem;
-    padding-top: 0.35rem;
-  }
-
-  .sheet__ink {
-    display: block;
-    width: var(--w);
-    height: 2px;
-    border-radius: 2px;
-    background: var(--color-moss-700);
-    opacity: 0.55;
-    transform-origin: 0 50%;
-  }
-
-  .sheet__row--aside .sheet__label {
-    color: var(--color-clay);
-  }
-
-  .sheet__row--aside .sheet__ink {
-    height: 0;
-    border-top: 2px dashed var(--color-clay);
-    background: none;
-    opacity: 0.8;
-  }
-
-  .sheet__sign {
-    justify-self: end;
-    width: 7rem;
-    margin-top: var(--space-2);
-    color: var(--color-moss-800);
-  }
-
-  .sheet__sign path {
-    stroke: currentColor;
-    stroke-width: 1.6;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  /* III. Build, under review */
-  .scene--browser {
-    overflow: visible;
-  }
-
-  .browser__bar {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.55rem 0.75rem;
-    border-bottom: 1px solid var(--color-rule);
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  }
-
-  .browser__bar i {
-    width: 0.45rem;
-    height: 0.45rem;
-    border-radius: 50%;
-    background: var(--color-rule-strong);
-  }
-
-  .browser__url {
-    flex: 1;
-    height: 0.55rem;
-    margin-left: var(--space-3);
-    border-radius: var(--radius-pill);
-    background: var(--color-paper);
-    border: 1px solid var(--color-rule);
-  }
-
-  .browser__page {
-    position: relative;
-    display: grid;
-    gap: 0.5rem;
-    padding: var(--space-4);
-  }
-
-  .browser__block {
-    display: block;
-    height: 0.55rem;
-    border-radius: 2px;
-    background: var(--color-wash);
-  }
-
-  .browser__block--nav {
-    width: 40%;
-    height: 0.45rem;
-    background: var(--color-moss-800);
-    opacity: 0.8;
-  }
-
-  .browser__block--hero {
-    position: relative;
-    overflow: hidden;
-    height: 5.5rem;
-    background: var(--color-lichen-100);
-  }
-
-  .browser__block--hero svg {
-    position: absolute;
-    inset: auto 0 0 0;
-    width: 100%;
-    height: 70%;
-  }
-
-  .browser__block--hero path {
-    fill: var(--color-moss-700);
-    opacity: 0.35;
-  }
-
-  .browser__block--hero circle {
-    fill: var(--color-clay);
-    opacity: 0.7;
-  }
-
-  .browser__block--line {
-    width: 85%;
-  }
-
-  .browser__block--short {
-    width: 55%;
-  }
-
-  .browser__cards {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.5rem;
-    margin-top: 0.25rem;
-  }
-
-  .browser__cards .browser__block {
-    height: 2.4rem;
-  }
-
-  .browser__comment {
-    position: absolute;
-    top: 2.1rem;
-    right: -0.9rem;
-    max-width: 11rem;
-    padding: 0.45rem 0.65rem;
-    border-radius: 6px 6px 6px 0;
-    background: var(--color-moss-800);
-    color: var(--color-dark-text);
-    font-size: var(--text-xs);
-    line-height: 1.35;
-    box-shadow: 0 6px 18px rgb(16 24 22 / 0.18);
-    transform-origin: 0 100%;
-  }
-
-  /* IV. Launch */
-  .scene--list {
-    display: grid;
-    gap: 0.55rem;
-    padding: var(--space-4) var(--space-5);
-  }
-
-  .launch__item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-  }
-
-  .launch__item em {
-    margin-left: auto;
-    font-size: var(--text-xs);
-    font-style: normal;
-    color: var(--color-text-muted);
-  }
-
-  .launch__check {
-    flex: none;
-    width: 1.15rem;
-    height: 1.15rem;
-  }
-
-  .launch__ring {
-    stroke: var(--color-moss-700);
-    stroke-width: 1.2;
-    fill: var(--color-lichen-100);
-  }
-
-  .launch__tick {
-    stroke: var(--color-moss-800);
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .launch__live {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    margin-top: var(--space-2);
-    padding-top: var(--space-3);
-    border-top: 1px solid var(--color-rule);
-    font-weight: var(--weight-semibold);
-    color: var(--color-moss-800);
-  }
-
-  .launch__dot {
-    position: relative;
-    width: 0.6rem;
-    height: 0.6rem;
-    margin-inline: 0.28rem;
-    border-radius: 50%;
-    background: var(--color-clay);
-  }
-
-  .launch__dot::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 1px solid var(--color-clay);
-    opacity: 0;
-  }
-
-  /* V. Month to month */
-  .scene--rings {
-    display: grid;
-    grid-template-columns: 7.5rem minmax(0, 1fr);
-    gap: var(--space-4);
-    align-items: center;
-    padding: var(--space-4);
-  }
-
-  .rings {
-    width: 100%;
-    overflow: visible;
-  }
-
-  .rings__pith {
-    fill: var(--color-moss-800);
-  }
-
-  .rings__ring {
-    stroke: var(--color-moss-700);
-    stroke-width: 1.2;
-    vector-effect: non-scaling-stroke;
-    opacity: 0.7;
-  }
-
-  .rings__ring--new {
-    stroke: var(--color-clay);
-    stroke-width: 2;
-    opacity: 1;
-  }
-
-  .rings__caption {
-    margin: 0 0 var(--space-3);
-    font-family: var(--font-serif);
-    font-size: var(--text-md);
-    font-style: italic;
-    line-height: 1.3;
-  }
-
-  .rings__tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-  }
-
-  .rings__tags li {
-    padding: 0.15rem 0.5rem;
-    border: 1px solid var(--color-rule-strong);
-    border-radius: var(--radius-pill);
-    font-size: var(--text-xs);
-    color: var(--color-text-soft);
-  }
-
-  /* ---- In your name ---- */
-  .own {
-    padding-block: var(--space-section-gap);
-    border-top: 1px solid var(--color-rule);
-  }
-
-  .own__grid {
-    display: grid;
-    gap: var(--space-7);
-    align-items: center;
-  }
-
-  .own__copy {
-    display: grid;
-    gap: var(--space-4);
-    justify-items: start;
-  }
-
-  .own__copy :global(.own__glyph) {
-    --glyph-size: 3.25rem;
-  }
-
-  .own__note {
-    max-width: 28ch;
-    margin: 0;
-    font-family: var(--font-serif);
-    font-size: var(--text-2xl);
-    font-weight: 400;
-    line-height: 1.2;
-  }
-
-  .own__deed {
-    position: relative;
-    width: min(100%, 26rem);
-    padding: var(--space-6) var(--space-6) var(--space-7);
-    border: 1px solid var(--color-rule-strong);
-    border-radius: var(--radius-md);
-    /* A double rule, like a certificate's border. */
-    box-shadow: 0 0 0 5px var(--color-bg), 0 0 0 6px var(--color-rule-strong);
-  }
-
-  .own__items {
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  .own__items li {
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-3);
-    font-family: var(--font-serif);
-    font-size: var(--text-lg);
-  }
-
-  .own__leader {
-    flex: 1;
-    border-bottom: 1px dotted var(--color-rule-strong);
-    transform-origin: 0 50%;
-  }
-
-  .own__tick {
-    flex: none;
-    align-self: center;
-    width: 1.2rem;
-    height: 1.2rem;
-  }
-
-  .own__tick path {
-    stroke: var(--color-clay);
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .own__stamp {
-    position: absolute;
-    right: -1.25rem;
-    bottom: -1.5rem;
-    display: grid;
-    place-items: center;
-    width: 6.5rem;
-    height: 6.5rem;
-    padding: 0.6rem;
-    border: 2px solid var(--color-clay);
-    border-radius: 50%;
-    background: var(--color-bg);
-    box-shadow: inset 0 0 0 4px var(--color-bg), inset 0 0 0 5px var(--color-clay);
-    color: var(--color-clay);
-    font-size: var(--text-xs);
-    font-weight: var(--weight-semibold);
-    letter-spacing: var(--tracking-caps);
-    line-height: 1.25;
-    text-align: center;
-    text-transform: uppercase;
-    rotate: -12deg;
-  }
-
-  /* ---- Desktop: the stem runs down the middle, stages alternate ---- */
   @media (min-width: 900px) {
     .grow__step {
       grid-template-columns: minmax(0, 1fr) var(--node) minmax(0, 1fr);
@@ -832,32 +226,12 @@ const rings = Array.from({ length: 6 }, (_, k) => ringPath(k));
     .grow__step--flip .grow__scene {
       justify-self: end;
     }
-
-    .own__grid {
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-      column-gap: clamp(2rem, 6vw, 6rem);
-    }
-
-    .own__deed {
-      justify-self: center;
-    }
   }
 
   @media (max-width: 899px) {
     .grow__step--flip .grow__leaf {
       transform: none;
       rotate: -18deg;
-    }
-
-    .own__deed {
-      padding-bottom: var(--space-8);
-    }
-
-    .own__stamp {
-      right: var(--space-4);
-      bottom: -1.75rem;
-      width: 5.5rem;
-      height: 5.5rem;
     }
   }
 
@@ -873,14 +247,8 @@ const rings = Array.from({ length: 6 }, (_, k) => ringPath(k));
     .grow__step {
       column-gap: var(--space-4);
     }
-
-    .browser__comment {
-      right: 0.5rem;
-    }
-
   }
 
-  /* ---- Motion: grown once, when seen ---- */
   @media (prefers-reduced-motion: no-preference) {
     .grow__stem {
       clip-path: inset(0 0 100% 0);
@@ -895,217 +263,8 @@ const rings = Array.from({ length: 6 }, (_, k) => ringPath(k));
       animation: grow-pop 0.55s var(--ease-out) 0.05s both;
     }
 
-    .chat-b {
-      animation: grow-rise 0.45s var(--ease-out) both;
-      animation-delay: calc(0.5s + var(--k, 0) * 0.9s);
-    }
-
-    .chat-b--typing i {
-      animation: grow-dot 1.2s ease-in-out infinite;
-    }
-
-    .chat-b--typing i:nth-child(2) {
-      animation-delay: 0.15s;
-    }
-
-    .chat-b--typing i:nth-child(3) {
-      animation-delay: 0.3s;
-    }
-
-    .scene--sheet {
-      animation: grow-settle 0.9s var(--ease-out) 0.2s both;
-    }
-
-    .sheet__ink {
-      animation: grow-ink 0.45s var(--ease-out) both;
-      animation-delay: calc(0.6s + var(--k, 0) * 0.16s);
-    }
-
-    .sheet__sign path {
-      stroke-dasharray: 100;
-      stroke-dashoffset: 100;
-      animation: grow-draw 1s var(--ease-out) 2s forwards;
-    }
-
-    .browser__block {
-      animation: grow-build 0.5s var(--ease-out) both;
-      animation-delay: calc(0.45s + var(--k, 0) * 0.16s);
-    }
-
-    .browser__comment {
-      animation: grow-pop 0.5s var(--ease-out) 1.85s both;
-    }
-
-    .launch__item {
-      animation: grow-rise 0.35s var(--ease-out) both;
-      animation-delay: calc(0.35s + var(--k, 0) * 0.22s);
-    }
-
-    .launch__tick {
-      stroke-dasharray: 100;
-      stroke-dashoffset: 100;
-      animation: grow-draw 0.35s var(--ease-out) forwards;
-      animation-delay: calc(0.55s + var(--k, 0) * 0.22s);
-    }
-
-    .launch__live {
-      animation: grow-rise 0.4s var(--ease-out) both;
-      animation-delay: calc(0.4s + var(--k, 0) * 0.22s);
-    }
-
-    .launch__dot::after {
-      animation: grow-ping 2.4s var(--ease-out) 2s infinite;
-    }
-
-    .rings__ring {
-      stroke-dasharray: 100;
-      stroke-dashoffset: 100;
-      animation: grow-draw 0.9s var(--ease-out) forwards;
-      animation-delay: calc(0.4s + var(--k, 0) * 0.3s);
-    }
-
-    .rings__tags li {
-      animation: grow-pop 0.4s var(--ease-out) both;
-      animation-delay: calc(1.6s + var(--k, 0) * 0.14s);
-    }
-
-    .own__leader {
-      animation: grow-ink 0.6s var(--ease-out) both;
-      animation-delay: calc(0.3s + var(--k, 0) * 0.2s);
-    }
-
-    .own__tick path {
-      stroke-dasharray: 100;
-      stroke-dashoffset: 100;
-      animation: grow-draw 0.35s var(--ease-out) forwards;
-      animation-delay: calc(0.7s + var(--k, 0) * 0.2s);
-    }
-
-    .own__stamp {
-      animation: grow-stamp 0.45s cubic-bezier(0.3, 1.4, 0.5, 1) 1.7s both;
-    }
-
-    .reveal--wait:not(.is-in) :is(
-        .grow__stem,
-        .grow__leaf,
-        .grow__node,
-        .chat-b,
-        .scene--sheet,
-        .sheet__ink,
-        .sheet__sign path,
-        .browser__block,
-        .browser__comment,
-        .launch__item,
-        .launch__tick,
-        .launch__live,
-        .rings__ring,
-        .rings__tags li,
-        .own__leader,
-        .own__tick path,
-        .own__stamp
-      ) {
+    :global(.reveal--wait:not(.is-in)) :is(.grow__stem, .grow__leaf, .grow__node) {
       animation-play-state: paused;
-    }
-  }
-
-  @keyframes grow-wipe {
-    to {
-      clip-path: inset(0 0 0 0);
-    }
-  }
-
-  @keyframes grow-draw {
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-
-  @keyframes grow-pop {
-    from {
-      opacity: 0;
-      scale: 0.5;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes grow-rise {
-    from {
-      opacity: 0;
-      translate: 0 0.4rem;
-    }
-    to {
-      opacity: 1;
-      translate: 0 0;
-    }
-  }
-
-  @keyframes grow-settle {
-    from {
-      opacity: 0;
-      rotate: -6deg;
-      translate: 0 1rem;
-    }
-    to {
-      opacity: 1;
-      rotate: -1.5deg;
-      translate: 0 0;
-    }
-  }
-
-  @keyframes grow-ink {
-    from {
-      scale: 0 1;
-    }
-    to {
-      scale: 1 1;
-    }
-  }
-
-  @keyframes grow-build {
-    from {
-      opacity: 0;
-      scale: 0.92;
-    }
-    to {
-      opacity: 1;
-      scale: 1;
-    }
-  }
-
-  @keyframes grow-dot {
-    0%,
-    60%,
-    100% {
-      translate: 0 0;
-      opacity: 0.4;
-    }
-    30% {
-      translate: 0 -0.2rem;
-      opacity: 0.9;
-    }
-  }
-
-  @keyframes grow-ping {
-    from {
-      opacity: 0.8;
-      scale: 1;
-    }
-    to {
-      opacity: 0;
-      scale: 3;
-    }
-  }
-
-  @keyframes grow-stamp {
-    from {
-      opacity: 0;
-      scale: 1.8;
-    }
-    to {
-      opacity: 1;
-      scale: 1;
     }
   }
 </style>

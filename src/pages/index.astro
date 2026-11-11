@@ -1,0 +1,39 @@
+---
+/**
+ * `/` normally never reaches this file: the edge worker (and `astro dev`)
+ * redirect it to the visitor's language. This is the fallback if the
+ * static files are ever served without the worker in front.
+ */
+import { site } from '@/data/site';
+import { defaultLocale, LOCALE_COOKIE, localizePath, routes } from '@/i18n';
+
+const fallback = localizePath(routes.home, defaultLocale);
+---
+
+<!doctype html>
+<html lang="es-CR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{site.name}</title>
+    <link rel="canonical" href={fallback} />
+    <script is:inline define:vars={{ cookieName: LOCALE_COOKIE, defaultLocale }}>
+      (function () {
+        var match = document.cookie.match(new RegExp('(?:^|; )' + cookieName + '=(en|es)'));
+        var stored = null;
+        try {
+          stored = localStorage.getItem(cookieName);
+        } catch (e) {}
+        var locale = (match && match[1]) || (stored === 'en' || stored === 'es' ? stored : defaultLocale);
+        location.replace('/' + locale + '/');
+      })();
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content={`0;url=${fallback}`} />
+    </noscript>
+  </head>
+  <body>
+    <p><a href={fallback}>{site.name}</a></p>
+  </body>
+</html>

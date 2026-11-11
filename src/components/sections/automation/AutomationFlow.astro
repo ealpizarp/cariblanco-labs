@@ -1,0 +1,265 @@
+---
+/**
+ * Automation page, part 3: what it does. Each capability with a short
+ * example exchange.
+ */
+import { useI18n } from '@/i18n';
+
+const { t } = useI18n(Astro);
+const steps = t.automation.stepTitles.map((title, index) => {
+  const text = t.automation.doesItems[index];
+  if (text === undefined) throw new Error('automation step is missing its text.');
+  return { title, text, example: t.automation.examples[index] ?? [] };
+});
+---
+
+<section class="section section--page auto-flow" aria-labelledby="auto-flow-title">
+  <div class="container auto-flow__grid">
+    <header class="auto-block__intro auto-flow__intro">
+      <p class="eyebrow">{t.automation.flowLabel}</p>
+      <h2 class="auto-block__title" id="auto-flow-title">{t.automation.flowTitle}</h2>
+    </header>
+
+    <ol class="auto-flow__steps">
+      {steps.map((step, index) => (
+        <li class="auto-flow__step reveal">
+          <span class="auto-flow__num" aria-hidden="true"></span>
+          {index < steps.length - 1 && (
+            <svg class="auto-flow__stem" viewBox="0 0 44 80" preserveAspectRatio="none" fill="none" aria-hidden="true">
+              <path
+                class="auto-flow__stem-path"
+                pathLength="100"
+                d={index % 2 === 0 ? 'M22 0 C 14 28 18 54 22 80' : 'M22 0 C 30 26 24 54 22 80'}
+              />
+              <path
+                class="auto-flow__stem-path auto-flow__stem-path--sprig"
+                pathLength="100"
+                d={index % 2 === 0 ? 'M18 36 C 10 30 6 26 3 30' : 'M16 48 C 8 56 5 64 7 72'}
+              />
+            </svg>
+          )}
+          <div class="auto-flow__body">
+            <h3 class="auto-flow__step-title">{step.title}</h3>
+            <p>{step.text}</p>
+            {step.example.length > 0 && (
+              <div class="auto-flow__demo" aria-hidden="true">
+                {step.example.map((line, at) => (
+                  <span class:list={['auto-flow__bubble', `auto-flow__bubble--${line.from}`]} style={`--at:${at}`}>
+                    {line.text}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  /* ---- What it does: each capability with a short exchange ---- */
+  section.auto-flow {
+    padding-top: var(--space-section-gap);
+  }
+
+  .auto-flow__grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .auto-flow__steps {
+    --bud: 2.75rem;
+    display: grid;
+  }
+
+  .auto-flow__step {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--bud) minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: start;
+    padding-bottom: var(--space-6);
+  }
+
+  .auto-flow__step:last-child {
+    padding-bottom: 0;
+  }
+
+  /* A stem through the buds. It leans, the way the other drawings do,
+     and stops in the last bud. The type stays to the right of it. */
+  .auto-flow__stem {
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    top: calc(var(--bud) / 2);
+    width: var(--bud);
+    height: 100%;
+    color: var(--color-moss-800);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .auto-flow__stem-path {
+    stroke: currentColor;
+    stroke-width: 1.35;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .auto-flow__stem-path--sprig {
+    stroke-width: 1.05;
+  }
+
+  .auto-flow__num {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: var(--bud);
+    height: var(--bud);
+    border-radius: var(--radius-pill);
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    font-family: var(--font-serif);
+    font-size: var(--text-md);
+    font-style: italic;
+  }
+
+  /* A seed in each bud. */
+  .auto-flow__num::after {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-lichen-300);
+  }
+
+  .auto-flow__step:nth-child(even) .auto-flow__num::after {
+    background: var(--color-clay);
+  }
+
+  .auto-flow__step:nth-child(even) .auto-flow__num {
+    background: var(--color-wash);
+    color: var(--color-primary-strong);
+    border: 1px solid var(--color-rule-strong);
+  }
+
+  .auto-flow__step-title {
+    margin: 0 0 var(--space-2);
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+  }
+
+  .auto-flow__body > p {
+    margin: 0;
+    color: var(--color-text-soft);
+    max-width: 52ch;
+  }
+
+  .auto-flow__demo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    max-width: 24rem;
+    margin-top: var(--space-4);
+    padding: var(--space-3);
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-lg);
+    background: var(--color-wash);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  .auto-flow__bubble {
+    max-width: 88%;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    background: var(--color-paper);
+    box-shadow: 0 1px 0 rgb(16 24 22 / 0.08);
+  }
+
+  .auto-flow__bubble--client {
+    align-self: flex-start;
+    border-top-left-radius: 0;
+  }
+
+  .auto-flow__bubble--assistant {
+    align-self: flex-end;
+    border-top-right-radius: 0;
+    background: var(--color-lichen-100);
+  }
+
+  @media (max-width: 999px) {
+    .auto-flow__stem-path {
+      d: path('M22 0 L 22 80');
+    }
+
+    .auto-flow__stem-path--sprig {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .auto-flow__grid {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      column-gap: clamp(1.5rem, 4vw, 4rem);
+      align-items: start;
+    }
+
+    /* The question stays in view while the answers pass beside it. */
+    .auto-flow__intro {
+      position: sticky;
+      top: calc(var(--header-height) + var(--space-6));
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .auto-flow__stem {
+      clip-path: inset(0 0 100% 0);
+      animation: auto-wipe-y 1s var(--ease-out) 0.35s forwards;
+    }
+
+    .auto-flow__num {
+      animation: auto-bud 0.5s var(--ease-out) 0.1s both;
+    }
+
+    .auto-flow__bubble {
+      animation: auto-bubble 0.45s var(--ease-out) both;
+      animation-delay: calc(0.45s + var(--at, 0) * 0.65s);
+    }
+
+    .reveal--wait:not(.is-in) :is(.auto-work__vine, .auto-work__bud, .auto-flow__stem, .auto-flow__num, .auto-flow__bubble, .auto-scope__seed) {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes auto-wipe-y {
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  /* `scale`, not `transform`, so the hover lift still applies afterwards. */
+  @keyframes auto-bud {
+    from {
+      opacity: 0;
+      scale: 0.6;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+
+  @keyframes auto-bubble {
+    from {
+      opacity: 0;
+      translate: 0 0.4rem;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+</style>

@@ -4,7 +4,7 @@
  */
 import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
 import Wordmark from '@/components/Wordmark.astro';
-import Contours from '@/components/visuals/Contours.astro';
+import Terrain from '@/components/visuals/Terrain.astro';
 import { primaryNav } from '@/data/navigation';
 import { site, whatsappUrl } from '@/data/site';
 import { routes, useI18n } from '@/i18n';
@@ -16,9 +16,7 @@ const nav = primaryNav(locale);
 ---
 
 <footer class="site-footer">
-  <div class="site-footer__terrain" aria-hidden="true">
-    <Contours preset="footer" />
-  </div>
+  <Terrain preset="footer" class="site-footer__terrain" />
 
   <div class="container site-footer__top">
     <div class="site-footer__brand">
@@ -66,12 +64,8 @@ const nav = primaryNav(locale);
     font-size: var(--text-sm);
   }
 
-  .site-footer__terrain {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    --contour-color: var(--color-lichen-300);
-    --contour-opacity: 0.07;
+  .site-footer :global(.site-footer__terrain) {
+    opacity: 0.11;
   }
 
   .site-footer__top {

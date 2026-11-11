@@ -1,0 +1,88 @@
+---
+/**
+ * Process, stage 1. The first conversation: a few messages and someone typing.
+ * Decorative: the step text beside it carries the meaning. Animations run
+ * once, when the stage is seen (see `.reveal` in scripts/motion.ts).
+ */
+import { useI18n } from '@/i18n';
+
+const scenes = useI18n(Astro).t.process.scenes;
+---
+
+<div class="scene scene--chat">
+  <span class="scene__tag">{scenes.example}</span>
+  {scenes.chat.map((message, k) => (
+    <span class:list={['chat-b', `chat-b--${message.from}`]} style={`--k:${k}`}>
+      {message.text}
+    </span>
+  ))}
+  <span class="chat-b chat-b--client chat-b--typing" style="--k:2">
+    <i></i><i></i><i></i>
+  </span>
+</div>
+
+<style>
+  /* I. Conversation */
+  .scene--chat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+  }
+
+  .chat-b {
+    max-width: 85%;
+    padding: 0.45rem 0.65rem;
+    border-radius: 6px;
+    background: var(--color-paper);
+    box-shadow: 0 1px 0 rgb(16 24 22 / 0.08);
+  }
+
+  .chat-b--client {
+    align-self: flex-start;
+    border-top-left-radius: 0;
+  }
+
+  .chat-b--us {
+    align-self: flex-end;
+    border-top-right-radius: 0;
+    background: var(--color-lichen-100);
+  }
+
+  .chat-b--typing {
+    display: inline-flex;
+    gap: 0.25rem;
+    padding-block: 0.6rem;
+  }
+
+  .chat-b--typing i {
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 50%;
+    background: var(--color-text-muted);
+    opacity: 0.6;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .chat-b {
+      animation: grow-rise 0.45s var(--ease-out) both;
+      animation-delay: calc(0.5s + var(--k, 0) * 0.9s);
+    }
+
+    .chat-b--typing i {
+      animation: grow-dot 1.2s ease-in-out infinite;
+    }
+
+    .chat-b--typing i:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    .chat-b--typing i:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    :global(.reveal--wait:not(.is-in)) :is(.chat-b) {
+      animation-play-state: paused;
+    }
+  }
+</style>

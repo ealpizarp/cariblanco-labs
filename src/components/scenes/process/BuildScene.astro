@@ -1,0 +1,166 @@
+---
+/**
+ * Process, stage 3. A page being built, block by block, with a review note.
+ * Decorative: the step text beside it carries the meaning. Animations run
+ * once, when the stage is seen (see `.reveal` in scripts/motion.ts).
+ */
+import { useI18n } from '@/i18n';
+
+const scenes = useI18n(Astro).t.process.scenes;
+---
+
+<div class="scene scene--browser">
+  <div class="browser__bar">
+    <i></i><i></i><i></i>
+    <span class="browser__url"></span>
+  </div>
+  <div class="browser__page">
+    <span class="browser__block browser__block--nav" style="--k:0"></span>
+    <span class="browser__block browser__block--hero" style="--k:1">
+      <svg viewBox="0 0 60 30" fill="none" preserveAspectRatio="xMidYMax meet" focusable="false">
+        <path d="M0 30 L18 12 L28 21 L40 8 L60 30 Z" />
+        <circle cx="48" cy="8" r="3.5" />
+      </svg>
+    </span>
+    <span class="browser__block browser__block--line" style="--k:2"></span>
+    <span class="browser__block browser__block--line browser__block--short" style="--k:3"></span>
+    <span class="browser__cards">
+      <span class="browser__block" style="--k:4"></span>
+      <span class="browser__block" style="--k:5"></span>
+      <span class="browser__block" style="--k:6"></span>
+    </span>
+    <span class="browser__comment">{scenes.review}</span>
+  </div>
+</div>
+
+<style>
+  /* III. Build, under review */
+  .scene--browser {
+    overflow: visible;
+  }
+
+  .browser__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid var(--color-rule);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .browser__bar i {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--color-rule-strong);
+  }
+
+  .browser__url {
+    flex: 1;
+    height: 0.55rem;
+    margin-left: var(--space-3);
+    border-radius: var(--radius-pill);
+    background: var(--color-paper);
+    border: 1px solid var(--color-rule);
+  }
+
+  .browser__page {
+    position: relative;
+    display: grid;
+    gap: 0.5rem;
+    padding: var(--space-4);
+  }
+
+  .browser__block {
+    display: block;
+    height: 0.55rem;
+    border-radius: 2px;
+    background: var(--color-wash);
+  }
+
+  .browser__block--nav {
+    width: 40%;
+    height: 0.45rem;
+    background: var(--color-moss-800);
+    opacity: 0.8;
+  }
+
+  .browser__block--hero {
+    position: relative;
+    overflow: hidden;
+    height: 5.5rem;
+    background: var(--color-lichen-100);
+  }
+
+  .browser__block--hero svg {
+    position: absolute;
+    inset: auto 0 0 0;
+    width: 100%;
+    height: 70%;
+  }
+
+  .browser__block--hero path {
+    fill: var(--color-moss-700);
+    opacity: 0.35;
+  }
+
+  .browser__block--hero circle {
+    fill: var(--color-clay);
+    opacity: 0.7;
+  }
+
+  .browser__block--line {
+    width: 85%;
+  }
+
+  .browser__block--short {
+    width: 55%;
+  }
+
+  .browser__cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+  }
+
+  .browser__cards .browser__block {
+    height: 2.4rem;
+  }
+
+  .browser__comment {
+    position: absolute;
+    top: 2.1rem;
+    right: -0.9rem;
+    max-width: 11rem;
+    padding: 0.45rem 0.65rem;
+    border-radius: 6px 6px 6px 0;
+    background: var(--color-moss-800);
+    color: var(--color-dark-text);
+    font-size: var(--text-xs);
+    line-height: 1.35;
+    box-shadow: 0 6px 18px rgb(16 24 22 / 0.18);
+    transform-origin: 0 100%;
+  }
+
+  @media (max-width: 520px) {
+    .browser__comment {
+      right: 0.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .browser__block {
+      animation: grow-build 0.5s var(--ease-out) both;
+      animation-delay: calc(0.45s + var(--k, 0) * 0.16s);
+    }
+
+    .browser__comment {
+      animation: grow-pop 0.5s var(--ease-out) 1.85s both;
+    }
+
+    :global(.reveal--wait:not(.is-in)) :is(.browser__block, .browser__comment) {
+      animation-play-state: paused;
+    }
+  }
+</style>

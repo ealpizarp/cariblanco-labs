@@ -84,8 +84,8 @@ const fallback = packs[defaultLocale];
         }
       })();
     </script>
-    <Font cssVariable="--font-serif" preload={[{ weight: 500, style: 'normal' }]} />
-    <Font cssVariable="--font-sans" preload={[{ weight: 500, style: 'normal' }]} />
+    <Font cssVariable="--font-serif" preload={[{ weight: 400, style: 'normal' }]} />
+    <Font cssVariable="--font-sans" preload={[{ weight: 400, style: 'normal' }]} />
   </head>
   <body>
     {
@@ -102,7 +102,7 @@ const fallback = packs[defaultLocale];
             <header class="not-found-bar">
               <div class="not-found-bar__inner">
                 <Wordmark locale={locale} />
-                <LanguageSwitcher locale={locale} />
+                <LanguageSwitcher locale={locale} toHome />
               </div>
             </header>
             <main id={`contenido-${locale}`}>

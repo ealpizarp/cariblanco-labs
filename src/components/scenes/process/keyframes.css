@@ -1,0 +1,101 @@
+/* Keyframes shared by the process stem and its scenes. */
+@keyframes grow-wipe {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes grow-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes grow-pop {
+  from {
+    opacity: 0;
+    scale: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes grow-rise {
+  from {
+    opacity: 0;
+    translate: 0 0.4rem;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes grow-settle {
+  from {
+    opacity: 0;
+    rotate: -6deg;
+    translate: 0 1rem;
+  }
+  to {
+    opacity: 1;
+    rotate: -1.5deg;
+    translate: 0 0;
+  }
+}
+
+@keyframes grow-ink {
+  from {
+    scale: 0 1;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+
+@keyframes grow-build {
+  from {
+    opacity: 0;
+    scale: 0.92;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes grow-dot {
+  0%,
+  60%,
+  100% {
+    translate: 0 0;
+    opacity: 0.4;
+  }
+  30% {
+    translate: 0 -0.2rem;
+    opacity: 0.9;
+  }
+}
+
+@keyframes grow-ping {
+  from {
+    opacity: 0.8;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 3;
+  }
+}
+
+@keyframes grow-stamp {
+  from {
+    opacity: 0;
+    scale: 1.8;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}

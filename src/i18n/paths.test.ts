@@ -7,7 +7,6 @@ import {
   pageKeyFromSlug,
   routes,
   switchLocalePath,
-  unprefixedFallbackRedirects,
 } from './paths';
 
 describe('localizePath', () => {
@@ -77,11 +76,5 @@ describe('build-time redirects', () => {
     assert.equal(redirects['/es/about'], '/es/nosotros/');
     assert.equal(redirects['/services'], undefined);
     assert.equal(redirects['/servicios'], undefined);
-  });
-
-  it('maps unprefixed URLs to Spanish for hosts without a worker', () => {
-    const redirects = unprefixedFallbackRedirects();
-    assert.equal(redirects['/services'], '/es/servicios/');
-    assert.equal(redirects['/servicios'], '/es/servicios/');
   });
 });

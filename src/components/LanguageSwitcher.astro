@@ -1,11 +1,16 @@
 ---
-import { hrefLang, LOCALE_COOKIE, locales, switchLocalePath, useI18n, type Locale } from '@/i18n';
+import { hrefLang, locales, localizePath, routes, switchLocalePath, useI18n, type Locale } from '@/i18n';
 
 interface Props {
   locale?: Locale;
+  /**
+   * Link each language to its home page instead of this page's equivalent.
+   * For pages that have no counterpart, such as the 404 page.
+   */
+  toHome?: boolean;
 }
 
-const { locale: localeProp } = Astro.props;
+const { locale: localeProp, toHome = false } = Astro.props;
 const { locale, t } = useI18n(Astro, localeProp);
 const pathname = Astro.url.pathname;
 ---
@@ -13,7 +18,7 @@ const pathname = Astro.url.pathname;
 <nav class="lang-switch" aria-label={t.nav.language}>
   {
     locales.map((code) => {
-      const href = switchLocalePath(pathname, code);
+      const href = toHome ? localizePath(routes.home, code) : switchLocalePath(pathname, code);
       const current = code === locale;
       const label = code === 'es' ? t.nav.languageEs : t.nav.languageEn;
       const letters = code.toUpperCase();
@@ -38,7 +43,6 @@ const pathname = Astro.url.pathname;
           lang={code}
           hreflang={hrefLang(code)}
           aria-label={label}
-          data-lang-switch={code}
         >
           {letters}
         </a>
@@ -47,26 +51,6 @@ const pathname = Astro.url.pathname;
   }
 </nav>
 
-<script is:inline define:vars={{ cookieName: LOCALE_COOKIE }}>
-  (function () {
-    if (window.__fwLangSwitch) return;
-    window.__fwLangSwitch = true;
-
-    document.addEventListener('click', function (event) {
-      var node = event.target;
-      if (node && node.nodeType !== 1) node = node.parentElement;
-      var link = node && node.closest ? node.closest('[data-lang-switch]') : null;
-      if (!link) return;
-      var next = link.getAttribute('data-lang-switch');
-      if (!next) return;
-      var secure = location.protocol === 'https:' ? '; Secure' : '';
-      document.cookie = cookieName + '=' + next + '; Path=/; Max-Age=31536000; SameSite=Lax' + secure;
-      try {
-        localStorage.setItem(cookieName, next);
-      } catch (e) {}
-    });
-  })();
-</script>
 
 <style>
   .lang-switch {
