@@ -2,7 +2,7 @@
 /**
  * Home: the services as one plate on moss. The three lead services are
  * drawn; monthly care, the base under all three, follows as a full-width
- * glass band with what it includes.
+ * glass band with what it includes, as a checklist.
  * Each entry links to its place on the services page.
  */
 import Plate from '@/components/ui/Plate.astro';
@@ -63,8 +63,14 @@ const more = services.filter((service) => !service.lead);
               <span class="index__more-summary">{service.summary}</span>
             </span>
             <ul class="base-band__includes">
-              {service.includes.map((item) => (
-                <li>{item}</li>
+              {service.includes.map((item, index) => (
+                <li style={`--k:${index}`}>
+                  <svg class="base-band__tick" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+                    <circle cx="8" cy="8" r="7" />
+                    <path d="M4.8 8.3 L7 10.5 L11.2 5.8" pathLength="100" />
+                  </svg>
+                  <span>{item}</span>
+                </li>
               ))}
             </ul>
             <span class="base-band__arrow" aria-hidden="true">→</span>
@@ -257,21 +263,58 @@ const more = services.filter((service) => !service.lead);
     color: var(--color-dark-accent);
   }
 
-  /* What care includes, as tags laid out across the band. */
+  /* What care includes, as a checklist in columns, ticked each month. */
   .base-band__includes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+    gap: var(--space-2) var(--space-5);
   }
 
   .base-band__includes li {
-    padding: 0.3rem 0.7rem;
-    border: 1px solid var(--color-dark-rule);
-    border-radius: var(--radius-pill);
-    background: rgb(233 232 221 / 0.04);
+    display: grid;
+    grid-template-columns: 1rem minmax(0, 1fr);
+    gap: var(--space-2);
+    align-items: start;
     font-size: var(--text-sm);
-    line-height: 1.3;
+    line-height: 1.4;
     color: var(--color-dark-text-muted);
+  }
+
+  .base-band__tick {
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.1rem;
+  }
+
+  .base-band__tick circle {
+    stroke: rgb(197 208 99 / 0.35);
+    stroke-width: 1;
+  }
+
+  .base-band__tick path {
+    stroke: var(--color-dark-accent);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .base-band__tick path {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: base-tick 0.4s var(--ease-out) forwards;
+      animation-delay: calc(0.4s + var(--k, 0) * 0.15s);
+    }
+
+    :global(.reveal--wait:not(.is-in)) .base-band__tick path {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes base-tick {
+    to {
+      stroke-dashoffset: 0;
+    }
   }
 
   .base-band__arrow {

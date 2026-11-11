@@ -55,7 +55,7 @@ export const site: SiteConfig = {
     { name: 'Ernesto Pocasangre', alumniOf: 'Tecnológico de Costa Rica' },
   ],
   contact: {
-    whatsappNumber: null,
+    whatsappNumber: '50684047487',
     email: null,
     hours: null,
   },
@@ -77,6 +77,16 @@ export function whatsappUrl(message: string): string | null {
   const url = new URL(`https://wa.me/${number}`);
   url.searchParams.set('text', message);
   return url.toString();
+}
+
+/**
+ * The WhatsApp number as people read it: "+506 8404 7487" for Costa Rican
+ * numbers (country code, then 4 + 4 digits); other numbers as "+digits".
+ */
+export function formatWhatsapp(number: string): string {
+  const local = number.startsWith('506') ? number.slice(3) : null;
+  if (local !== null && local.length === 8) return `+506 ${local.slice(0, 4)} ${local.slice(4)}`;
+  return `+${number}`;
 }
 
 /** Builds a mailto: link, or null when no email is configured. */
