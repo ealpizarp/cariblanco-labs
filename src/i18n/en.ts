@@ -403,7 +403,7 @@ export const en = {
     steps: [
       {
         title: 'Conversation',
-        text: 'We talk on WhatsApp or in a short call about how your business works today and what is taking your time.',
+        text: 'We meet virtually to talk about how your business works today and what is taking your time.',
       },
       {
         title: 'Written proposal',

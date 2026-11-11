@@ -404,7 +404,7 @@ export const es = {
     steps: [
       {
         title: 'Conversación',
-        text: 'Hablamos por WhatsApp o en una llamada corta sobre cómo funciona su negocio hoy y qué le quita tiempo.',
+        text: 'Nos reunimos virtualmente para conversar sobre cómo funciona su negocio hoy y qué le quita tiempo.',
       },
       {
         title: 'Propuesta por escrito',
