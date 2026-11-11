@@ -109,7 +109,8 @@ const principles = about.principles.map((item, index) => ({
     color: var(--color-text-soft);
   }
 
-  @media (max-width: 900px) {
+  /* Two by two from tablet up; one column on phones. */
+  @media (max-width: 599px) {
     .story-terms__grid {
       grid-template-columns: minmax(0, 1fr);
       margin-top: var(--space-6);

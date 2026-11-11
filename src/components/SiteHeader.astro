@@ -531,7 +531,9 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
     }
   }
 
-  @media (max-width: 900px) {
+  /* The full nav needs ~940px in Spanish beside the wordmark, language
+     switch and Contacto button; below that, the menu button. */
+  @media (max-width: 959px) {
     .site-nav {
       display: none;
     }

@@ -473,7 +473,8 @@ const s = t.showcase;
     font-weight: 600;
   }
 
-  @media (min-width: 1000px) {
+  /* From tablet up, the checklist and the phone sit side by side. */
+  @media (min-width: 700px) {
     .showcase__grid {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       column-gap: clamp(2rem, 5vw, 5rem);

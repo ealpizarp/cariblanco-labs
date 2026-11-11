@@ -255,7 +255,23 @@ if (whatsapp === null && email === null) {
     }
   }
 
-  @media (max-width: 900px) {
+  /* Tablet: the ways to reach us and the form share the row, a little
+     more room for the form. */
+  @media (min-width: 700px) and (max-width: 900px) {
+    .contact-panel__copy {
+      grid-column: 1 / 6;
+    }
+
+    .contact-form {
+      grid-column: 6 / 13;
+    }
+
+    .contact-panel__prepare {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 699px) {
     .contact-panel__copy,
     .contact-panel__prepare,
     .contact-form {
