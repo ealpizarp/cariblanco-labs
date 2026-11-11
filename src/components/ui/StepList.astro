@@ -1,23 +1,22 @@
 ---
 /**
- * The five working steps as a ruled list: number, step, what happens.
- * Reads like the written plan it describes. `large` is the process page.
+ * The five working steps, each with a growth glyph (seed to tree, as on
+ * the process page). Wide screens: one stem across the page with a column
+ * per step. Narrow: a ruled list. Glyphs draw in one after another.
  */
-import { romanNumerals } from '@/data/services';
+import LineGlyph, { type GlyphName } from '@/components/visuals/LineGlyph.astro';
 import { useI18n } from '@/i18n';
 
-interface Props {
-  size?: 'default' | 'large';
-}
-
-const { size = 'default' } = Astro.props;
 const { t } = useI18n(Astro);
+const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
 ---
 
-<ol class:list={['steps', 'reveal', { 'steps--large': size === 'large' }]}>
+<ol class="steps reveal">
   {t.process.steps.map((step, index) => (
     <li class="step">
-      <span class="step__num" aria-hidden="true">{romanNumerals[index]}.</span>
+      <span class="step__bud" aria-hidden="true">
+        <LineGlyph name={growth[index] ?? 'seed'} class="glyph--draw" delay={0.15 + index * 0.22} />
+      </span>
       <h3 class="step__title">{step.title}</h3>
       <p class="step__text">{step.text}</p>
     </li>
@@ -33,17 +32,30 @@ const { t } = useI18n(Astro);
     display: grid;
     grid-template-columns: 3rem minmax(0, 14rem) minmax(0, 1fr);
     column-gap: var(--col-gap);
-    align-items: baseline;
-    padding-block: var(--space-5);
+    align-items: center;
+    padding-block: var(--space-4);
     border-bottom: 1px solid var(--color-rule-strong);
   }
 
-  .step__num {
-    font-family: var(--font-serif);
-    font-size: var(--text-xl);
-    font-style: italic;
-    line-height: 1;
-    color: var(--color-clay);
+  .step__bud {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid var(--color-rule-strong);
+    border-radius: 50%;
+    background: var(--color-surface);
+    --glyph-size: 2.1rem;
+    transition: rotate var(--duration-base) var(--ease-out);
+  }
+
+  .step:hover .step__bud {
+    rotate: -8deg;
+  }
+
+  .step:last-child .step__bud {
+    background: var(--color-lichen-100);
+    border-color: var(--color-moss-700);
   }
 
   .step__title {
@@ -56,33 +68,99 @@ const { t } = useI18n(Astro);
     color: var(--color-text-soft);
   }
 
-  .steps--large .step {
-    grid-template-columns: 3rem minmax(0, 16rem) minmax(0, 1fr);
-    padding-block: var(--space-6);
-  }
-
-  .steps--large .step__title {
-    font-size: var(--text-2xl);
-    line-height: 1.1;
-  }
-
-  .steps--large .step__text {
-    max-width: 58ch;
-    font-size: var(--text-md);
-  }
-
   @media (max-width: 700px) {
-    .step,
-    .steps--large .step {
-      grid-template-columns: 2rem minmax(0, 1fr);
+    .step {
+      grid-template-columns: 2.75rem minmax(0, 1fr);
+      column-gap: var(--space-4);
       row-gap: var(--space-2);
-      padding-block: var(--space-4);
+      align-items: start;
     }
 
-    .step__text,
-    .steps--large .step__text {
+    .step__bud {
+      grid-row: 1 / 3;
+      width: 2.75rem;
+      height: 2.75rem;
+      --glyph-size: 1.9rem;
+    }
+
+    .step__title {
+      align-self: center;
+    }
+
+    .step__text {
       grid-column: 2;
       font-size: var(--text-base);
+    }
+  }
+
+  /* Wide: the stem runs across through the buds; each step reads down. */
+  @media (min-width: 1000px) {
+    .steps {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      column-gap: var(--col-gap);
+      border-top: 0;
+    }
+
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, var(--color-moss-700), color-mix(in srgb, var(--color-moss-700) 30%, transparent));
+      opacity: 0.6;
+    }
+
+    .step {
+      position: relative;
+      grid-template-columns: minmax(0, 1fr);
+      align-content: start;
+      align-items: start;
+      row-gap: var(--space-3);
+      padding-block: 0;
+      border-bottom: 0;
+    }
+
+    .step__bud {
+      position: relative;
+      z-index: 1;
+      margin-bottom: var(--space-2);
+      background: var(--color-bg);
+      box-shadow: 0 0 0 6px var(--color-bg);
+    }
+
+    .step:last-child .step__bud {
+      background: var(--color-lichen-100);
+    }
+
+    .step__title {
+      font-size: var(--text-lg);
+      line-height: 1.2;
+    }
+
+    .step__text {
+      font-size: var(--text-base);
+      line-height: 1.55;
+    }
+  }
+
+  @media (min-width: 1000px) and (prefers-reduced-motion: no-preference) {
+    .steps::before {
+      clip-path: inset(0 100% 0 0);
+      animation: steps-wipe 1.6s var(--ease-out) 0.1s forwards;
+    }
+
+    .steps:global(.reveal--wait:not(.is-in))::before {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes steps-wipe {
+    to {
+      clip-path: inset(0 0 0 0);
     }
   }
 </style>

@@ -1,16 +1,13 @@
 ---
 /**
  * The about page after the header: why Foresta works the way it does
- * (the photo on a cut of growth rings, made to last), the four commitments
+ * (the two founders, as formal portrait cards), the four commitments
  * as field-guide cards, and the process as one vine that grows across.
  * Every drawing runs once when seen; reduced motion shows it finished.
  */
-import { Image } from 'astro:assets';
 import { site } from '@/data/site';
-import plasterImage from '@/assets/images/materials-stone-plaster.jpg';
-import Contours from '@/components/visuals/Contours.astro';
+import FounderPortraits from '@/components/visuals/FounderPortraits.astro';
 import LineGlyph, { type GlyphName } from '@/components/visuals/LineGlyph.astro';
-import { romanNumerals } from '@/data/services';
 import { interpolate, routes, useI18n } from '@/i18n';
 
 const { t, path } = useI18n(Astro);
@@ -30,21 +27,7 @@ const steps = t.process.steps;
 <section class="section section--page story" aria-labelledby="story-approach">
   <div class="container story__approach">
     <div class="story__plate reveal">
-      <div class="story__rings" aria-hidden="true">
-        <Contours preset="rings" />
-      </div>
-      <figure class="story__figure frame">
-        <Image
-          src={plasterImage}
-          alt={about.photoAlt}
-          layout="constrained"
-          width={768}
-          height={1024}
-          widths={[420, 640, 768]}
-          sizes="(min-width: 900px) 28vw, 70vw"
-          loading="lazy"
-        />
-      </figure>
+      <FounderPortraits />
     </div>
 
     <div class="story__copy reveal">
@@ -74,7 +57,6 @@ const steps = t.process.steps;
       {principles.map((item, index) => (
         <li class="story-card reveal" style={`--i:${index}`}>
           <div class="story-card__head">
-            <span class="story-card__num" aria-hidden="true">{romanNumerals[index]}</span>
             <LineGlyph name={item.glyph} class="glyph--draw story-card__glyph" delay={0.2} />
           </div>
           <h3>{item.title}</h3>
@@ -107,7 +89,7 @@ const steps = t.process.steps;
       <ol class="story-vine__steps" aria-label={t.process.stepsTitle}>
         {steps.map((step, index) => (
           <li class="story-vine__step" style={`--i:${index}`}>
-            <span class="story-vine__bud" aria-hidden="true">{romanNumerals[index]}</span>
+            <span class="story-vine__bud" aria-hidden="true"></span>
             <span class="story-vine__title">{step.title}</span>
           </li>
         ))}
@@ -129,38 +111,11 @@ const steps = t.process.steps;
   }
 
   .story__plate {
-    position: relative;
-    isolation: isolate;
-    grid-column: 1 / 5;
-  }
-
-  .story__rings {
-    position: absolute;
-    inset: -14% -28% -10% -18%;
-    z-index: -1;
-    --contour-color: var(--color-moss-700);
-    --contour-opacity: 0.2;
-  }
-
-  .story__figure {
-    position: relative;
-    border-radius: var(--radius-leaf);
-    transform: rotate(-1.5deg);
-    transition: transform var(--duration-slow) var(--ease-out);
-  }
-
-  .story__plate:hover .story__figure {
-    transform: rotate(0deg) translateY(-4px);
-  }
-
-  .story__figure :global(img) {
-    display: block;
-    width: 100%;
-    height: auto;
+    grid-column: 1 / 6;
   }
 
   .story__copy {
-    grid-column: 6 / 13;
+    grid-column: 7 / 13;
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
@@ -275,14 +230,6 @@ const steps = t.process.steps;
     margin-bottom: var(--space-3);
   }
 
-  .story-card__num {
-    font-family: var(--font-serif);
-    font-size: var(--text-2xl);
-    font-style: italic;
-    line-height: 1;
-    color: var(--color-clay);
-  }
-
   .story-card :global(.story-card__glyph) {
     --glyph-size: 3.25rem;
     transition: transform var(--duration-base) var(--ease-out);
@@ -356,6 +303,19 @@ const steps = t.process.steps;
     font-family: var(--font-serif);
     font-size: var(--text-sm);
     font-style: italic;
+  }
+
+  /* A seed in each bud. */
+  .story-vine__bud::after {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-lichen-300);
+  }
+
+  .story-vine__step:nth-child(even) .story-vine__bud::after {
+    background: var(--color-clay);
   }
 
   .story-vine__step:nth-child(even) .story-vine__bud {
@@ -446,8 +406,7 @@ const steps = t.process.steps;
     }
 
     .story__plate {
-      max-width: 16rem;
-      margin-inline: auto var(--space-7);
+      max-width: 34rem;
     }
 
     .story-terms__grid {
@@ -458,10 +417,6 @@ const steps = t.process.steps;
 
   /* ---- Motion: drawn once, when seen. Reduced motion shows it finished. ---- */
   @media (prefers-reduced-motion: no-preference) {
-    .story__figure {
-      animation: story-settle 1.2s var(--ease-out) 0.3s both;
-    }
-
     /* A wipe, not a dash: Chrome miscounts dashes on non-scaling strokes
        in a stretched viewBox. */
     .story-vine__line {
@@ -495,7 +450,7 @@ const steps = t.process.steps;
       animation-delay: calc(var(--i, 0) * 0.12s);
     }
 
-    .reveal--wait:not(.is-in) :is(.story__figure, .story-vine__line, .story-vine__leaf, .story-vine__bud, .story-vine__title) {
+    .reveal--wait:not(.is-in) :is(.story-vine__line, .story-vine__leaf, .story-vine__bud, .story-vine__title) {
       animation-play-state: paused;
     }
   }
@@ -506,16 +461,6 @@ const steps = t.process.steps;
     }
   }
 
-  @keyframes story-settle {
-    from {
-      opacity: 0;
-      rotate: 3deg;
-    }
-    to {
-      opacity: 1;
-      rotate: 0deg;
-    }
-  }
 
   @keyframes story-draw {
     to {

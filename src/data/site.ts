@@ -33,6 +33,8 @@ export interface SocialLinks {
 
 export interface Founder {
   readonly name: string;
+  /** University the founder graduated from (official name, any language). */
+  readonly alumniOf?: string;
 }
 
 export interface SiteConfig {
@@ -48,7 +50,10 @@ export interface SiteConfig {
 export const site: SiteConfig = {
   name: 'Foresta Works',
   country: 'CR',
-  founders: [{ name: 'Erick Alpízar Prendas' }, { name: 'Ernesto Pocasangre' }],
+  founders: [
+    { name: 'Erick Alpízar Prendas', alumniOf: 'Tecnológico de Costa Rica' },
+    { name: 'Ernesto Pocasangre', alumniOf: 'Tecnológico de Costa Rica' },
+  ],
   contact: {
     whatsappNumber: null,
     email: null,

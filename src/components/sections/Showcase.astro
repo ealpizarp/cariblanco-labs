@@ -1,0 +1,563 @@
+---
+/**
+ * Home: the product, shown. An example client site, a premium clinic's
+ * informative site, in a phone, built in HTML and CSS (no image) and
+ * labelled as an example. The page scrolls slowly on its own, the way a
+ * visitor reads it. Three callouts say what it does. The phone is
+ * decorative; the callouts carry the meaning as a list.
+ */
+import { useI18n } from '@/i18n';
+
+const { t } = useI18n(Astro);
+const s = t.showcase;
+---
+
+<section class="section showcase" aria-labelledby="showcase-title">
+  <div class="container showcase__grid">
+    <div class="showcase__copy reveal">
+      <p class="eyebrow">{s.label}</p>
+      <h2 class="showcase__title" id="showcase-title">{s.title}</h2>
+      <p class="showcase__text">{s.text}</p>
+      <ul class="showcase__callouts">
+        {s.callouts.map((callout, index) => (
+          <li class="showcase__callout" style={`--i:${index}`}>
+            <span class="showcase__pin" aria-hidden="true"></span>
+            {callout}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="showcase__stage reveal" aria-hidden="true">
+      <div class="phone">
+        <div class="phone__screen">
+          <div class="phone__chrome">
+            <div class="phone__status">
+              <span>9:41</span>
+              <span class="phone__signal"><i></i><i></i><i></i></span>
+            </div>
+            <div class="phone__url">
+              <svg viewBox="0 0 12 14" fill="none"><rect x="1.5" y="6" width="9" height="7" rx="1.5" /><path d="M3.5 6 V4.2 A2.5 2.5 0 0 1 8.5 4.2 V6" /></svg>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="site">
+            <div class="site__scroll">
+              <div class="site__nav">
+                <span class="site__mark">Valle Sereno</span>
+                <span class="site__menu"><i></i><i></i></span>
+              </div>
+
+              <div class="site__hero">
+                <span class="site__tag">{s.example}</span>
+                <span class="site__arch"></span>
+                <div class="site__hero-copy">
+                  <p class="site__name">{s.business}</p>
+                  <p class="site__tagline">{s.tagline}</p>
+                </div>
+              </div>
+
+              <p class="site__open"><span></span>{s.open}</p>
+
+              <div class="site__block">
+                <p class="site__label">{s.servicesLabel}</p>
+                <ul class="site__services">
+                  {s.services.map((service) => (
+                    <li>
+                      {service}
+                      <svg viewBox="0 0 8 12" fill="none"><path d="M2 2 L6 6 L2 10" /></svg>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="site__block site__info">
+                <div>
+                  <p class="site__label">{s.hoursLabel}</p>
+                  <p>{s.hours}</p>
+                </div>
+                <div>
+                  <p class="site__label">{s.locationLabel}</p>
+                  <p>{s.location}</p>
+                  <span class="site__link">{s.directions} →</span>
+                </div>
+              </div>
+
+              <div class="site__map">
+                <svg viewBox="0 0 200 80" preserveAspectRatio="xMidYMid slice" fill="none">
+                  <path d="M0 52 C 40 46 70 60 110 50 S 170 30 200 36" />
+                  <path d="M60 0 C 66 24 58 50 70 80" />
+                  <path d="M140 0 C 132 30 150 56 142 80" />
+                  <circle cx="108" cy="48" r="5" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="site__bar">
+            <span class="site__book">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M5 19 L6.2 15.4 A7.5 7.5 0 1 1 8.6 17.8 Z" /></svg>
+              {s.book}
+            </span>
+            <span class="site__call">{s.call}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .showcase {
+    overflow: hidden;
+  }
+
+  .showcase__grid {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+  }
+
+  .showcase__copy {
+    display: grid;
+    gap: var(--space-4);
+    justify-items: start;
+  }
+
+  .showcase__title {
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+  }
+
+  .showcase__text {
+    max-width: 44ch;
+    font-size: var(--text-md);
+    color: var(--color-text-soft);
+  }
+
+  .showcase__callouts {
+    display: grid;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+    width: 100%;
+    max-width: 30rem;
+  }
+
+  .showcase__callout {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-rule-strong);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    font-size: var(--text-base);
+  }
+
+  .showcase__pin {
+    flex: none;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--color-clay);
+    box-shadow: 0 0 0 4px var(--color-clay-soft);
+  }
+
+  /* ---- The phone ---- */
+  .showcase__stage {
+    display: grid;
+    justify-items: center;
+  }
+
+  .phone {
+    width: min(100%, 17.5rem);
+    padding: 0.6rem;
+    border-radius: 2.6rem;
+    background: var(--color-moss-950);
+    box-shadow:
+      inset 0 0 0 1.5px rgb(255 255 255 / 0.08),
+      0 40px 60px -30px rgb(27 33 20 / 0.55),
+      0 18px 30px -20px rgb(27 33 20 / 0.4);
+    rotate: -2deg;
+  }
+
+  /* The example site has its own quiet palette: stone, ink and sand. */
+  .phone__screen {
+    --site-bg: #f7f5f0;
+    --site-ink: #1e2729;
+    --site-soft: #5a6466;
+    --site-rule: rgb(30 39 41 / 0.12);
+    --site-sand: #b39a74;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    aspect-ratio: 9 / 18.5;
+    border-radius: 2.05rem;
+    background: var(--site-bg);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--site-ink);
+  }
+
+  .phone__chrome {
+    position: relative;
+    z-index: 2;
+    background: var(--site-bg);
+  }
+
+  .phone__status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.7rem 1.25rem 0.3rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+  }
+
+  .phone__signal {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 0.6rem;
+  }
+
+  .phone__signal i {
+    width: 3px;
+    border-radius: 1px;
+    background: currentColor;
+  }
+
+  .phone__signal i:nth-child(1) { height: 40%; }
+  .phone__signal i:nth-child(2) { height: 70%; }
+  .phone__signal i:nth-child(3) { height: 100%; }
+
+  .phone__url {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0.2rem 0.75rem 0.5rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: var(--radius-pill);
+    background: rgb(30 39 41 / 0.06);
+  }
+
+  .phone__url svg {
+    width: 0.6rem;
+    stroke: var(--site-soft);
+    stroke-width: 1.4;
+  }
+
+  .phone__url span {
+    flex: 1;
+    height: 0.35rem;
+    border-radius: 2px;
+    background: rgb(30 39 41 / 0.14);
+  }
+
+  .site {
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .site__scroll {
+    padding: 0 1rem 5rem;
+  }
+
+  .site__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 0.5rem 0.75rem;
+  }
+
+  .site__mark {
+    font-family: var(--font-serif);
+    font-size: 0.6875rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+
+  .site__menu {
+    display: grid;
+    gap: 3px;
+  }
+
+  .site__menu i {
+    width: 0.9rem;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .site__hero {
+    position: relative;
+    height: 12rem;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background:
+      radial-gradient(120% 80% at 80% 10%, #e9e2d4 0%, transparent 60%),
+      linear-gradient(160deg, #d9d2c3 0%, #b9b09d 55%, #8f8a7c 100%);
+  }
+
+  /* An arched window, the clinic's quiet signature. */
+  .site__arch {
+    position: absolute;
+    right: 1rem;
+    top: 1.4rem;
+    width: 3.6rem;
+    height: 5.4rem;
+    border-radius: 999px 999px 0.3rem 0.3rem;
+    background: linear-gradient(180deg, #f3efe6, #ddd5c4);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.5);
+  }
+
+  .site__tag {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-sm);
+    background: rgb(247 245 240 / 0.85);
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .site__hero-copy {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 2rem 0.85rem 0.85rem;
+    background: linear-gradient(180deg, transparent, rgb(30 39 41 / 0.72));
+    color: #f7f5f0;
+  }
+
+  .site__name {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    line-height: 1.15;
+  }
+
+  .site__tagline {
+    margin-top: 0.2rem;
+    font-size: 0.6875rem;
+    opacity: 0.85;
+  }
+
+  .site__open {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    font-weight: 500;
+  }
+
+  .site__open span {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: #4c8a5c;
+  }
+
+  .site__block {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--site-rule);
+  }
+
+  .site__label {
+    margin-bottom: 0.4rem;
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--site-sand);
+  }
+
+  .site__services li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-block: 0.5rem;
+    border-bottom: 1px solid var(--site-rule);
+    font-family: var(--font-serif);
+    font-size: 0.875rem;
+  }
+
+  .site__services svg {
+    width: 0.35rem;
+    stroke: var(--site-soft);
+    stroke-width: 1.4;
+  }
+
+  .site__info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    color: var(--site-soft);
+  }
+
+  .site__link {
+    display: inline-block;
+    margin-top: 0.25rem;
+    font-weight: 600;
+    color: var(--site-ink);
+  }
+
+  .site__map {
+    height: 5rem;
+    margin-top: 0.85rem;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background: #e8e4da;
+  }
+
+  .site__map svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .site__map path {
+    stroke: #fff;
+    stroke-width: 5;
+  }
+
+  .site__map circle {
+    fill: var(--site-ink);
+    stroke: #fff;
+    stroke-width: 2;
+  }
+
+  /* Pinned action bar, as on a real mobile site. */
+  .site__bar {
+    position: absolute;
+    inset: auto 0 0 0;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.4rem;
+    padding: 0.6rem 0.75rem 0.9rem;
+    background: linear-gradient(180deg, rgb(247 245 240 / 0), var(--site-bg) 30%);
+  }
+
+  .site__book {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.6rem 0.5rem;
+    border-radius: 999px;
+    background: var(--site-ink);
+    color: #f7f5f0;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .site__book svg {
+    width: 0.9rem;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linejoin: round;
+  }
+
+  .site__call {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 0.7rem;
+    border: 1px solid var(--site-rule);
+    border-radius: 999px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+  }
+
+  @media (min-width: 1000px) {
+    .showcase__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: clamp(2rem, 5vw, 5rem);
+    }
+  }
+
+  /* ---- Motion: the phone arrives, then the page is read, slowly ---- */
+  @media (prefers-reduced-motion: no-preference) {
+    .phone {
+      animation: show-phone 1s var(--ease-out) 0.1s both;
+    }
+
+    .site__scroll {
+      animation: show-read 14s ease-in-out 1.6s infinite;
+    }
+
+    .site__open span {
+      animation: show-live 2.4s ease-in-out 1.2s infinite;
+    }
+
+    .site__book {
+      animation: show-press 14s ease-in-out 1.6s infinite;
+    }
+
+    .showcase__callout {
+      animation: show-rise 0.5s var(--ease-out) both;
+      animation-delay: calc(0.3s + var(--i, 0) * 0.12s);
+    }
+
+    .reveal--wait:not(.is-in) :is(.phone, .site__scroll, .site__open span, .site__book, .showcase__callout) {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes show-phone {
+    from {
+      opacity: 0;
+      translate: 0 2rem;
+      rotate: 2deg;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+      rotate: -2deg;
+    }
+  }
+
+  @keyframes show-rise {
+    from {
+      opacity: 0;
+      translate: 0 0.5rem;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  /* Read down to the map, rest, then back to the top. */
+  @keyframes show-read {
+    0%, 12% {
+      translate: 0 0;
+    }
+    42%, 62% {
+      translate: 0 -11rem;
+    }
+    88%, 100% {
+      translate: 0 0;
+    }
+  }
+
+  @keyframes show-live {
+    50% {
+      box-shadow: 0 0 0 4px rgb(76 138 92 / 0.25);
+    }
+  }
+
+  /* While the page rests at the map, the booking button is tapped. */
+  @keyframes show-press {
+    0%, 66%, 72%, 100% {
+      scale: 1;
+    }
+    69% {
+      scale: 0.95;
+    }
+  }
+</style>

@@ -61,6 +61,7 @@ const hasContact = whatsapp !== null || site.contact.email !== null || socialLin
       <LanguageSwitcher />
       <span>© {year} {site.name}</span>
       <span>Costa Rica</span>
+      <span class="site-footer__built"><span class="site-footer__led" aria-hidden="true"></span>{t.meta.builtWith}</span>
     </div>
   </div>
   <p class="site-footer__giant" aria-hidden="true">Foresta</p>
@@ -134,6 +135,26 @@ const hasContact = whatsapp !== null || site.contact.email !== null || socialLin
 
   .site-footer__contact {
     grid-column: 9 / 11;
+  }
+
+  /* How this site is built, in the technical voice. */
+  .site-footer__built {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-mono);
+    white-space: nowrap;
+  }
+
+  .site-footer__led {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: var(--color-dark-accent);
+    box-shadow: 0 0 6px var(--color-dark-accent);
   }
 
   .site-footer__legal {

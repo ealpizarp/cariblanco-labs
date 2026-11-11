@@ -6,6 +6,8 @@ import type { es } from './es';
 export const en = {
   meta: {
     siteShortDescription: 'Website, monthly care, and a WhatsApp assistant in Costa Rica',
+    /** Footer credit: how this site itself is built and served. */
+    builtWith: 'Built with Astro · served from Cloudflare',
     siteDescription:
       'We build and look after your business’s website, with a Google profile, a store that takes SINPE Móvil, and a WhatsApp assistant when it is needed. For businesses and organizations in Costa Rica. The build is quoted, and third-party costs are billed to you directly.',
     ogImageAlt: 'Illustration of an online shop in a browser frame: an example of the craft, not a client site.',
@@ -14,7 +16,7 @@ export const en = {
     /** Fallback for a founder without a listed title. */
     founderJobTitle: 'Co-founder',
     /** Same order as `site.founders`. */
-    founderJobTitles: ['Co-founder and full-stack developer', 'Co-founder'],
+    founderJobTitles: ['Co-founder · Software engineer', 'Co-founder · Mechatronics engineer'],
     knowsAbout: [
       'Web development',
       'Process automation',
@@ -170,10 +172,39 @@ export const en = {
       'Get paid online by card or SINPE Móvil, without chasing receipts.',
     ],
   },
+  showcase: {
+    label: 'On the phone',
+    title: 'What your customer sees.',
+    text: 'A clear, fast site on the phone: it shows up on Google, explains what you offer, and opens the conversation on WhatsApp.',
+    example: 'Example',
+    business: 'Clínica Valle Sereno',
+    tagline: 'Cosmetic and general dentistry in Escazú.',
+    open: 'Open · closes at 6 p.m.',
+    servicesLabel: 'Services',
+    services: ['Smile design', 'Dental implants', 'Clear aligners'],
+    locationLabel: 'Location',
+    location: 'Escazú, San José',
+    directions: 'Directions',
+    hoursLabel: 'Hours',
+    hours: 'Monday to Friday, 8 a.m. to 6 p.m.',
+    book: 'Book on WhatsApp',
+    call: 'Call',
+    callouts: [
+      'Shows up on Google, with hours kept current',
+      'Services, location, and hours, made clear',
+      'One tap to message you on WhatsApp',
+    ],
+  },
   homeServices: {
     label: 'Services',
     title: 'What we do for your business.',
     seeAll: 'See the services',
+    /** Technical tags on each lead card, by service id. */
+    tags: {
+      sitio: ['Local SEO', 'Google Business', 'Structured data'],
+      tienda: ['SINPE Móvil', 'Card payments', 'Bookings'],
+      asistente: ['WhatsApp Business API', 'AI', 'Handoff to a person'],
+    } as Record<string, string[]>,
   },
   homeProcess: {
     label: 'How we work',
@@ -341,7 +372,7 @@ export const en = {
     scenes: {
       example: 'Example',
       chat: [
-        { from: 'client', text: 'We run a bakery and WhatsApp orders keep getting lost.' },
+        { from: 'client', text: 'We run a dental clinic and appointments on WhatsApp keep getting lost.' },
         { from: 'us', text: 'Walk me through a normal day: who answers, and when?' },
       ] as Array<{ from: 'client' | 'us'; text: string }>,
       proposal: 'Proposal',
@@ -391,13 +422,13 @@ export const en = {
   },
   about: {
     statementTitle: 'Work done closely.',
-    origin: 'Foresta Works was founded by {name}.',
+    origin: 'Foresta Works was founded by {name}, engineers who graduated from the Tecnológico de Costa Rica.',
     and: 'and',
     statement: 'We talk, we put the scope in writing, and you see real progress.',
     statementMore:
       'We prefer a few tools, well connected, made to last and for the people who use them every day.',
-    photoAlt:
-      'Corner of a house: a stacked-stone wall beside a light plaster wall, under a dark sheet-metal roof, with trees behind.',
+    /** Tag on each founder portrait until real photos are added. */
+    portraitPending: 'Photo coming soon',
     principlesLabel: 'Commitments',
     principlesTitle: 'This is the agreement.',
     principles: [

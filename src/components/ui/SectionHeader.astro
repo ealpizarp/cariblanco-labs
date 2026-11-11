@@ -7,8 +7,8 @@ import Plate from '@/components/ui/Plate.astro';
 
 interface Props {
   label: string;
-  /** Roman numeral: shows the label as a field-guide plate (home page). */
-  plate?: string;
+  /** Shows the label as a field-guide plate, with a leading rule (home page). */
+  plate?: boolean;
   title: string;
   /** Element id for the heading, referenced by the section's aria-labelledby. */
   titleId: string;
@@ -20,7 +20,7 @@ const { label, plate, title, titleId, link } = Astro.props;
 ---
 
 <div class="section-header reveal">
-  {plate ? <Plate numeral={plate} label={label} class="eyebrow" /> : <p class="eyebrow">{label}</p>}
+  {plate ? <Plate label={label} class="eyebrow" /> : <p class="eyebrow">{label}</p>}
   <h2 class="section-header__title" id={titleId}>{title}</h2>
   {link && (
     <a class="section-header__link" href={link.href}>

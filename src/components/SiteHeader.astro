@@ -132,9 +132,9 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgb(233 232 221 / 0.86);
-    -webkit-backdrop-filter: blur(14px) saturate(1.2);
-    backdrop-filter: blur(14px) saturate(1.2);
+    background: var(--glass-header);
+    -webkit-backdrop-filter: var(--glass-blur-strong);
+    backdrop-filter: var(--glass-blur-strong);
     border-bottom: 1px solid var(--color-rule-strong);
     view-transition-name: site-header;
   }
@@ -316,7 +316,10 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
     margin: 0;
     padding: 0;
     border: 0;
-    background: var(--color-dark-bg);
+    /* Frosted moss: the page stays faintly visible behind the menu. */
+    background: var(--glass-deep);
+    -webkit-backdrop-filter: var(--glass-blur-strong);
+    backdrop-filter: var(--glass-blur-strong);
     color: var(--color-dark-text);
     display: none;
     flex-direction: column;

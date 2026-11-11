@@ -11,7 +11,7 @@ Costa Rican Spanish lives at `/es/`; English at `/en/`. There is no database, CM
 | Site | Astro 7, static output, TypeScript (`astro/tsconfigs/strict` plus extra flags) |
 | Runtime | Node.js 22.12 or newer (see `.nvmrc`) |
 | i18n | `es` (html `es-CR`) default, `en`. Default locale is prefixed. Slugs differ by language. |
-| Fonts | Fontsource at build time: Newsreader (serif), Instrument Sans (sans) |
+| Fonts | Fontsource at build time: Newsreader (serif), Instrument Sans (sans), JetBrains Mono (labels, tags) |
 | Images | `astro:assets` + sharp for editorial photos; decorative hero mockups in `public/images/mockup/` |
 | Tests | Vitest (`npm test`) |
 | Deploy | Cloudflare Workers: static `dist/` plus `src/edge/worker.ts`. Wrangler is not a project dependency; use `npx wrangler`. |

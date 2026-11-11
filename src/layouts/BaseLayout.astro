@@ -108,6 +108,7 @@ const jsonLdBlocks = [
 
     <Font cssVariable="--font-serif" preload={[{ weight: 500, style: 'normal' }]} />
     <Font cssVariable="--font-sans" preload={[{ weight: 500, style: 'normal' }]} />
+    <Font cssVariable="--font-mono" />
 
     {jsonLdBlocks.map((block) => (
       <script is:inline type="application/ld+json" set:html={serializeJsonLd(block)} />

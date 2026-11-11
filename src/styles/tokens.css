@@ -19,7 +19,7 @@
   --color-moss-800: #283019; /* primary: 11.2:1 with mist text */
   --color-moss-700: #3b4527; /* line work on light */
   --color-olive-600: #56613a; /* small accent text: 5.4:1 on mist */
-  --color-soft-700: #3e4536; /* soft text: 8.1:1 on mist */
+  --color-soft-700: #343b2d; /* soft text: ~9.5:1 on mist */
   --color-muted-500: #596050; /* muted text: 5.3:1 on mist, 4.7:1 on wash */
   --color-lichen-300: #c5d063; /* accent on dark: 9.9:1 on moss-900 */
   --color-lichen-200: #dce3a0; /* text on moss-800: 10.2:1 */
@@ -62,11 +62,12 @@
   --color-dark-error: #f4c7b8;
 
   /* ---- Typography ---- */
-  /* --font-serif and --font-sans are injected by Astro's <Font> component. */
-  --text-xs: 0.6875rem;
-  --text-sm: 0.8125rem;
-  --text-base: 0.9375rem;
-  --text-md: 1.0625rem;
+  /* --font-serif, --font-sans and --font-mono are injected by Astro's <Font> component. */
+  --tracking-mono: 0.04em;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
   --text-lg: clamp(1.25rem, 1.7vw, 1.55rem);
   --text-xl: clamp(1.5rem, 2.2vw, 2rem);
   --text-2xl: clamp(1.75rem, 2.7vw, 2.6rem);
@@ -100,7 +101,7 @@
   --space-stack: clamp(1.5rem, 3vw, 2.5rem); /* heading blocks inside a section */
   --space-cluster: clamp(2.5rem, 5vw, 4rem); /* related clusters (hero media) */
   --space-page: clamp(3.75rem, 8vw, 7.5rem); /* page / hero opening */
-  --space-section: clamp(5rem, 10vw, 9rem); /* home sections, CTA */
+  --space-section: clamp(3.75rem, 7vw, 6.25rem); /* home sections, CTA */
   --space-section-gap: clamp(3rem, 6vw, 5.5rem); /* related blocks, inner pages */
 
   /* ---- Layout ---- */
@@ -147,5 +148,27 @@
 @media (max-width: 900px) {
   :root {
     --header-height: 3.85rem;
+  }
+}
+
+/* ---------- Glass ----------
+   See-through surfaces, used only where something shows through them:
+   the header, the mobile menu, and cards on the dark terrain. Visitors who ask for reduced transparency get solid sheets. */
+:root {
+  --glass-header: rgb(233 232 221 / 0.58);
+  --glass-moss: rgb(40 48 25 / 0.4);
+  --glass-deep: rgb(27 33 20 / 0.82);
+  --glass-edge-dark: rgb(233 232 221 / 0.1);
+  --glass-blur: blur(12px) saturate(1.25);
+  --glass-blur-strong: blur(22px) saturate(1.3);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-header: var(--color-paper);
+    --glass-moss: var(--color-moss-800);
+    --glass-deep: var(--color-moss-900);
+    --glass-blur: none;
+    --glass-blur-strong: none;
   }
 }
