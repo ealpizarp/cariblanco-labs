@@ -5,11 +5,9 @@ import type { es } from './es';
  */
 export const en = {
   meta: {
-    siteShortDescription: 'Website, monthly care, and a WhatsApp assistant in Costa Rica',
-    /** Footer credit: how this site itself is built and served. */
-    builtWith: 'Built with Astro · served from Cloudflare',
+    siteShortDescription: 'Website, monthly care, and an intelligent assistant in Costa Rica',
     siteDescription:
-      'We build and look after your business’s website, with a Google profile, a store that takes SINPE Móvil, and a WhatsApp assistant when it is needed. For businesses and organizations in Costa Rica. The build is quoted, and third-party costs are billed to you directly.',
+      'We build and look after your business’s website, with a Google profile, a store that takes SINPE Móvil, and an intelligent assistant when it is needed. For businesses and organizations in Costa Rica. The build is quoted, and third-party costs are billed to you directly.',
     ogImageAlt: 'Illustration of an online shop in a browser frame: an example of the craft, not a client site.',
     skipToContent: 'Skip to content',
     homeAria: '{name}, home',
@@ -29,6 +27,9 @@ export const en = {
     whatsappMessage:
       'Hello, Foresta Works. I would like to talk about a website and automation for my business.',
     emailSubject: 'Inquiry from the website',
+  },
+  footer: {
+    write: 'Message us on WhatsApp',
   },
   nav: {
     primaryLabel: 'Primary',
@@ -51,11 +52,11 @@ export const en = {
     items: {
       servicios: {
         label: 'Services',
-        summary: 'Website and Google, store and payments, a WhatsApp assistant, and care.',
+        summary: 'Website and Google, store and payments, an intelligent assistant, and care.',
       },
       automatizacion: {
         label: 'Automation',
-        summary: 'A WhatsApp assistant for what you already answer.',
+        summary: 'An intelligent assistant for what you already answer.',
       },
       proceso: {
         label: 'Process',
@@ -73,19 +74,19 @@ export const en = {
   },
   pages: {
     servicios: {
-      title: 'Services: website and Google, store and payments, WhatsApp assistant',
+      title: 'Services: website and Google, store and payments, intelligent assistant',
       description:
-        'A website with a Google profile, a store or bookings that take card and SINPE Móvil, a WhatsApp assistant, and monthly care. For companies and organizations in Costa Rica.',
+        'A website with a Google profile, a store or bookings that take card and SINPE Móvil, an intelligent assistant, and monthly care. For companies and organizations in Costa Rica.',
       eyebrow: 'Services',
       heading: 'The site, what sells, and what answers.',
       lede: 'For companies, businesses, and organizations. Every job starts with a conversation and a written scope.',
     },
     automatizacion: {
-      title: 'WhatsApp automation for what you already answer',
+      title: 'An intelligent assistant for what you already answer',
       description:
-        'A WhatsApp assistant for questions, after hours, appointments or orders, reminders, and reviews. The scope is written before it is turned on.',
+        'An intelligent assistant for questions, after hours, appointments or orders, reminders, and reviews. The scope is written before it is turned on.',
       eyebrow: 'Automation',
-      heading: 'A WhatsApp assistant for what you already answer.',
+      heading: 'An intelligent assistant for what you already answer.',
       lede: 'The scope is written before it is turned on.',
       closeTitle: 'Tell us how you serve people today.',
       closeText: 'We look at whether the assistant fits your operation. If we continue, the scope goes in writing.',
@@ -127,7 +128,7 @@ export const en = {
   },
   hero: {
     place: 'Costa Rica',
-    offer: 'Websites · Monthly care · WhatsApp assistant',
+    offer: 'Websites · Monthly care · Intelligent assistant',
     title: 'We transform your business for a new era of',
     titleEm: 'artificial intelligence.',
     lede: 'A studio based in Costa Rica, with the mission of delivering modern digital infrastructure to businesses.',
@@ -205,7 +206,7 @@ export const en = {
     tags: {
       sitio: ['Local SEO', 'Google Business', 'Structured data'],
       tienda: ['SINPE Móvil', 'Card payments', 'Bookings'],
-      asistente: ['WhatsApp Business API', 'AI', 'Handoff to a person'],
+      asistente: ['AI', 'Site, WhatsApp and social', 'Handoff to a person'],
     } as Record<string, string[]>,
   },
   homeProcess: {
@@ -263,18 +264,18 @@ export const en = {
         ],
       },
       asistente: {
-        name: 'WhatsApp assistant',
+        name: 'Intelligent assistant',
         summary: 'It answers what you already answer, within a written scope.',
-        purpose: 'WhatsApp, only with what you approved.',
+        purpose: 'It serves people for you, only with what you approved.',
         support:
-          'For anyone who answers the same questions on WhatsApp, including when the business is closed. It works alongside your site; it does not replace it.',
+          'For anyone who answers the same questions every day, including when the business is closed. It can work on your site, WhatsApp or social media. It works alongside your site; it does not replace it.',
         includes: [
           'Frequent questions that you define',
           'After-hours messages, with a heads-up for you',
           'Details for appointments or orders, which you confirm',
           'Reminders and review requests',
         ],
-        separate: ['WhatsApp’s per-message charges, which Meta bills to your account'],
+        separate: ['Per-message charges from each channel, such as WhatsApp, billed to your account'],
       },
       cuidado: {
         name: 'Monthly care',
