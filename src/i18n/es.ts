@@ -4,11 +4,9 @@
  */
 export const es = {
   meta: {
-    siteShortDescription: 'Sitio, cuidado mensual y asistente de WhatsApp en Costa Rica',
-    /** Footer credit: how this site itself is built and served. */
-    builtWith: 'Hecho con Astro · servido desde Cloudflare',
+    siteShortDescription: 'Sitio, cuidado mensual y asistente inteligente en Costa Rica',
     siteDescription:
-      'Construimos y cuidamos el sitio de su negocio, con perfil de Google, tienda con SINPE Móvil y un asistente de WhatsApp cuando hace falta. Para empresas y organizaciones en Costa Rica.',
+      'Construimos y cuidamos el sitio de su negocio, con perfil de Google, tienda con SINPE Móvil y un asistente inteligente cuando hace falta. Para empresas y organizaciones en Costa Rica.',
     ogImageAlt:
       'Ilustración de una tienda en línea en un marco de navegador: ejemplo de oficio, no el sitio de un cliente.',
     skipToContent: 'Saltar al contenido',
@@ -29,6 +27,9 @@ export const es = {
     whatsappMessage:
       'Hola, Foresta Works. Me interesa conversar sobre un sitio web y automatización para mi negocio.',
     emailSubject: 'Consulta desde el sitio web',
+  },
+  footer: {
+    write: 'Escribir por WhatsApp',
   },
   nav: {
     primaryLabel: 'Principal',
@@ -51,11 +52,11 @@ export const es = {
     items: {
       servicios: {
         label: 'Servicios',
-        summary: 'Sitio y Google, tienda y pagos, asistente de WhatsApp y cuidado.',
+        summary: 'Sitio y Google, tienda y pagos, asistente inteligente y cuidado.',
       },
       automatizacion: {
         label: 'Automatización',
-        summary: 'Un asistente de WhatsApp para lo que usted ya responde.',
+        summary: 'Un asistente inteligente para lo que usted ya responde.',
       },
       proceso: {
         label: 'Proceso',
@@ -73,19 +74,19 @@ export const es = {
   },
   pages: {
     servicios: {
-      title: 'Servicios: sitio web y Google, tienda y pagos, asistente de WhatsApp',
+      title: 'Servicios: sitio web y Google, tienda y pagos, asistente inteligente',
       description:
-        'Sitio web con perfil de Google, tienda o reservas con tarjeta y SINPE Móvil, asistente de WhatsApp y cuidado mensual. Para empresas y organizaciones en Costa Rica.',
+        'Sitio web con perfil de Google, tienda o reservas con tarjeta y SINPE Móvil, asistente inteligente y cuidado mensual. Para empresas y organizaciones en Costa Rica.',
       eyebrow: 'Servicios',
       heading: 'El sitio, lo que vende y lo que responde.',
       lede: 'Para empresas, negocios y organizaciones. Cada trabajo empieza con una conversación y un alcance por escrito.',
     },
     automatizacion: {
-      title: 'Automatización de WhatsApp para lo que usted ya responde',
+      title: 'Asistente inteligente para lo que usted ya responde',
       description:
-        'Un asistente de WhatsApp para preguntas, fuera de horario, citas o pedidos, recordatorios y reseñas. El alcance se escribe antes de encenderlo.',
+        'Un asistente inteligente para preguntas, fuera de horario, citas o pedidos, recordatorios y reseñas. El alcance se escribe antes de encenderlo.',
       eyebrow: 'Automatización',
-      heading: 'Un asistente de WhatsApp para lo que usted ya responde.',
+      heading: 'Un asistente inteligente para lo que usted ya responde.',
       lede: 'El alcance se escribe antes de encenderlo.',
       closeTitle: 'Cuéntenos cómo atiende hoy.',
       closeText: 'Vemos si el asistente cabe en su operación. Si seguimos, el alcance va por escrito.',
@@ -127,7 +128,7 @@ export const es = {
   },
   hero: {
     place: 'Costa Rica',
-    offer: 'Sitios web · Cuidado mensual · Asistente de WhatsApp',
+    offer: 'Sitios web · Cuidado mensual · Asistente inteligente',
     title: 'Transformamos su negocio para una nueva era de',
     titleEm: 'inteligencia artificial',
     lede: 'Un estudio basado en Costa Rica con la misión de entregar infraestructura digital moderna a negocios.',
@@ -206,7 +207,7 @@ export const es = {
     tags: {
       sitio: ['SEO local', 'Google Business', 'Datos estructurados'],
       tienda: ['SINPE Móvil', 'Pago con tarjeta', 'Reservas'],
-      asistente: ['WhatsApp Business API', 'IA', 'Paso a una persona'],
+      asistente: ['IA', 'Sitio, WhatsApp y redes', 'Paso a una persona'],
     } as Record<string, string[]>,
   },
   homeProcess: {
@@ -264,18 +265,18 @@ export const es = {
         ],
       },
       asistente: {
-        name: 'Asistente de WhatsApp',
+        name: 'Asistente inteligente',
         summary: 'Responde lo que usted ya responde, dentro de un alcance escrito.',
-        purpose: 'WhatsApp, solo con lo que usted aprobó.',
+        purpose: 'Atiende por usted, solo con lo que usted aprobó.',
         support:
-          'Para quienes contestan las mismas preguntas por WhatsApp, también con la operación cerrada. Funciona junto a su sitio; no lo reemplaza.',
+          'Para quienes contestan las mismas preguntas todos los días, también con la operación cerrada. Puede atender en su sitio, WhatsApp o redes sociales. Funciona junto a su sitio; no lo reemplaza.',
         includes: [
           'Preguntas frecuentes que usted define',
           'Mensajes fuera de horario, con aviso para usted',
           'Datos para citas o pedidos, que usted confirma',
           'Recordatorios y solicitudes de reseña',
         ],
-        separate: ['Los cargos de WhatsApp por mensaje, que Meta factura a su cuenta'],
+        separate: ['Los cargos por mensaje de cada canal, como WhatsApp, que se facturan a su cuenta'],
       },
       cuidado: {
         name: 'Cuidado mensual',

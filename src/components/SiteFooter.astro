@@ -1,4 +1,7 @@
 ---
+/**
+ * A quiet footer: the name, the pages, one way to reach us, and the year.
+ */
 import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
 import Wordmark from '@/components/Wordmark.astro';
 import Contours from '@/components/visuals/Contours.astro';
@@ -10,74 +13,57 @@ const { locale, t, path } = useI18n(Astro);
 const year = new Date().getFullYear();
 const whatsapp = whatsappUrl(t.meta.whatsappMessage);
 const nav = primaryNav(locale);
-
-const socialLinks = [
-  { label: 'LinkedIn', href: site.social.linkedin },
-  { label: 'Instagram', href: site.social.instagram },
-  { label: 'Facebook', href: site.social.facebook },
-].filter((link): link is { label: string; href: string } => link.href !== null);
-
-const hasContact = whatsapp !== null || site.contact.email !== null || socialLinks.length > 0;
 ---
 
 <footer class="site-footer">
   <div class="site-footer__terrain" aria-hidden="true">
     <Contours preset="footer" />
   </div>
-  <div class="container site-footer__grid">
+
+  <div class="container site-footer__top">
     <div class="site-footer__brand">
       <Wordmark onDark />
       <p class="site-footer__tag">{t.meta.siteShortDescription}</p>
     </div>
 
-    <nav class="site-footer__nav" aria-label={t.nav.footerLabel}>
-      <ul>
-        <li><a class="link-underline" href={path(routes.home)}>{t.nav.home}</a></li>
+    {whatsapp !== null ? (
+      <a class="site-footer__cta" href={whatsapp} target="_blank" rel="noopener noreferrer">
+        {t.footer.write}<span aria-hidden="true"> →</span><span class="sr-only">{t.nav.newWindow}</span>
+      </a>
+    ) : (
+      <a class="site-footer__cta" href={path(routes.contacto)}>
+        {t.nav.letsTalk}<span aria-hidden="true"> →</span>
+      </a>
+    )}
+  </div>
+
+  <div class="container site-footer__bottom">
+    <nav aria-label={t.nav.footerLabel}>
+      <ul class="site-footer__nav">
         {nav.map((item) => (
           <li><a class="link-underline" href={item.href}>{item.label}</a></li>
         ))}
       </ul>
     </nav>
-
-    {hasContact && (
-      <div class="site-footer__contact">
-        {whatsapp !== null && (
-          <a class="link-underline" href={whatsapp} target="_blank" rel="noopener noreferrer">
-            WhatsApp<span class="sr-only">{t.nav.newWindow}</span>
-          </a>
-        )}
-        {site.contact.email !== null && (
-          <a class="link-underline" href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
-        )}
-        {socialLinks.map((link) => (
-          <a class="link-underline" href={link.href} target="_blank" rel="noopener noreferrer">
-            {link.label}<span class="sr-only">{t.nav.newWindow}</span>
-          </a>
-        ))}
-      </div>
-    )}
-
     <div class="site-footer__legal">
+      <span>© {year} {site.name} · Costa Rica</span>
       <LanguageSwitcher />
-      <span>© {year} {site.name}</span>
-      <span>Costa Rica</span>
-      <span class="site-footer__built"><span class="site-footer__led" aria-hidden="true"></span>{t.meta.builtWith}</span>
     </div>
   </div>
+
   <p class="site-footer__giant" aria-hidden="true">Foresta</p>
 </footer>
 
 <style>
   .site-footer {
-    background: var(--color-dark-bg);
-    color: var(--color-dark-text-muted);
-    border-top: 1px solid var(--color-dark-rule);
-    padding-block: clamp(var(--space-7), 5vw, var(--space-8));
-    font-size: var(--text-sm);
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    padding-bottom: 0;
+    padding-top: clamp(var(--space-7), 4vw, var(--space-8));
+    background: var(--color-dark-bg);
+    color: var(--color-dark-text-muted);
+    border-top: 1px solid var(--color-dark-rule);
+    font-size: var(--text-sm);
   }
 
   .site-footer__terrain {
@@ -88,89 +74,53 @@ const hasContact = whatsapp !== null || site.contact.email !== null || socialLin
     --contour-opacity: 0.07;
   }
 
-  /* The name, set large and cut by the page edge, like a map title. */
-  .site-footer__giant {
-    max-width: none;
-    margin: var(--space-7) 0 -0.24em;
-    font-family: var(--font-serif);
-    font-size: clamp(5rem, 24vw, 22rem);
-    font-style: italic;
-    line-height: 0.8;
-    letter-spacing: -0.045em;
-    text-align: center;
-    white-space: nowrap;
-    color: transparent;
-    -webkit-text-stroke: 1px rgb(197 208 99 / 0.35);
-    user-select: none;
-  }
-
-  .site-footer__grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    column-gap: var(--col-gap);
-    row-gap: var(--space-6);
-    align-items: start;
-  }
-
-  .site-footer__brand {
-    grid-column: 1 / 5;
+  .site-footer__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-5);
+    padding-bottom: var(--space-6);
   }
 
   .site-footer__tag {
-    margin-top: var(--space-4);
-    line-height: 1.5;
-    max-width: 28ch;
+    margin-top: var(--space-3);
+    max-width: 48ch;
+    text-wrap: balance;
+  }
+
+  .site-footer__cta {
+    font-weight: var(--weight-semibold);
+    color: var(--color-dark-accent);
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4) var(--space-6);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-dark-rule);
   }
 
   .site-footer__nav {
-    grid-column: 6 / 9;
-  }
-
-  .site-footer__nav ul,
-  .site-footer__contact {
     display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .site-footer__contact {
-    grid-column: 9 / 11;
-  }
-
-  /* How this site is built, in the technical voice. */
-  .site-footer__built {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: var(--space-2);
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    letter-spacing: var(--tracking-mono);
-    white-space: nowrap;
-  }
-
-  .site-footer__led {
-    width: 0.4rem;
-    height: 0.4rem;
-    border-radius: 50%;
-    background: var(--color-dark-accent);
-    box-shadow: 0 0 6px var(--color-dark-accent);
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
   }
 
   .site-footer__legal {
-    grid-column: 11 / 13;
     display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    text-align: right;
+    align-items: center;
+    gap: var(--space-5);
+    font-size: var(--text-xs);
     color: var(--color-dark-text-faint);
-    align-items: flex-end;
   }
 
   .site-footer__legal :global(.lang-switch) {
     border-color: rgb(255 255 255 / 0.12);
     background: rgb(255 255 255 / 0.04);
-    margin-bottom: var(--space-2);
   }
 
   .site-footer__legal :global(.lang-switch__opt) {
@@ -180,6 +130,22 @@ const hasContact = whatsapp !== null || site.contact.email !== null || socialLin
   .site-footer__legal :global(.lang-switch__opt[aria-current='true']) {
     color: var(--color-dark-bg);
     background: var(--color-dark-accent);
+  }
+
+  /* The name, cut by the page edge like a map title. */
+  .site-footer__giant {
+    max-width: none;
+    margin: var(--space-6) 0 -0.26em;
+    font-family: var(--font-serif);
+    font-size: clamp(4rem, 15vw, 13rem);
+    font-style: italic;
+    line-height: 0.8;
+    letter-spacing: -0.045em;
+    text-align: center;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(197 208 99 / 0.3);
+    user-select: none;
   }
 
   .site-footer a {
@@ -192,53 +158,23 @@ const hasContact = whatsapp !== null || site.contact.email !== null || socialLin
     color: var(--color-dark-text);
   }
 
-  @media (max-width: 900px) {
-    .site-footer__legal :global(.lang-switch) {
-      display: none;
-    }
-
-    .site-footer__brand {
-      grid-column: 1 / -1;
-    }
-
+  @media (max-width: 700px) {
     .site-footer__nav {
-      grid-column: 1 / 6;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+      gap: 0 var(--space-4);
     }
 
-    .site-footer__contact {
-      grid-column: 6 / 13;
-    }
-
-    .site-footer__legal {
-      grid-column: 1 / -1;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: var(--space-5);
-      text-align: left;
-      padding-top: var(--space-5);
-      border-top: 1px solid var(--color-dark-rule);
-    }
-
-    .site-footer__nav a,
-    .site-footer__contact a {
+    .site-footer__nav a {
       display: flex;
       align-items: center;
       min-height: 2.75rem;
     }
-  }
 
-  @media (max-width: 600px) {
-    .site-footer__nav,
-    .site-footer__contact {
-      grid-column: 1 / -1;
-    }
-
-    .site-footer__nav ul {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: var(--space-4);
-      row-gap: 0;
+    .site-footer__legal {
+      width: 100%;
+      justify-content: space-between;
     }
   }
 </style>
