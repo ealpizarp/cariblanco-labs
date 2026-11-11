@@ -1,0 +1,151 @@
+---
+/**
+ * Process, stage 2. The written proposal: rows of ink and a signature.
+ * Decorative: the step text beside it carries the meaning. Animations run
+ * once, when the stage is seen (see `.reveal` in scripts/motion.ts).
+ */
+import { useI18n } from '@/i18n';
+
+const scenes = useI18n(Astro).t.process.scenes;
+
+/** Proposal ink: two lines a row, of varied length, like handwriting. */
+const inkWidths = [
+  [86, 58],
+  [70, 40],
+  [92, 64],
+  [62, 34],
+];
+---
+
+<div class="scene scene--sheet">
+  <div class="sheet__head">
+    <span class="sheet__title">{scenes.proposal}</span>
+    <span class="sheet__fold"></span>
+  </div>
+  {scenes.proposalRows.map((row, k) => (
+    <div class:list={['sheet__row', { 'sheet__row--aside': k === scenes.proposalRows.length - 1 }]}>
+      <span class="sheet__label">{row}</span>
+      <span class="sheet__lines">
+        {(inkWidths[k] ?? [70, 40]).map((width, j) => (
+          <span class="sheet__ink" style={`--w:${width}%;--k:${k * 2 + j}`}></span>
+        ))}
+      </span>
+    </div>
+  ))}
+  <svg class="sheet__sign" viewBox="0 0 120 36" fill="none" focusable="false">
+    <path
+      pathLength="100"
+      d="M4 26 C 12 6 22 6 19 24 C 18 32 27 28 33 17 C 37 9 42 11 40 22 C 39 30 49 28 55 19 C 59 13 63 15 61 24 C 70 22 84 19 116 21"
+    />
+  </svg>
+</div>
+
+<style>
+  /* II. Written proposal */
+  .scene--sheet {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-5) var(--space-5) var(--space-4);
+    /* A second sheet behind, drawn as an offset outline. */
+    box-shadow:
+      6px 6px 0 -1px var(--color-bg),
+      6px 6px 0 0 var(--color-rule-strong);
+    rotate: -1.5deg;
+  }
+
+  .sheet__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--color-text);
+  }
+
+  .sheet__title {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-style: italic;
+  }
+
+  .sheet__fold {
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 50%;
+    background: var(--color-clay);
+  }
+
+  .sheet__row {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: start;
+  }
+
+  .sheet__label {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-soft);
+  }
+
+  .sheet__lines {
+    display: grid;
+    gap: 0.4rem;
+    padding-top: 0.35rem;
+  }
+
+  .sheet__ink {
+    display: block;
+    width: var(--w);
+    height: 2px;
+    border-radius: 2px;
+    background: var(--color-moss-700);
+    opacity: 0.55;
+    transform-origin: 0 50%;
+  }
+
+  .sheet__row--aside .sheet__label {
+    color: var(--color-clay);
+  }
+
+  .sheet__row--aside .sheet__ink {
+    height: 0;
+    border-top: 2px dashed var(--color-clay);
+    background: none;
+    opacity: 0.8;
+  }
+
+  .sheet__sign {
+    justify-self: end;
+    width: 7rem;
+    margin-top: var(--space-2);
+    color: var(--color-moss-800);
+  }
+
+  .sheet__sign path {
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .scene--sheet {
+      animation: grow-settle 0.9s var(--ease-out) 0.2s both;
+    }
+
+    .sheet__ink {
+      animation: grow-ink 0.45s var(--ease-out) both;
+      animation-delay: calc(0.6s + var(--k, 0) * 0.16s);
+    }
+
+    .sheet__sign path {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: grow-draw 1s var(--ease-out) 2s forwards;
+    }
+
+    :global(.reveal--wait:not(.is-in)) :is(.scene--sheet, .sheet__ink, .sheet__sign path) {
+      animation-play-state: paused;
+    }
+  }
+</style>

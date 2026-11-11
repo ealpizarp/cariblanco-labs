@@ -1,0 +1,174 @@
+---
+/**
+ * Automation page, part 1: how the assistant comes together, as four
+ * glyphs on one stem (listen, choose, connect, tune).
+ */
+import LineGlyph, { type GlyphName } from '@/components/visuals/LineGlyph.astro';
+import { useI18n } from '@/i18n';
+
+const { t } = useI18n(Astro);
+const workGlyphs: GlyphName[] = ['listen', 'choose', 'connect', 'tune'];
+const work = t.automation.work.map((step, index) => ({ ...step, glyph: workGlyphs[index] ?? 'listen' }));
+---
+
+<section class="section section--page auto-work" aria-labelledby="auto-work-title">
+  <div class="container">
+    <header class="auto-block__intro">
+      <p class="eyebrow">{t.automation.workLabel}</p>
+      <h2 class="auto-block__title" id="auto-work-title">{t.automation.workTitle}</h2>
+    </header>
+
+    <div class="auto-work__field reveal">
+      <svg class="auto-work__vine" viewBox="0 0 1000 60" preserveAspectRatio="none" fill="none" aria-hidden="true">
+        <path
+          class="auto-work__vine-path"
+          pathLength="100"
+          d="M40 32 C 160 8 240 52 375 30 S 590 6 625 30 S 840 54 960 28"
+        />
+      </svg>
+      <ol class="auto-work__steps">
+        {work.map((step, index) => (
+          <li class="auto-work__step" style={`--i:${index}`}>
+            <span class="auto-work__bud">
+              <LineGlyph name={step.glyph} class="glyph--draw" delay={0.35 + index * 0.28} />
+            </span>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ---- How it comes together: four glyphs on one stem ---- */
+  .auto-work__field {
+    position: relative;
+    margin-top: var(--space-7);
+  }
+
+  .auto-work__vine {
+    display: none;
+  }
+
+  .auto-work__steps {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .auto-work__step {
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    column-gap: var(--space-4);
+    align-items: start;
+  }
+
+  .auto-work__bud {
+    grid-row: 1 / 4;
+    display: grid;
+    place-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    border: 1px solid var(--color-rule-strong);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    --glyph-size: 2.4rem;
+    transition:
+      transform var(--duration-base) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .auto-work__step:hover .auto-work__bud {
+    transform: translateY(-3px) rotate(-4deg);
+    border-color: var(--color-moss-700);
+  }
+
+  .auto-work__step h3 {
+    margin: var(--space-2) 0;
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+  }
+
+  .auto-work__step p {
+    margin: 0;
+    color: var(--color-text-soft);
+  }
+
+  @media (min-width: 1000px) {
+    /* The four buds sit on one stem that runs across the row. */
+    .auto-work__vine {
+      position: absolute;
+      top: 0.75rem;
+      left: 0;
+      display: block;
+      width: 100%;
+      height: 3rem;
+      color: var(--color-moss-700);
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .auto-work__vine-path {
+      stroke: currentColor;
+      stroke-width: 1.3;
+      stroke-linecap: round;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .auto-work__steps {
+      position: relative;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      column-gap: var(--col-gap);
+    }
+
+    .auto-work__step {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: var(--space-3);
+    }
+
+    .auto-work__bud {
+      grid-row: auto;
+    }
+
+    .auto-work__step h3 {
+      margin: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Stretched SVGs grow by a wipe, not a dash: Chrome miscounts dashes
+       on non-scaling strokes in a stretched viewBox. */
+    .auto-work__vine {
+      clip-path: inset(0 100% 0 0);
+      animation: auto-wipe-x 1.6s var(--ease-out) 0.15s forwards;
+    }
+
+    .auto-work__bud {
+      animation: auto-bud 0.6s var(--ease-out) both;
+      animation-delay: calc(0.25s + var(--i, 0) * 0.28s);
+    }
+
+    .reveal--wait:not(.is-in) :is(.auto-work__vine, .auto-work__bud, .auto-flow__stem, .auto-flow__num, .auto-flow__bubble, .auto-scope__seed) {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes auto-wipe-x {
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  /* `scale`, not `transform`, so the hover lift still applies afterwards. */
+  @keyframes auto-bud {
+    from {
+      opacity: 0;
+      scale: 0.6;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+</style>

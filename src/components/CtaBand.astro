@@ -4,7 +4,7 @@
  * WhatsApp when a number is configured, otherwise to the contact page.
  */
 import Button from '@/components/ui/Button.astro';
-import Contours from '@/components/visuals/Contours.astro';
+import Terrain from '@/components/visuals/Terrain.astro';
 import { whatsappUrl } from '@/data/site';
 import { routes, useI18n } from '@/i18n';
 
@@ -22,9 +22,7 @@ const mobileRest = splitAt === -1 ? '' : text.slice(splitAt + 2);
 ---
 
 <section class="cta-band" aria-labelledby="cta-band-title">
-  <div class="cta-band__terrain" aria-hidden="true">
-    <Contours preset="band" />
-  </div>
+  <Terrain preset="band" class="cta-band__terrain" />
 
   <div class="container cta-band__grid">
     <p class="eyebrow eyebrow--on-dark cta-band__eyebrow">{t.cta.eyebrow}</p>
@@ -58,12 +56,8 @@ const mobileRest = splitAt === -1 ? '' : text.slice(splitAt + 2);
     padding-block: var(--space-section);
   }
 
-  .cta-band__terrain {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    --contour-color: var(--color-lichen-300);
-    --contour-opacity: 0.14;
+  .cta-band :global(.cta-band__terrain) {
+    opacity: 0.22;
   }
 
   .cta-band__grid {

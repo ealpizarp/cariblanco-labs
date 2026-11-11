@@ -171,6 +171,19 @@ main > .section--page:first-of-type {
   border: 1px solid var(--color-rule-strong);
 }
 
+/* ---------- Terrain backgrounds (components/visuals/Terrain.astro) ----------
+   Static contour files, cached once for the whole site; each placement sets
+   its own opacity. */
+.terrain {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 /* ---------- Shared text styles ---------- */
 .eyebrow {
   display: flex;
@@ -312,6 +325,13 @@ main > .section--page:first-of-type {
 }
 
 /* ---------- Motion ---------- */
+/* Set by scripts/motion.ts on sections outside the viewport. */
+.is-offscreen,
+.is-offscreen *,
+.is-offscreen *::before,
+.is-offscreen *::after {
+  animation-play-state: paused !important;
+}
 
 /* Cross-document page transitions: a short fade between pages, handled by the
    browser with no JavaScript. Browsers without support navigate normally. */

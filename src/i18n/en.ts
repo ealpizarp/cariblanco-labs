@@ -37,14 +37,11 @@ export const en = {
     menuOpen: 'Menu',
     menuClose: 'Close',
     footerLabel: 'Footer',
-    relatedPages: 'Related pages',
     breadcrumb: 'Breadcrumb',
     language: 'Language',
     languageEs: 'Español',
     languageEn: 'English',
     home: 'Home',
-    previous: 'Previous',
-    next: 'Next',
     letsTalk: "Let's talk",
     /** Header and menu button: goes to the contact page. */
     contactCta: 'Contact',
@@ -223,7 +220,6 @@ export const en = {
     writeWhatsApp: 'Write to us on WhatsApp',
   },
   services: {
-    overviewTitle: 'Three services on one base.',
     talk: 'Let’s talk about this service.',
     includesLabel: 'Includes',
     separateLabel: 'Paid separately, in your name',
@@ -403,7 +399,7 @@ export const en = {
     steps: [
       {
         title: 'Conversation',
-        text: 'We talk on WhatsApp or in a short call about how your business works today and what is taking your time.',
+        text: 'We meet virtually to talk about how your business works today and what is taking your time.',
       },
       {
         title: 'Written proposal',
@@ -461,7 +457,6 @@ export const en = {
     email: 'Email',
     hours: 'Hours',
     hoursValue: null as string | null,
-    comingSoon: 'Coming soon.',
     prepareTitle: 'What helps to have ready',
     prepareItems: [
       'How you serve people today: website, WhatsApp, appointments, or orders.',

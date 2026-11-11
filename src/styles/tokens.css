@@ -18,7 +18,6 @@
   --color-moss-900: #1b2114; /* dark sections */
   --color-moss-800: #283019; /* primary: 11.2:1 with mist text */
   --color-moss-700: #3b4527; /* line work on light */
-  --color-olive-600: #56613a; /* small accent text: 5.4:1 on mist */
   --color-soft-700: #343b2d; /* soft text: ~9.5:1 on mist */
   --color-muted-500: #596050; /* muted text: 5.3:1 on mist, 4.7:1 on wash */
   --color-lichen-300: #c5d063; /* accent on dark: 9.9:1 on moss-900 */
@@ -27,7 +26,6 @@
   --color-fern-400: #9ea88d; /* decorative line work only */
   --color-poro-600: #a8442a; /* emphasis on light: 4.8:1 on mist */
   --color-poro-400: #de6b45; /* emphasis on dark: 4.9:1 on moss-900 */
-  --color-bark-600: #6e5846; /* secondary warm text: 5.4:1 on mist */
 
   /* ---- Colour: semantic ---- */
   --color-bg: var(--color-mist-50);
@@ -40,7 +38,6 @@
   --color-primary: var(--color-moss-800);
   --color-primary-strong: var(--color-moss-950);
   --color-on-primary: var(--color-lichen-200);
-  --color-accent: var(--color-olive-600);
   --color-clay: var(--color-poro-600);
   --color-clay-soft: rgb(168 68 42 / 0.12);
   --color-line: var(--color-moss-700);
@@ -59,7 +56,6 @@
   --color-dark-rule: rgb(233 232 221 / 0.14);
   --color-dark-accent: var(--color-lichen-300);
   --color-dark-emphasis: var(--color-poro-400);
-  --color-dark-error: #f4c7b8;
 
   /* ---- Typography ---- */
   /* --font-serif, --font-sans and --font-mono are injected by Astro's <Font> component. */
@@ -72,7 +68,6 @@
   --text-xl: clamp(1.5rem, 2.2vw, 2rem);
   --text-2xl: clamp(1.75rem, 2.7vw, 2.6rem);
   --text-3xl: clamp(2rem, 3.6vw, 3.5rem);
-  --text-display: clamp(2.65rem, 5.8vw, 5.35rem);
   --weight-body: 400;
   --weight-medium: 500;
   --weight-semibold: 600;
@@ -99,7 +94,6 @@
   --space-inset: clamp(1.25rem, 2.2vw, 1.75rem); /* compact panels */
   --space-inset-lg: clamp(1.5rem, 2.6vw, 2.25rem); /* cards, forms */
   --space-stack: clamp(1.5rem, 3vw, 2.5rem); /* heading blocks inside a section */
-  --space-cluster: clamp(2.5rem, 5vw, 4rem); /* related clusters (hero media) */
   --space-page: clamp(3.75rem, 8vw, 7.5rem); /* page / hero opening */
   --space-section: clamp(3.75rem, 7vw, 6.25rem); /* home sections, CTA */
   --space-section-gap: clamp(3rem, 6vw, 5.5rem); /* related blocks, inner pages */
@@ -117,24 +111,14 @@
 
   /* ---- Shape. Three scales, not one card radius. ----
      sm  short controls, inputs, badges
-     md  buttons and quiet panels (a stone you can hold)
-     lg  ordinary frames and plan cards
-     xl  a section clearing
-     leaf  the one asymmetric frame: a path turning
+     md  buttons and quiet panels
+     lg  ordinary frames and panels
      pill  discs only (an index, the wordmark mark) */
   --radius-sm: 3px;
   --radius-md: 4px;
   --radius-lg: 6px;
-  --radius-xl: 0;
-  --radius-leaf: 6px;
   --radius-pill: 999px;
-  /* Leaf shade: short, cool, and tight. Not a floating-card shadow. */
-  --shadow-sm: 0 1px 2px rgb(16 24 22 / 0.06);
-  --shadow-md: none;
-  --shadow-lg: none;
-  --shadow-leaf: none;
   --shadow-lift: none;
-  --shadow-stage: none;
   --inset-highlight: inset 0 1px 0 rgb(255 250 243 / 0.22);
 
   /* ---- Motion ---- */

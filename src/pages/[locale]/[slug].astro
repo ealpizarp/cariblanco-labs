@@ -1,0 +1,40 @@
+---
+/**
+ * Every inner page, in both languages, from one file. The public slug comes
+ * from `routeSlugs` (Spanish `/es/servicios/`, English `/en/services/`), and
+ * the page key picks the template. Adding a page means adding it to
+ * `routes`/`routeSlugs` and to `templates` below.
+ */
+import type { GetStaticPaths } from 'astro';
+import { locales } from '@/i18n';
+import { routeSlugs, type PageKey } from '@/i18n/paths';
+import AutomatizacionPage from '@/templates/AutomatizacionPage.astro';
+import ContactoPage from '@/templates/ContactoPage.astro';
+import NosotrosPage from '@/templates/NosotrosPage.astro';
+import ProcesoPage from '@/templates/ProcesoPage.astro';
+import ServiciosPage from '@/templates/ServiciosPage.astro';
+
+export const getStaticPaths = (() =>
+  locales.flatMap((locale) =>
+    (Object.keys(routeSlugs) as PageKey[]).map((page) => ({
+      params: { locale, slug: routeSlugs[page][locale].replaceAll('/', '') },
+      props: { page },
+    })),
+  )) satisfies GetStaticPaths;
+
+interface Props {
+  page: PageKey;
+}
+
+const templates = {
+  servicios: ServiciosPage,
+  automatizacion: AutomatizacionPage,
+  proceso: ProcesoPage,
+  nosotros: NosotrosPage,
+  contacto: ContactoPage,
+} satisfies Record<PageKey, unknown>;
+
+const Template = templates[Astro.props.page];
+---
+
+<Template />

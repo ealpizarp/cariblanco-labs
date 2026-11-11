@@ -1,0 +1,14 @@
+/* Section intro shared by the automation parts (work, flow, scope). */
+.auto-block__intro {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.auto-block__title {
+  margin: 0;
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-display);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-display);
+  max-width: 18ch;
+}

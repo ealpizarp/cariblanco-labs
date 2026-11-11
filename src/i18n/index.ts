@@ -3,36 +3,17 @@ import { es } from './es';
 import { getLocale, type Locale } from './locales';
 import { localizePath } from './paths';
 
-export { en } from './en';
-export { es } from './es';
 export {
   defaultLocale,
-  getLocale,
   hrefLang,
   htmlLang,
-  isLocale,
   locales,
   LOCALE_COOKIE,
   toOpenGraphLocale,
   type Locale,
 } from './locales';
-export {
-  crossSlugRedirects,
-  legacyRedirects,
-  localeRedirect,
-  localizePath,
-  pageKeyFromSlug,
-  routeSlugs,
-  routes,
-  staticLegacyRedirects,
-  stripLocale,
-  switchLocalePath,
-  unprefixedFallbackRedirects,
-  type RouteKey,
-} from './paths';
-export { localeStaticPaths, localeStaticPathsFor } from './static-paths';
-export { applyLocaleNav } from './locale-nav';
-export { localeFromCookieHeader, serializeLocaleCookie } from './cookie';
+export { localizePath, routes, switchLocalePath, type RouteKey } from './paths';
+export { localeStaticPaths } from './static-paths';
 
 export type Messages = typeof es;
 

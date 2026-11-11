@@ -2,7 +2,7 @@
 import Button from '@/components/ui/Button.astro';
 import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
 import Wordmark from '@/components/Wordmark.astro';
-import Contours from '@/components/visuals/Contours.astro';
+import Terrain from '@/components/visuals/Terrain.astro';
 import { isCurrentPage, primaryNav } from '@/data/navigation';
 import { routes, useI18n } from '@/i18n';
 
@@ -62,9 +62,7 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
   </div>
 
   <div id="site-menu" class="site-menu" popover>
-    <div class="site-menu__terrain" aria-hidden="true">
-      <Contours preset="footer" />
-    </div>
+    <Terrain preset="footer" class="site-menu__terrain" />
     <nav aria-label={t.nav.menuLabel}>
       <ol class="site-menu__list">
         {nav.map((item, index) => {
@@ -322,14 +320,10 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
     display: flex;
   }
 
-  .site-menu__terrain {
-    position: absolute;
+  .site-menu :global(.site-menu__terrain) {
     inset: auto 0 0 0;
-    z-index: -1;
     height: 70%;
-    pointer-events: none;
-    --contour-color: var(--color-lichen-300);
-    --contour-opacity: 0.12;
+    opacity: 0.19;
   }
 
   .site-menu__list {

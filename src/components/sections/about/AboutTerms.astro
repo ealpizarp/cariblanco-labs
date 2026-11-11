@@ -1,0 +1,125 @@
+---
+/**
+ * About page, part 2: the four commitments, as field-guide cards.
+ */
+import LineGlyph, { type GlyphName } from '@/components/visuals/LineGlyph.astro';
+import { useI18n } from '@/i18n';
+
+const { t } = useI18n(Astro);
+const about = t.about;
+const principleGlyphs: GlyphName[] = ['key', 'square', 'ledger', 'quiet'];
+const principles = about.principles.map((item, index) => ({
+  ...item,
+  glyph: principleGlyphs[index] ?? 'key',
+}));
+---
+
+<section class="section section--page story-terms" aria-labelledby="story-terms-title">
+  <div class="container">
+    <p class="eyebrow">{about.principlesLabel}</p>
+    <h2 id="story-terms-title">{about.principlesTitle}</h2>
+
+    <ol class="story-terms__grid">
+      {principles.map((item, index) => (
+        <li class="story-card reveal" style={`--i:${index}`}>
+          <div class="story-card__head">
+            <LineGlyph name={item.glyph} class="glyph--draw story-card__glyph" delay={0.2} />
+          </div>
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .story__copy h2,
+  .story-terms h2,
+  .story-together h2 {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-snug);
+  }
+
+  .story__copy h2,
+  .story-terms h2 {
+    max-width: 22ch;
+  }
+
+  /* ---- Commitments: four field-guide cards ---- */
+  .story-terms {
+    padding-top: var(--space-section-gap);
+    background-color: var(--color-wash-leaf);
+    border-block: 1px solid var(--color-rule);
+  }
+
+  .story-terms .eyebrow {
+    margin-bottom: var(--space-4);
+  }
+
+  .story-terms__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--col-gap);
+    margin-top: var(--space-7);
+  }
+
+  .story-card {
+    display: grid;
+    align-content: start;
+    gap: var(--space-3);
+    padding: var(--space-inset-lg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-rule-strong);
+    border-radius: var(--radius-lg);
+    transition:
+      transform var(--duration-base) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .story-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-moss-700);
+  }
+
+  .story-card__head {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+  }
+
+  .story-card :global(.story-card__glyph) {
+    --glyph-size: 3.25rem;
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  .story-card:hover :global(.story-card__glyph) {
+    transform: rotate(-6deg) scale(1.06);
+  }
+
+  .story-card h3 {
+    font-size: var(--text-lg);
+    line-height: 1.2;
+  }
+
+  .story-card p {
+    max-width: 40ch;
+    font-size: var(--text-base);
+    color: var(--color-text-soft);
+  }
+
+  @media (max-width: 900px) {
+    .story-terms__grid {
+      grid-template-columns: minmax(0, 1fr);
+      margin-top: var(--space-6);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* The cards arrive with the site-wide reveal, a beat apart. */
+    .story-card.reveal--wait.is-in {
+      animation-delay: calc(var(--i, 0) * 0.12s);
+    }
+  }
+</style>

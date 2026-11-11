@@ -1,4 +1,4 @@
-import { defaultLocale, isLocale, type Locale } from './locales';
+import { isLocale, type Locale } from './locales';
 
 /** Route keys. Spanish slugs are the code names; English has its own public slugs. */
 export const routes = {
@@ -12,7 +12,8 @@ export const routes = {
 
 export type RouteKey = keyof typeof routes;
 
-type PageKey = Exclude<RouteKey, 'home'>;
+/** Every route except home: the pages served from `src/pages/[locale]/[slug].astro`. */
+export type PageKey = Exclude<RouteKey, 'home'>;
 
 /** Public pathname per locale, including trailing slash. */
 export const routeSlugs: Record<PageKey, Record<Locale, string>> = {
@@ -88,18 +89,6 @@ export function localeRedirect(pathname: string, preferred: Locale): string | nu
   return normalized === canonical ? null : canonical;
 }
 
-/** Build-time redirects for hosts that cannot read cookies (always Spanish). */
-export function unprefixedFallbackRedirects(): Record<string, string> {
-  const redirects: Record<string, string> = {};
-  for (const key of Object.keys(routeSlugs) as PageKey[]) {
-    for (const slug of Object.values(routeSlugs[key])) {
-      const bare = slug.replace(/\/$/, '');
-      redirects[bare] = localizePath(slug, defaultLocale);
-    }
-  }
-  return redirects;
-}
-
 /** Prefixed but wrong-language slugs, e.g. `/en/servicios/` → `/en/services/`. */
 export function crossSlugRedirects(): Record<string, string> {
   const redirects: Record<string, string> = {};
@@ -117,9 +106,3 @@ export function crossSlugRedirects(): Record<string, string> {
   }
   return redirects;
 }
-
-export function staticLegacyRedirects(): Record<string, string> {
-  return { ...unprefixedFallbackRedirects(), ...crossSlugRedirects() };
-}
-
-export const legacyRedirects = staticLegacyRedirects();

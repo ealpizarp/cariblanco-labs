@@ -1,6 +1,6 @@
 # Foresta Works website
 
-Static marketing site for Foresta Works, a Costa Rica studio that builds and looks after websites, and can add a written WhatsApp assistant, for businesses and organizations. Built with [Astro](https://astro.build) 7 and strict TypeScript.
+Static marketing site for Foresta Works, a Costa Rica studio that builds and looks after websites, and can add an intelligent assistant (on the site, WhatsApp or social media), for businesses and organizations. Built with [Astro](https://astro.build) 7 and strict TypeScript.
 
 Costa Rican Spanish lives at `/es/`; English at `/en/`. There is no database, CMS, authentication, or server-side rendering.
 
@@ -12,8 +12,8 @@ Costa Rican Spanish lives at `/es/`; English at `/en/`. There is no database, CM
 | Runtime | Node.js 22.12 or newer (see `.nvmrc`) |
 | i18n | `es` (html `es-CR`) default, `en`. Default locale is prefixed. Slugs differ by language. |
 | Fonts | Fontsource at build time: Newsreader (serif), Instrument Sans (sans), JetBrains Mono (labels, tags) |
-| Images | `astro:assets` + sharp for editorial photos; decorative hero mockups in `public/images/mockup/` |
-| Tests | Vitest (`npm test`) |
+| Images | No photos ship today; the drawings are inline SVG built at compile time. `astro:assets` + sharp generate the Open Graph image. |
+| Tests | Vitest (`npm test`) for logic; `npm run verify` for the built site |
 | Deploy | Cloudflare Workers: static `dist/` plus `src/edge/worker.ts`. Wrangler is not a project dependency; use `npx wrangler`. |
 
 ## Requirements
@@ -35,8 +35,11 @@ npm run dev      # http://localhost:4321
 | `npm install` | Install dependencies. |
 | `npm run dev` | Development server at `http://localhost:4321`. |
 | `npm run check` | Typecheck and Astro diagnostics. |
-| `npm test` | Tests for routes, locale cookie/nav, null contact URLs, and JSON-LD. |
+| `npm test` | Tests for routes, locale cookie/nav, the edge worker, contact URLs, JSON-LD, and the SVG geometry. |
+| `npm run lint:unused` | [knip](https://knip.dev): unused files, exports and dependencies. |
 | `npm run build` | Write the static site to `dist/`. |
+| `npm run verify` | Check `dist/`: internal links and `#anchors`, one `h1`, canonical, hreflang, and a 120 KB HTML budget per page. |
+| `npm run ci` | Everything above, in the order CI runs it (`.github/workflows/ci.yml`). |
 | `npm run preview` | Serve `dist/` to review the production build. |
 
 The first build downloads fonts from Fontsource and caches them under `node_modules/.astro/fonts`. That download needs network; later builds reuse the cache.
@@ -56,43 +59,60 @@ Every page lives under `/es/…` or `/en/…`. Public slugs follow the language:
 
 Copy lives in `src/i18n/es.ts` (Costa Rican *usted*) and `src/i18n/en.ts`.
 
-Facts that do not change with language (business name, founder, contact IDs, the order of the services) live in `src/data/`. English and Spanish inner pages are separate files under `src/pages/[locale]/` that share a template; each file calls `localeStaticPathsFor(['es'])` or `(['en'])`.
+Facts that do not change with language (business name, founder, contact IDs, the order of the services) live in `src/data/`. Every inner page in both languages comes from one route, `src/pages/[locale]/[slug].astro`: it builds the slugs from `routeSlugs` in `src/i18n/paths.ts` and picks the page body from `src/templates/`. To add a page, add it to `routes`/`routeSlugs` and to the `templates` map in that file.
 
 ### Locale cookie
 
 `/` and legacy URLs without a locale prefix (`/servicios`, `/services`, …) redirect using the `fw_locale` cookie:
 
-- In `astro dev`: Vite integration `src/edge/dev-locale.ts` plus `src/middleware.ts` (dev only).
-- On Cloudflare: `src/edge/worker.ts`.
+- In `astro dev`: Vite integration `src/edge/dev-locale.ts`.
+- On Cloudflare: `src/edge/worker.ts`. Redirects are `private, no-store` and `Vary: Cookie`, since they depend on the cookie.
+
+The cookie itself is written in one place: an inline script in `BaseLayout.astro`, on every page load, so whichever language a visitor last read is remembered. The worker does not touch ordinary responses.
 
 No cookie means Spanish. `astro.config.ts` only fixes cross-language slugs (`/en/servicios/` → `/en/services/`). Unprefixed URLs are **not** pinned to Spanish at build time; if they were, the cookie could not choose English.
 
 In `astro dev`, `src/edge/dev-locale.ts` is inserted at the front of Vite’s middleware stack so it can read the request `Cookie` header. Astro middleware on prerendered pages does not see `Cookie` reliably, which is why the Vite integration exists.
 
-`public/index.html` is a last-resort cookie/localStorage redirect for `/` if the worker is not in front of the assets.
+`src/pages/index.astro` builds `/index.html`, a last-resort cookie/localStorage redirect for `/` if the worker is not in front of the assets.
 
 ## Layout
 
 ```
 astro.config.ts             site URL, i18n, fonts, sitemap, cross-slug redirects
 vitest.config.ts            `@/` alias for tests
-wrangler.jsonc              dist/ assets + locale worker
-public/                     favicon, webmanifests, cookie fallback `/`, mockup photos
+knip.json                   unused-code check (`npm run lint:unused`)
+wrangler.jsonc              dist/ assets + locale worker (page routes only)
+.github/workflows/ci.yml    check, test, knip, build, verify on every PR
+scripts/verify-dist.mjs     checks on the built site
+public/                     favicon, webmanifests, `_headers` (caching, security)
 src/
-  assets/images/            editorial photos (astro:assets)
-  data/                     business facts, plans, navigation, JSON-LD
+  assets/images/            Open Graph source image
+  data/                     business facts, services, navigation, JSON-LD
   edge/dev-locale.ts        cookie redirects in `astro dev`
   edge/worker.ts            cookie redirects on Cloudflare
   i18n/                     locales, slugs, dictionaries, static paths
-  layouts/BaseLayout.astro  <head>, SEO, fonts, header and footer
-  middleware.ts             locale cookie in `astro dev` only
-  pages/[locale]/           one file per public slug (es vs en)
-  templates/                shared page bodies
-  components/               header, footer, sections, UI
+  layouts/BaseLayout.astro  <head>, SEO, fonts, header and footer, locale cookie
+  lib/                      build-time geometry and contour generation
+  pages/index.astro         fallback redirect for `/`
+  pages/[locale]/           home, plus `[slug].astro` for every inner page
+  pages/decor/              static contour backgrounds (`/decor/contours-*.svg`)
+  templates/                page bodies
+  components/
+    sections/               page sections; long ones split into folders
+                            (`about/`, `automation/`)
+    scenes/process/         the five process scenes and the ownership deed
+    visuals/                drawings (Contours inline, Terrain as cached file)
+    ui/                     buttons, headers, labels
   styles/                   tokens and global CSS
 ```
 
-Editorial photos (positioning, founder, closing band) go through `astro:assets`. Decorative hero mockups stay in `public/images/mockup/`.
+### Performance notes
+
+- **Contour lines.** `src/lib/contours.ts` computes them at build time. The hero, services band and automation band draw them inline (`Contours.astro`) so they can animate. The footer, mobile menu and closing band repeat on every page, so they use `Terrain.astro`, which points at a static `/decor/contours-*.svg` file the browser caches once.
+- **Looping animations** pause while their section is off-screen (`src/scripts/motion.ts`), and none run under reduced motion.
+- **Caching.** `public/_headers` marks `/_astro/*` (hashed file names) as immutable. The worker only runs for page URLs (`run_worker_first` in `wrangler.jsonc`), so assets are served straight from the edge.
+- **Fonts.** Only weights that some page renders are configured. Check before adding a weight: the build downloads and ships every configured file.
 
 ## Unconfirmed business facts
 
@@ -122,6 +142,6 @@ npx wrangler login      # once
 npx wrangler deploy
 ```
 
-`wrangler.jsonc` serves `dist/` and runs `src/edge/worker.ts` first, so `/` and legacy URLs respect the saved language. There are no secrets in this repository.
+`wrangler.jsonc` serves `dist/` and runs `src/edge/worker.ts` for page URLs, so `/` and legacy URLs respect the saved language. Its `name` must match the Worker that Cloudflare Workers Builds deploys (`foresta-works`). There are no secrets in this repository.
 
 `dist/` is gitignored. Do not deploy a stale `dist/` folder: run `npm run build` immediately before `npx wrangler deploy`.

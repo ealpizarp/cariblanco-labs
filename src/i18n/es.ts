@@ -37,14 +37,11 @@ export const es = {
     menuOpen: 'Menú',
     menuClose: 'Cerrar',
     footerLabel: 'Pie de página',
-    relatedPages: 'Páginas relacionadas',
     breadcrumb: 'Migas de pan',
     language: 'Idioma',
     languageEs: 'Español',
     languageEn: 'English',
     home: 'Inicio',
-    previous: 'Anterior',
-    next: 'Siguiente',
     letsTalk: 'Conversemos',
     /** Header and menu button: goes to the contact page. */
     contactCta: 'Contacto',
@@ -224,7 +221,6 @@ export const es = {
     writeWhatsApp: 'Escríbanos por WhatsApp',
   },
   services: {
-    overviewTitle: 'Tres servicios sobre una misma base.',
     talk: 'Conversemos sobre este servicio.',
     includesLabel: 'Incluye',
     separateLabel: 'Se paga aparte, a su nombre',
@@ -404,7 +400,7 @@ export const es = {
     steps: [
       {
         title: 'Conversación',
-        text: 'Hablamos por WhatsApp o en una llamada corta sobre cómo funciona su negocio hoy y qué le quita tiempo.',
+        text: 'Nos reunimos virtualmente para conversar sobre cómo funciona su negocio hoy y qué le quita tiempo.',
       },
       {
         title: 'Propuesta por escrito',
@@ -462,7 +458,6 @@ export const es = {
     email: 'Correo',
     hours: 'Horario',
     hoursValue: null as string | null,
-    comingSoon: 'Se publicará próximamente.',
     prepareTitle: 'Qué conviene contar',
     prepareItems: [
       'Cómo atiende hoy: sitio, WhatsApp, citas o pedidos.',

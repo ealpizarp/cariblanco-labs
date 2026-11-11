@@ -1,0 +1,123 @@
+---
+/**
+ * Process, stage 5. Monthly care: a new growth ring each month.
+ * Decorative: the step text beside it carries the meaning. Animations run
+ * once, when the stage is seen (see `.reveal` in scripts/motion.ts).
+ */
+import { useI18n } from '@/i18n';
+import { smoothClosedPath, wobblyRing } from '@/lib/geometry';
+
+const scenes = useI18n(Astro).t.process.scenes;
+
+/** Growth rings: wobbly closed curves around one pith. */
+function ringPath(k: number): string {
+  const points = wobblyRing({
+    cx: 100,
+    cy: 100,
+    radius: 14 + k * 13,
+    sx: 1.06,
+    sy: 0.94,
+    samples: 24,
+    wobble: (a) => 1 + 0.05 * Math.sin(3 * a + 1.4 + k * 0.5) + 0.03 * Math.sin(5 * a - k * 0.7),
+  });
+  // A 200-unit viewBox shown small: one decimal keeps the curves smooth.
+  return smoothClosedPath(points, 1);
+}
+
+const rings = Array.from({ length: 6 }, (_, k) => ringPath(k));
+---
+
+<div class="scene scene--rings">
+  <svg class="rings" viewBox="0 0 200 200" fill="none" focusable="false">
+    <circle class="rings__pith" cx="100" cy="100" r="3" />
+    {rings.map((d, k) => (
+      <path
+        class:list={['rings__ring', { 'rings__ring--new': k === rings.length - 1 }]}
+        d={d}
+        pathLength="100"
+        style={`--k:${k}`}
+      />
+    ))}
+  </svg>
+  <div class="rings__side">
+    <p class="rings__caption">{scenes.rings}</p>
+    <ul class="rings__tags">
+      {scenes.monthly.map((tag, k) => (
+        <li style={`--k:${k}`}>{tag}</li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style>
+  /* V. Month to month */
+  .scene--rings {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: center;
+    padding: var(--space-4);
+  }
+
+  .rings {
+    width: 100%;
+    overflow: visible;
+  }
+
+  .rings__pith {
+    fill: var(--color-moss-800);
+  }
+
+  .rings__ring {
+    stroke: var(--color-moss-700);
+    stroke-width: 1.2;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.7;
+  }
+
+  .rings__ring--new {
+    stroke: var(--color-clay);
+    stroke-width: 2;
+    opacity: 1;
+  }
+
+  .rings__caption {
+    margin: 0 0 var(--space-3);
+    font-family: var(--font-serif);
+    font-size: var(--text-md);
+    font-style: italic;
+    line-height: 1.3;
+  }
+
+  .rings__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .rings__tags li {
+    padding: 0.15rem 0.5rem;
+    border: 1px solid var(--color-rule-strong);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-xs);
+    color: var(--color-text-soft);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .rings__ring {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: grow-draw 0.9s var(--ease-out) forwards;
+      animation-delay: calc(0.4s + var(--k, 0) * 0.3s);
+    }
+
+    .rings__tags li {
+      animation: grow-pop 0.4s var(--ease-out) both;
+      animation-delay: calc(1.6s + var(--k, 0) * 0.14s);
+    }
+
+    :global(.reveal--wait:not(.is-in)) :is(.rings__ring, .rings__tags li) {
+      animation-play-state: paused;
+    }
+  }
+</style>

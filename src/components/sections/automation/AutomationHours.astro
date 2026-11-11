@@ -1,0 +1,163 @@
+---
+/**
+ * Automation page, part 2: when it works. A 24-hour dial of your hours
+ * against the assistant's, on moss with a contour survey behind it.
+ */
+import Plate from '@/components/ui/Plate.astro';
+import Contours from '@/components/visuals/Contours.astro';
+import HoursDial from '@/components/visuals/HoursDial.astro';
+import { useI18n } from '@/i18n';
+
+const { t } = useI18n(Astro);
+const hours = t.automation.hours;
+---
+
+<section class="section auto-hours" aria-labelledby="auto-hours-title">
+  <div class="auto-hours__terrain" aria-hidden="true">
+    <Contours preset="band" />
+  </div>
+  <div class="container auto-hours__grid">
+    <div class="auto-hours__copy">
+      <Plate numeral="24 h" label={hours.label} onDark />
+      <h2 class="auto-hours__title" id="auto-hours-title">{hours.title}</h2>
+      <p class="auto-hours__text">{hours.text}</p>
+      <dl class="auto-hours__legend">
+        <div>
+          <dt><span class="auto-hours__key auto-hours__key--open" aria-hidden="true"></span>{hours.open}</dt>
+          <dd>{hours.openValue}</dd>
+        </div>
+        <div>
+          <dt><span class="auto-hours__key auto-hours__key--assistant" aria-hidden="true"></span>{hours.assistant}</dt>
+          <dd>{hours.assistantValue}</dd>
+        </div>
+        <div>
+          <dt><span class="auto-hours__key auto-hours__key--arrival" aria-hidden="true"></span>{hours.arrival}</dt>
+          <dd>{hours.arrivalValue}</dd>
+        </div>
+      </dl>
+    </div>
+    <HoursDial />
+  </div>
+</section>
+
+<style>
+  /* ---- After hours: the dial on moss ---- */
+  .auto-hours {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: var(--space-section-gap);
+    background: var(--color-dark-bg);
+    color: var(--color-dark-text);
+  }
+
+  .auto-hours__terrain {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    --contour-color: var(--color-lichen-300);
+    --contour-opacity: 0.07;
+  }
+
+  .auto-hours__grid {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+    justify-items: start;
+  }
+
+  .auto-hours__copy {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .auto-hours__title {
+    max-width: 16ch;
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+  }
+
+  .auto-hours__text {
+    max-width: 44ch;
+    color: var(--color-dark-text-muted);
+  }
+
+  .auto-hours__legend {
+    display: grid;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-dark-rule);
+  }
+
+  .auto-hours__legend div {
+    display: grid;
+    grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  .auto-hours__legend dt {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: var(--weight-semibold);
+  }
+
+  .auto-hours__legend dd {
+    margin: 0;
+    color: var(--color-dark-text-muted);
+  }
+
+  .auto-hours__key {
+    flex: none;
+    width: 1.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-pill);
+  }
+
+  .auto-hours__key--open {
+    background: var(--color-dark-text);
+  }
+
+  .auto-hours__key--assistant {
+    height: 0;
+    border-top: 3px dotted var(--color-dark-accent);
+    border-radius: 0;
+  }
+
+  .auto-hours__key--arrival {
+    width: 0.6rem;
+    height: 0.6rem;
+    margin-inline: 0.45rem;
+    background: var(--color-dark-emphasis);
+  }
+
+  @media (max-width: 599px) {
+    .auto-hours__legend div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.15rem;
+    }
+
+    .auto-hours__legend dd {
+      padding-left: calc(1.5rem + var(--space-2));
+    }
+
+    .auto-hours__grid :global(.dial) {
+      justify-self: center;
+      width: min(100%, 18rem);
+    }
+  }
+
+  @media (min-width: 1000px) {
+    .auto-hours__grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      column-gap: clamp(2rem, 6vw, 6rem);
+      justify-items: stretch;
+    }
+
+    .auto-hours__grid :global(.dial) {
+      justify-self: center;
+    }
+  }
+</style>

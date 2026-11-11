@@ -1,0 +1,22 @@
+---
+/**
+ * A contour background from a static, site-wide cached file
+ * (`src/pages/decor/[name].ts`). For placements that repeat on every page
+ * and do not need the inline draw-in of `Contours.astro`. The caller sets
+ * position overrides and `opacity` through `class`.
+ */
+import { contourFileUrl, type StaticContourPreset } from '@/lib/contours';
+
+interface Props {
+  preset: StaticContourPreset;
+  class?: string;
+}
+
+const { preset, class: className } = Astro.props;
+---
+
+<div
+  class:list={['terrain', className]}
+  style={`background-image:url('${contourFileUrl(preset)}')`}
+  aria-hidden="true"
+></div>

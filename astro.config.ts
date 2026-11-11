@@ -51,7 +51,9 @@ export default defineConfig({
       provider: fontProviders.fontsource(),
       name: 'Newsreader',
       cssVariable: '--font-serif',
-      weights: [400, 500, 600],
+      // Headings are set at 400 (`--weight-display`); heavier cuts were
+      // never rendered on any page, so they are not downloaded.
+      weights: [400],
       styles: ['normal'],
       subsets: ['latin'],
       fallbacks: ['Georgia', 'serif'],

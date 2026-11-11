@@ -1,7 +1,8 @@
 /**
  * Nonessential motion. Loaded only when the visitor has not asked for
- * reduced motion. Scroll reveals run once. Pointer sway is event-driven,
- * not a continuous render.
+ * reduced motion. Scroll reveals run once. Looping animations pause while
+ * their section is off-screen. Pointer sway is event-driven, not a
+ * continuous render.
  */
 export {};
 
@@ -24,6 +25,25 @@ if (reveals.length > 0 && 'IntersectionObserver' in window) {
     node.classList.add('reveal--wait');
     observer.observe(node);
   }
+}
+
+/*
+ * Several visuals loop forever (contour drift, pulses, the showcase demo).
+ * Pause each section's animations while it is off-screen, so a long page
+ * does not keep compositing work nobody can see.
+ */
+const regions = document.querySelectorAll<HTMLElement>('main section, .site-footer');
+
+if (regions.length > 0 && 'IntersectionObserver' in window) {
+  const visibility = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        entry.target.classList.toggle('is-offscreen', !entry.isIntersecting);
+      }
+    },
+    { rootMargin: '200px 0px' },
+  );
+  for (const region of regions) visibility.observe(region);
 }
 
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;

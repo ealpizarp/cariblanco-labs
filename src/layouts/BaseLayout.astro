@@ -5,6 +5,7 @@ import SiteFooter from '@/components/SiteFooter.astro';
 import { site } from '@/data/site';
 import { localeAlternates, xDefaultHref } from '@/data/navigation';
 import { businessJsonLd, serializeJsonLd } from '@/data/structured-data';
+import { serializeLocaleCookie } from '@/i18n/cookie';
 import {
   hrefLang,
   htmlLang,
@@ -106,8 +107,8 @@ const jsonLdBlocks = [
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="theme-color" content="#1b2114" />
 
-    <Font cssVariable="--font-serif" preload={[{ weight: 500, style: 'normal' }]} />
-    <Font cssVariable="--font-sans" preload={[{ weight: 500, style: 'normal' }]} />
+    <Font cssVariable="--font-serif" preload={[{ weight: 400, style: 'normal' }]} />
+    <Font cssVariable="--font-sans" preload={[{ weight: 400, style: 'normal' }]} />
     <Font cssVariable="--font-mono" />
 
     {jsonLdBlocks.map((block) => (
@@ -126,10 +127,14 @@ const jsonLdBlocks = [
         void import('../scripts/motion.ts');
       }
     </script>
-    <script is:inline define:vars={{ cookieName: LOCALE_COOKIE, locale }}>
+    {/*
+      The one place the browser records the language: every page sets it on
+      load, so the language switcher needs no script of its own. The edge
+      worker reads it to send `/` and unprefixed URLs to that language.
+    */}
+    <script is:inline define:vars={{ cookie: serializeLocaleCookie(LOCALE_COOKIE, locale, false), cookieName: LOCALE_COOKIE, locale }}>
       (function () {
-        var secure = location.protocol === 'https:' ? '; Secure' : '';
-        document.cookie = cookieName + '=' + locale + '; Path=/; Max-Age=31536000; SameSite=Lax' + secure;
+        document.cookie = cookie + (location.protocol === 'https:' ? '; Secure' : '');
         try {
           localStorage.setItem(cookieName, locale);
         } catch (e) {}
