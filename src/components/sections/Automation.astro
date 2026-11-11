@@ -542,6 +542,34 @@ const hours = t.automation.hours;
     color: var(--color-text-soft);
   }
 
+  @media (max-width: 599px) {
+    .auto-hours__legend div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.15rem;
+    }
+
+    .auto-hours__legend dd {
+      padding-left: calc(1.5rem + var(--space-2));
+    }
+
+    .auto-hours__grid :global(.dial) {
+      justify-self: center;
+      width: min(100%, 18rem);
+    }
+  }
+
+  /* Below the sticky layout the stem is long and narrow; a lean and a
+     sprig read as a break there, so it runs straight. */
+  @media (max-width: 999px) {
+    .auto-flow__stem-path {
+      d: path('M22 0 L 22 80');
+    }
+
+    .auto-flow__stem-path--sprig {
+      display: none;
+    }
+  }
+
   @media (min-width: 1000px) {
     /* The four buds sit on one stem that runs across the row. */
     .auto-work__vine {

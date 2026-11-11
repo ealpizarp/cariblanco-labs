@@ -862,6 +862,24 @@ const rings = Array.from({ length: 6 }, (_, k) => ringPath(k));
     }
   }
 
+  @media (max-width: 899px) {
+    .grow__step--flip .grow__leaf {
+      transform: none;
+      rotate: -18deg;
+    }
+
+    .own__deed {
+      padding-bottom: var(--space-8);
+    }
+
+    .own__stamp {
+      right: var(--space-4);
+      bottom: -1.75rem;
+      width: 5.5rem;
+      height: 5.5rem;
+    }
+  }
+
   @media (max-width: 520px) {
     .grow {
       --node: 3.25rem;
@@ -879,9 +897,6 @@ const rings = Array.from({ length: 6 }, (_, k) => ringPath(k));
       right: 0.5rem;
     }
 
-    .own__stamp {
-      right: -0.5rem;
-    }
   }
 
   /* ---- Motion: grown once, when seen ---- */
