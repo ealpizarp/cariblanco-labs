@@ -2,9 +2,12 @@
 /**
  * The five working steps, each with a growth glyph (seed to tree, as on
  * the process page). Wide screens: one stem across the page with a column
- * per step. Narrow: a ruled list. Glyphs draw in one after another.
+ * per step; the stem is a vine, and a cariblanco hangs from its far end.
+ * Narrow: a ruled list. Glyphs draw in one after another.
  */
 import LineGlyph, { type GlyphName } from '@/components/visuals/LineGlyph.astro';
+import Cariblanco from '@/components/visuals/Cariblanco.astro';
+import Vine from '@/components/visuals/Vine.astro';
 import { useI18n } from '@/i18n';
 
 const { t } = useI18n(Astro);
@@ -17,6 +20,8 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
       <span class="step__bud" aria-hidden="true">
         <LineGlyph name={growth[index] ?? 'seed'} class="glyph--draw" delay={0.15 + index * 0.22} />
       </span>
+      <Vine span={260} sag={6} leaves={3} class="step__vine" />
+      {index === t.process.steps.length - 1 && <Cariblanco pose="hang" vine={false} swing class="step__monkey" />}
       <h3 class="step__title">{step.title}</h3>
       <p class="step__text">{step.text}</p>
     </li>
@@ -56,6 +61,12 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
   .step:last-child .step__bud {
     background: var(--color-lichen-100);
     border-color: var(--color-moss-700);
+  }
+
+  /* The vine and the cariblanco only appear on the wide stem. */
+  .step :global(.step__vine),
+  .step :global(.step__monkey) {
+    display: none;
   }
 
   .step__title {
@@ -103,16 +114,6 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
       border-top: 0;
     }
 
-    .steps::before {
-      content: '';
-      position: absolute;
-      top: 1.5rem;
-      left: 1.5rem;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(to right, var(--color-moss-700), color-mix(in srgb, var(--color-moss-700) 30%, transparent));
-      opacity: 0.6;
-    }
 
     .step {
       position: relative;
@@ -122,6 +123,35 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
       row-gap: var(--space-3);
       padding-block: 0;
       border-bottom: 0;
+    }
+
+    /* One stretch of vine from each bud to the next (rope at y 10 of its
+       box, so the box starts 10/46 of its height above the stem). */
+    .step :global(.step__vine) {
+      display: block;
+      position: absolute;
+      top: 1.2rem;
+      left: 3rem;
+      width: calc(100% - 3rem + var(--col-gap));
+      color: var(--color-moss-700);
+      --vine-leaf: var(--color-lichen-100);
+    }
+
+    .step:last-child :global(.step__vine) {
+      width: calc(100% - 3rem);
+    }
+
+    /* Hangs from the end of the last stretch (grip at 52, 10 of 100 × 150). */
+    .step :global(.step__monkey) {
+      --hang-w: 3.6rem;
+      display: block;
+      position: absolute;
+      top: calc(1.5rem - var(--hang-w) * 0.1);
+      right: calc(0.6rem - var(--hang-w) * 0.48);
+      width: var(--hang-w);
+      color: var(--color-primary);
+      --cb-hood: var(--color-paper);
+      --cb-ring: var(--color-bg);
     }
 
     .step__bud {

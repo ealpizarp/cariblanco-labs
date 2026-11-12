@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Button from '@/components/ui/Button.astro';
+import Cariblanco from '@/components/visuals/Cariblanco.astro';
+import Vine from '@/components/visuals/Vine.astro';
 import ServiceDetails from '@/components/sections/ServiceDetails.astro';
 import PageHeader from '@/components/ui/PageHeader.astro';
 import { breadcrumbJsonLd, servicesJsonLd } from '@/data/structured-data';
@@ -25,10 +27,14 @@ const meta = t.pages.servicios;
   <PageHeader eyebrow={meta.eyebrow} title={meta.heading} lede={meta.lede} />
   <ServiceDetails />
   <section class="section section--page plan-close" aria-labelledby="plan-unsure">
-    <div class="container">
+    <Vine kind="hang" length={190} leaves={6} sway class="plan-close__vine" />
+    <div class="container plan-close__layout">
       <div class="plan-close__inner">
         <h2 id="plan-unsure">{t.services.unsure}</h2>
         <Button href={path(routes.contacto)}>{t.nav.letsTalk}</Button>
+      </div>
+      <div class="plan-close__scene" aria-hidden="true">
+        <Cariblanco pose="sit" think class="plan-close__cariblanco" />
       </div>
     </div>
   </section>
@@ -39,6 +45,48 @@ const meta = t.pages.servicios;
      (`.section--page` assumes it continues a section of the same colour). */
   .plan-close {
     padding-top: var(--space-section-gap);
+  }
+
+  .plan-close__layout {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  /* Not sure where to start: a cariblanco scratching its head under a
+     hanging vine. */
+  .plan-close__scene {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-3);
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid var(--color-rule-strong);
+    color: var(--color-primary);
+  }
+
+  /* A liana hangs from the band above, next to the thinking monkey. */
+  .plan-close {
+    position: relative;
+  }
+
+  .plan-close :global(.plan-close__vine) {
+    position: absolute;
+    top: 0;
+    right: calc(max(var(--gutter), (100% - var(--container-max)) / 2) + clamp(4.4rem, 7vw, 5.6rem) + 1rem);
+    width: 2.6rem;
+    color: var(--color-moss-700);
+    --vine-leaf: var(--color-lichen-100);
+  }
+
+  /* The seat is 116 of 150 down the box; the tail hangs below it, so the
+     box drops past the ground line. */
+  .plan-close__scene :global(.plan-close__cariblanco) {
+    width: clamp(4.4rem, 7vw, 5.6rem);
+    margin-bottom: calc(clamp(4.4rem, 7vw, 5.6rem) * -0.42);
+    --cb-hood: var(--color-paper);
+    --cb-ring: var(--color-bg);
   }
 
   .plan-close__inner {

@@ -1,0 +1,234 @@
+---
+/**
+ * About page, part 2: why the studio is named after the cariblanco, on
+ * moss. Three of its habits, each drawn: curious (turning a leaf over),
+ * uses tools (capuchins crack nuts with stones), and moves in a troop
+ * (three swinging from one vine). The text carries the meaning; drawings
+ * are decorative.
+ */
+import Plate from '@/components/ui/Plate.astro';
+import Cariblanco from '@/components/visuals/Cariblanco.astro';
+import Terrain from '@/components/visuals/Terrain.astro';
+import Vine from '@/components/visuals/Vine.astro';
+import { useI18n } from '@/i18n';
+
+const { t } = useI18n(Astro);
+const copy = t.about.cariblanco;
+---
+
+<section class="section story-cariblanco" aria-labelledby="story-cariblanco-title">
+  <Terrain preset="band" class="story-cariblanco__terrain" />
+
+  <div class="container">
+    <div class="story-cariblanco__head">
+      <div>
+        <Plate label={copy.label} onDark />
+        <h2 class="story-cariblanco__title" id="story-cariblanco-title">{copy.title}</h2>
+      </div>
+      <p class="story-cariblanco__text">{copy.text}</p>
+    </div>
+
+    <ol class="story-cariblanco__traits">
+      {copy.traits.map((trait, index) => (
+        <li class="trait reveal" style={`--i:${index}`}>
+          <div class="trait__stage" aria-hidden="true">
+            {index === 0 && <Cariblanco pose="sit" hold="leaf" class="trait__monkey trait__monkey--sit" />}
+            {index === 1 && <Cariblanco pose="sit" hold="stone" class="trait__monkey trait__monkey--sit" />}
+            {index === 2 && (
+              <div class="trait__troop">
+                <Vine span={300} sag={16} leaves={7} class="trait__vine" />
+                <Cariblanco pose="hang" vine={false} swing class="trait__monkey trait__monkey--hang trait__monkey--a" />
+                <Cariblanco pose="hang" vine={false} swing class="trait__monkey trait__monkey--hang trait__monkey--b" />
+                <Cariblanco pose="hang" vine={false} swing class="trait__monkey trait__monkey--hang trait__monkey--c" />
+              </div>
+            )}
+          </div>
+          <h3 class="trait__title">
+            <span class="trait__num" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            {trait.title}
+          </h3>
+          <p class="trait__text">{trait.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .story-cariblanco {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: var(--space-section-gap);
+    background: var(--color-dark-bg);
+    color: var(--color-dark-text);
+  }
+
+  .story-cariblanco :global(.story-cariblanco__terrain) {
+    opacity: 0.12;
+  }
+
+  .story-cariblanco__head {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--col-gap);
+    row-gap: var(--space-4);
+    align-items: end;
+    margin-bottom: var(--space-8);
+  }
+
+  .story-cariblanco__head > div {
+    grid-column: 1 / 7;
+  }
+
+  .story-cariblanco__title {
+    margin-top: var(--space-4);
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+  }
+
+  .story-cariblanco__text {
+    grid-column: 8 / 13;
+    max-width: 40ch;
+    font-size: var(--text-md);
+    color: var(--color-dark-text-muted);
+    text-wrap: pretty;
+  }
+
+  .story-cariblanco__traits {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--col-gap);
+  }
+
+  .trait {
+    display: grid;
+    align-content: start;
+    gap: var(--space-3);
+  }
+
+  /* Each scene stands on its own strip of ground. */
+  .trait__stage {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: var(--space-3);
+    height: 9rem;
+    margin-bottom: var(--space-3);
+    overflow: hidden;
+    padding-inline: var(--space-4);
+    border-bottom: 1px solid var(--color-dark-rule);
+    color: var(--color-dark-accent);
+  }
+
+  .trait__stage :global(.trait__monkey) {
+    color: var(--color-dark-accent);
+    --cb-hood: var(--color-mist-50);
+    --cb-ring: var(--color-dark-bg);
+    --cb-leaf: rgb(197 208 99 / 0.3);
+    --cb-vine: var(--color-fern-400);
+  }
+
+  /* Seated on the ground line: the seat is 116 of 150 down the box, so
+     the box (and the hanging tail) drops below it. */
+  .trait__stage :global(.trait__monkey--sit) {
+    --sit-w: 4.4rem;
+    width: var(--sit-w);
+    margin-bottom: calc(var(--sit-w) * -0.42);
+  }
+
+  /* Three on one vine. Rope at 25% / 50% / 75% of a 300 span with sag 16
+     is 22.9 / 25.6 / 22.9 units down (7.6 / 8.5 / 7.6cqw). Grip is at
+     (52, 10) of each 100 x 150 box. */
+  .trait__troop {
+    position: relative;
+    align-self: stretch;
+    width: min(100%, 16rem);
+    container-type: inline-size;
+  }
+
+  .trait__troop :global(.trait__vine) {
+    color: var(--color-fern-400);
+    --vine-leaf: rgb(197 208 99 / 0.2);
+  }
+
+  .trait__stage :global(.trait__monkey--hang) {
+    --hang-w: 3.2rem;
+    position: absolute;
+    width: var(--hang-w);
+  }
+
+  .trait__stage :global(.trait__monkey--a) {
+    top: calc(7.6cqw - var(--hang-w) * 0.1);
+    left: calc(25% - var(--hang-w) * 0.52);
+  }
+
+  .trait__stage :global(.trait__monkey--b) {
+    --hang-w: 2.3rem;
+    top: calc(8.5cqw - var(--hang-w) * 0.1);
+    left: calc(50% - var(--hang-w) * 0.52);
+  }
+
+  .trait__stage :global(.trait__monkey--c) {
+    top: calc(7.6cqw - var(--hang-w) * 0.1);
+    left: calc(75% - var(--hang-w) * 0.52);
+  }
+
+  .trait__stage :global(.trait__monkey--b .cb__body) {
+    animation-delay: -1.1s;
+  }
+
+  .trait__stage :global(.trait__monkey--c .cb__body) {
+    animation-delay: -2.4s;
+  }
+
+  .trait__title {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    font-size: var(--text-xl);
+    line-height: 1.15;
+  }
+
+  .trait__num {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-dark-emphasis);
+  }
+
+  .trait__text {
+    max-width: 34ch;
+    color: var(--color-dark-text-muted);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .trait.reveal--wait.is-in {
+      animation-delay: calc(var(--i) * 0.12s);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .story-cariblanco__head > div,
+    .story-cariblanco__text {
+      grid-column: 1 / -1;
+    }
+
+    .story-cariblanco__head {
+      margin-bottom: var(--space-7);
+    }
+
+    .story-cariblanco__traits {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-7);
+    }
+
+    .trait__stage {
+      justify-content: flex-start;
+      height: 7.5rem;
+      padding-inline: 0;
+    }
+
+  }
+</style>

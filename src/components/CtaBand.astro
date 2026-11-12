@@ -2,9 +2,13 @@
 /**
  * Dark closing invitation used at the end of each page. Routes visitors to
  * WhatsApp when a number is configured, otherwise to the contact page.
+ * A vine drapes across its top, and a troop of cariblancos (mother and
+ * young; they live in troops, and we work as one) swings from it.
  */
 import Button from '@/components/ui/Button.astro';
+import Cariblanco from '@/components/visuals/Cariblanco.astro';
 import Terrain from '@/components/visuals/Terrain.astro';
+import Vine from '@/components/visuals/Vine.astro';
 import { whatsappUrl } from '@/data/site';
 import { routes, useI18n } from '@/i18n';
 
@@ -44,6 +48,13 @@ const mobileRest = splitAt === -1 ? '' : text.slice(splitAt + 2);
       </div>
     </div>
   </div>
+
+  <div class="cta-band__canopy" aria-hidden="true">
+    <Vine sag={30} leaves={12} class="cta-band__vine" />
+    <Cariblanco pose="hang" vine={false} swing class="cta-band__monkey cta-band__monkey--a" />
+    <Cariblanco pose="hang" vine={false} swing class="cta-band__monkey cta-band__monkey--b" />
+    <Cariblanco pose="hang" vine={false} swing class="cta-band__monkey cta-band__monkey--c" />
+  </div>
 </section>
 
 <style>
@@ -53,11 +64,62 @@ const mobileRest = splitAt === -1 ? '' : text.slice(splitAt + 2);
     overflow: hidden;
     background: var(--color-moss-800);
     color: var(--color-dark-text);
-    padding-block: var(--space-section);
+    /* Extra room at the top for the troop hanging from the vine. */
+    padding-block: calc(var(--space-section) + 4rem) var(--space-section);
   }
 
   .cta-band :global(.cta-band__terrain) {
     opacity: 0.22;
+  }
+
+  /* A vine across the top edge with a troop hanging from it. Rope height
+     at x (of 1000): 10 + 39 * 3t(1 - t); at 66%, 78%, 90% that is about
+     35, 30 and 21 units (cqw / 10). Grip is at (52, 10) of 100 × 150. */
+  .cta-band__canopy {
+    position: absolute;
+    inset: 0 0 auto 0;
+    z-index: 0;
+    container-type: inline-size;
+    pointer-events: none;
+  }
+
+  .cta-band__canopy :global(.cta-band__vine) {
+    color: var(--color-fern-400);
+    --vine-leaf: rgb(197 208 99 / 0.2);
+  }
+
+  .cta-band__canopy :global(.cta-band__monkey) {
+    --hang-w: clamp(3rem, 5vw, 4.8rem);
+    position: absolute;
+    width: var(--hang-w);
+    color: var(--color-dark-accent);
+    --cb-hood: var(--color-mist-50);
+    --cb-ring: var(--color-moss-800);
+  }
+
+  .cta-band__canopy :global(.cta-band__monkey--a) {
+    top: calc(3.5cqw - var(--hang-w) * 0.1);
+    left: calc(66% - var(--hang-w) * 0.52);
+  }
+
+  /* The young: smaller, and out of step with the others. */
+  .cta-band__canopy :global(.cta-band__monkey--b) {
+    --hang-w: clamp(2rem, 3.2vw, 3.1rem);
+    top: calc(3cqw - var(--hang-w) * 0.1);
+    left: calc(78% - var(--hang-w) * 0.52);
+  }
+
+  .cta-band__canopy :global(.cta-band__monkey--c) {
+    top: calc(2.1cqw - var(--hang-w) * 0.1);
+    left: calc(90% - var(--hang-w) * 0.52);
+  }
+
+  .cta-band__canopy :global(.cta-band__monkey--b .cb__body) {
+    animation-delay: -1.2s;
+  }
+
+  .cta-band__canopy :global(.cta-band__monkey--c .cb__body) {
+    animation-delay: -2.3s;
   }
 
   .cta-band__grid {
@@ -100,7 +162,7 @@ const mobileRest = splitAt === -1 ? '' : text.slice(splitAt + 2);
 
   @media (max-width: 900px) {
     .cta-band {
-      padding-block: var(--space-7);
+      padding-block: calc(var(--space-7) + 3.5rem) var(--space-7);
     }
 
     .cta-band__title,

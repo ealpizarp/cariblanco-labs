@@ -3,6 +3,9 @@ import { Font } from 'astro:assets';
 import Button from '@/components/ui/Button.astro';
 import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
 import Wordmark from '@/components/Wordmark.astro';
+import Cariblanco from '@/components/visuals/Cariblanco.astro';
+import CariblancoDefs from '@/components/visuals/CariblancoDefs.astro';
+import Vine from '@/components/visuals/Vine.astro';
 import { site } from '@/data/site';
 import {
   defaultLocale,
@@ -88,6 +91,7 @@ const fallback = packs[defaultLocale];
     <Font cssVariable="--font-sans" preload={[{ weight: 400, style: 'normal' }]} />
   </head>
   <body>
+    <CariblancoDefs />
     {
       locales.map((locale) => {
         const pack = packs[locale];
@@ -107,18 +111,24 @@ const fallback = packs[defaultLocale];
             </header>
             <main id={`contenido-${locale}`}>
               <section class="section not-found" aria-labelledby={`not-found-title-${locale}`}>
-                <div class="container">
-                  <p class="eyebrow">
-                    <span class="eyebrow__num">404</span>
-                    {pack.copy.eyebrow}
-                  </p>
-                  <h1 class="not-found__title" id={`not-found-title-${locale}`}>
-                    {pack.copy.heading}
-                  </h1>
-                  <p class="not-found__text text-soft">{pack.copy.text}</p>
-                  <div class="not-found__actions">
-                    <Button href={pack.home}>{pack.copy.home}</Button>
-                    <Button href={pack.contact} variant="text">{pack.copy.contact}</Button>
+                <div class="container not-found__layout">
+                  <div class="not-found__copy">
+                    <p class="eyebrow">
+                      <span class="eyebrow__num">404</span>
+                      {pack.copy.eyebrow}
+                    </p>
+                    <h1 class="not-found__title" id={`not-found-title-${locale}`}>
+                      {pack.copy.heading}
+                    </h1>
+                    <p class="not-found__text text-soft">{pack.copy.text}</p>
+                    <div class="not-found__actions">
+                      <Button href={pack.home}>{pack.copy.home}</Button>
+                      <Button href={pack.contact} variant="text">{pack.copy.contact}</Button>
+                    </div>
+                  </div>
+                  <div class="not-found__scene" aria-hidden="true">
+                    <Vine span={400} sag={20} leaves={6} class="not-found__vine" />
+                    <Cariblanco pose="hang" look vine={false} swing class="not-found__cariblanco" />
                   </div>
                 </div>
               </section>
@@ -165,6 +175,44 @@ const fallback = packs[defaultLocale];
     min-height: calc(70vh - var(--header-height));
     display: flex;
     align-items: center;
+  }
+
+  .not-found__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.6fr);
+    gap: var(--space-7);
+    align-items: end;
+  }
+
+  /* A vine across the scene, and a cariblanco hanging from its middle,
+     shading its eyes: searching. Rope at the middle of a 400 span with
+     sag 20 is 29.5 units down (7.4cqw); grip at (52, 10) of 100 x 150. */
+  .not-found__scene {
+    position: relative;
+    container-type: inline-size;
+    min-height: 17rem;
+  }
+
+  .not-found__scene :global(.not-found__cariblanco) {
+    --hang-w: min(8rem, 38cqw);
+    position: absolute;
+    top: calc(7.4cqw - var(--hang-w) * 0.1);
+    left: calc(50% - var(--hang-w) * 0.52);
+    width: var(--hang-w);
+    color: var(--color-primary);
+    --cb-hood: var(--color-paper);
+    --cb-ring: var(--color-bg);
+  }
+
+  @media (max-width: 700px) {
+    .not-found__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .not-found__scene {
+      min-height: 14rem;
+      max-width: 22rem;
+    }
   }
 
   .not-found__title {

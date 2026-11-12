@@ -1,9 +1,11 @@
 ---
 /**
  * Contact methods and optional WhatsApp form. Lives on the dedicated contact
- * page so the form is not buried in a dark band.
+ * page so the form is not buried in a dark band. A cariblanco sits on top
+ * of the form, tail hanging over it, and tilts its head while you type.
  */
 import Button from '@/components/ui/Button.astro';
+import Cariblanco from '@/components/visuals/Cariblanco.astro';
 import { emailUrl, formatWhatsapp, site, whatsappUrl } from '@/data/site';
 import { useI18n } from '@/i18n';
 
@@ -80,6 +82,7 @@ if (whatsapp === null && email === null) {
 
     {formAction !== null && (
       <form class="contact-form panel" action={formAction} method="get" target="_blank">
+        <Cariblanco pose="sit" class="contact-form__cariblanco" />
         <label class="label" for="contact-message">{t.contact.formLabel}</label>
         <textarea
           class="contact-form__field"
@@ -174,10 +177,43 @@ if (whatsapp === null && email === null) {
   }
 
   .contact-form {
+    position: relative;
     grid-column: 7 / 13;
     display: grid;
     gap: var(--space-3);
     padding: var(--space-inset-lg);
+  }
+
+  /* Sits on the panel's top edge (seat 1.45 widths down its box), tail
+     hanging in front of the panel. */
+  .contact-form :global(.contact-form__cariblanco) {
+    --sit-w: 3.8rem;
+    position: absolute;
+    top: calc(var(--sit-w) * -1.45 + 0.15rem);
+    right: var(--space-6);
+    z-index: 1;
+    width: var(--sit-w);
+    color: var(--color-primary);
+    --cb-hood: var(--color-paper);
+    --cb-ring: var(--color-surface);
+  }
+
+  .contact-form :global(.contact-form__cariblanco .cb__head) {
+    transform-box: fill-box;
+    transform-origin: 50% 80%;
+    transition: rotate var(--duration-base) var(--ease-out);
+  }
+
+  /* Watches you type. */
+  .contact-form:focus-within :global(.contact-form__cariblanco .cb__head) {
+    rotate: -16deg;
+  }
+
+  /* Stacked: room above the form for the lookout. */
+  @media (max-width: 699px) {
+    .contact-form {
+      margin-top: var(--space-7);
+    }
   }
 
   .contact-form__field {

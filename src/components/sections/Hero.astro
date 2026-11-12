@@ -3,10 +3,14 @@
  * One headline, one supporting sentence, one primary action, on moss.
  * Behind it, a contour survey under a drafting grid; beside it, the root
  * network that maps the work (site, automation, care), with data moving
- * along it. A coordinates strip closes it.
+ * along it. A vine drapes across the top with a cariblanco swinging from
+ * it; a coordinates strip closes it, and now and then a cariblanco bounds
+ * across its top edge.
  */
 import Button from '@/components/ui/Button.astro';
 import Contours from '@/components/visuals/Contours.astro';
+import Cariblanco from '@/components/visuals/Cariblanco.astro';
+import Vine from '@/components/visuals/Vine.astro';
 import RootField from '@/components/visuals/RootField.astro';
 import TechGrid from '@/components/visuals/TechGrid.astro';
 import { whatsappUrl } from '@/data/site';
@@ -21,6 +25,11 @@ const whatsapp = whatsappUrl(t.meta.whatsappMessage);
     <Contours preset="hero" />
   </div>
   <TechGrid focus="72% 42%" />
+
+  <div class="hero__canopy" aria-hidden="true">
+    <Vine sag={34} leaves={11} class="hero__vine" />
+    <Cariblanco pose="hang" vine={false} swing class="hero__hanger" />
+  </div>
 
   <div class="container hero__layout">
     <div class="hero__copy">
@@ -45,6 +54,11 @@ const whatsapp = whatsappUrl(t.meta.whatsappMessage);
   </div>
 
   <div class="container hero__notes">
+    <div class="hero__walker" aria-hidden="true">
+      <div class="hero__leaper">
+        <Cariblanco pose="leap" class="hero__cariblanco" />
+      </div>
+    </div>
     <p>{t.hero.place}</p>
     <p>{t.hero.offer}<span class="hero__caret" aria-hidden="true"></span></p>
   </div>
@@ -129,6 +143,7 @@ const whatsapp = whatsappUrl(t.meta.whatsappMessage);
   }
 
   .hero__notes {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -145,6 +160,94 @@ const whatsapp = whatsappUrl(t.meta.whatsappMessage);
 
   .hero__notes p {
     max-width: none;
+  }
+
+  /* A vine across the top of the hero; a cariblanco hangs from it by its
+     tail, over the root drawing's side. */
+  .hero__canopy {
+    position: absolute;
+    inset: 0 0 auto 0;
+    z-index: 0;
+    container-type: inline-size;
+    pointer-events: none;
+  }
+
+  .hero__canopy :global(.hero__vine) {
+    color: var(--color-fern-400);
+    --vine-leaf: rgb(197 208 99 / 0.22);
+    opacity: 0.85;
+  }
+
+  /* At 74% across, the vine's rope is 36 units down its 1000-unit width
+     (3.6cqw). The monkey's grip is at (52, 10) of its 100 × 150 box. */
+  .hero__canopy :global(.hero__hanger) {
+    --hang-w: clamp(3.6rem, 6vw, 5.6rem);
+    position: absolute;
+    top: calc(3.6cqw - var(--hang-w) * 0.1);
+    left: calc(74% - var(--hang-w) * 0.52);
+    width: var(--hang-w);
+    color: var(--color-dark-accent);
+    --cb-hood: var(--color-mist-50);
+    --cb-ring: var(--color-dark-bg);
+  }
+
+  /* Narrow: out at the far right, clear of the headline. At 88% across
+     the rope is 26 units down (2.6cqw). */
+  @media (max-width: 699px) {
+    .hero__canopy :global(.hero__hanger) {
+      --hang-w: 2.8rem;
+      top: calc(2.6cqw - var(--hang-w) * 0.1);
+      left: calc(88% - var(--hang-w) * 0.52);
+    }
+  }
+
+  /* Bounds across the strip's top rule now and then. Hidden without
+     motion: a monkey frozen mid-air reads as a mistake. */
+  .hero__walker {
+    position: absolute;
+    bottom: calc(100% - 1px);
+    left: calc(50% - 50vw);
+    right: calc(50% - 50vw);
+    height: 0;
+    pointer-events: none;
+  }
+
+  .hero__leaper {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  .hero__leaper :global(.hero__cariblanco) {
+    width: clamp(4.5rem, 7vw, 6.5rem);
+    color: var(--color-dark-accent);
+    --cb-hood: var(--color-mist-50);
+    --cb-ring: var(--color-dark-bg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__leaper {
+      display: block;
+      animation: hero-cross 30s linear 1.2s infinite both;
+    }
+
+    .hero__leaper :global(.hero__cariblanco) {
+      animation: hero-bound 1.25s ease-in-out infinite;
+    }
+  }
+
+  /* Across in the first ~55%, then off-stage for a while. */
+  @keyframes hero-cross {
+    0% { translate: -9rem 0; }
+    55% { translate: calc(100vw + 2rem) 0; }
+    100% { translate: calc(100vw + 2rem) 0; }
+  }
+
+  /* One bound: up and over, then down to touch the line. */
+  @keyframes hero-bound {
+    0%, 100% { translate: 0 0; rotate: 8deg; }
+    50% { translate: 0 -3.2rem; rotate: -10deg; }
   }
 
   /* A terminal caret at the end of the line. */

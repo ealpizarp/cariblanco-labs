@@ -4,8 +4,10 @@
  * informative site, in a phone, built in HTML and CSS (no image) and
  * labelled as an example. The page scrolls slowly on its own, the way a
  * visitor reads it. Three callouts say what it does. The phone is
- * decorative; the callouts carry the meaning as a list.
+ * decorative; the callouts carry the meaning as a list. A cariblanco sits
+ * on top of the phone, tail hanging down over the screen.
  */
+import Cariblanco from '@/components/visuals/Cariblanco.astro';
 import { useI18n } from '@/i18n';
 
 const { t } = useI18n(Astro);
@@ -29,6 +31,7 @@ const s = t.showcase;
     </div>
 
     <div class="showcase__stage reveal" aria-hidden="true">
+      <Cariblanco pose="sit" class="showcase__cariblanco" />
       <div class="phone">
         <div class="phone__screen">
           <div class="phone__chrome">
@@ -168,6 +171,32 @@ const s = t.showcase;
   .showcase__stage {
     display: grid;
     justify-items: center;
+    isolation: isolate;
+  }
+
+  /* A cariblanco sits on the phone's top edge, right of centre. Its seat
+     is 116 down its 80 × 150 box (1.45 widths); the phone is tilted -2deg, so it sits a touch
+     lower than the centre line. */
+  .showcase__stage > :global(.showcase__cariblanco) {
+    --sit-w: 4.6rem;
+    grid-area: 1 / 1;
+    align-self: start;
+    z-index: 1;
+    width: var(--sit-w);
+    margin-top: calc(var(--sit-w) * -1.45 + 0.35rem);
+    translate: 4.4rem 0;
+    color: var(--color-primary);
+    --cb-hood: var(--color-paper);
+    --cb-ring: var(--color-bg);
+    --cb-leaf: var(--color-lichen-100);
+  }
+
+  .showcase__stage {
+    padding-top: calc(4.6rem * 1.45);
+  }
+
+  .showcase__stage > .phone {
+    grid-area: 1 / 1;
   }
 
   .phone {
@@ -487,6 +516,7 @@ const s = t.showcase;
       animation: show-phone 1s var(--ease-out) 0.1s both;
     }
 
+
     .site__scroll {
       animation: show-read 14s ease-in-out 1.6s infinite;
     }
@@ -561,4 +591,5 @@ const s = t.showcase;
       scale: 0.95;
     }
   }
+
 </style>

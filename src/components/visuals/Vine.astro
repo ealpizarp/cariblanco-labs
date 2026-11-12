@@ -1,0 +1,176 @@
+---
+import { LEAF_ID } from './cariblanco-parts';
+
+/**
+ * A liana with leaves: the connector of the cariblanco language, where a
+ * plain line would otherwise run, and the thing the monkeys hang from.
+ *
+ *  - drape: across a width, sagging in the middle (viewBox `span` wide,
+ *           1000 by default; the rope is at y = 10 at the ends and about
+ *           `sag` lower in the middle). A shorter span keeps leaves larger
+ *           on a short stretch.
+ *  - hang:  down from the top, `length` units long, ending in a curl
+ *           (viewBox 40 wide).
+ *
+ * Two strands twist along the rope; leaves hang off it at even steps,
+ * left and right in turn. It draws itself in when it scrolls into view
+ * (`.reveal`); without the motion script it is simply there.
+ * Colours: `color` (rope) and `--vine-leaf`. Decorative: aria-hidden.
+ */
+interface Props {
+  kind?: 'drape' | 'hang';
+  /** Depth of the sag (drape), in viewBox units. */
+  sag?: number;
+  /** Width of the drape's viewBox; leaves are the same size at any span. */
+  span?: number;
+  /** Length (hang), in viewBox units. */
+  length?: number;
+  leaves?: number;
+  /** A hanging vine sways from its top. */
+  sway?: boolean;
+  class?: string;
+}
+
+const { kind = 'drape', sag = 40, span = 1000, length = 160, leaves = 7, sway = false, class: className } = Astro.props;
+
+type Point = readonly [number, number];
+type Curve = readonly [Point, Point, Point, Point];
+
+function at([p0, p1, p2, p3]: Curve, t: number): { x: number; y: number; angle: number } {
+  const u = 1 - t;
+  const x = u ** 3 * p0[0] + 3 * u * u * t * p1[0] + 3 * u * t * t * p2[0] + t ** 3 * p3[0];
+  const y = u ** 3 * p0[1] + 3 * u * u * t * p1[1] + 3 * u * t * t * p2[1] + t ** 3 * p3[1];
+  const dx = 3 * u * u * (p1[0] - p0[0]) + 6 * u * t * (p2[0] - p1[0]) + 3 * t * t * (p3[0] - p2[0]);
+  const dy = 3 * u * u * (p1[1] - p0[1]) + 6 * u * t * (p2[1] - p1[1]) + 3 * t * t * (p3[1] - p2[1]);
+  return { x, y, angle: (Math.atan2(dy, dx) * 180) / Math.PI };
+}
+
+const n = (value: number): string => String(Math.round(value));
+const d = ([p0, p1, p2, p3]: Curve): string =>
+  `M${n(p0[0])} ${n(p0[1])} C${n(p1[0])} ${n(p1[1])} ${n(p2[0])} ${n(p2[1])} ${n(p3[0])} ${n(p3[1])}`;
+
+const top = 10;
+const rope: Curve =
+  kind === 'drape'
+    ? [[0, top], [span * 0.3, top + sag * 1.3], [span * 0.7, top + sag * 1.3], [span, top]]
+    : [[20, 0], [8, length * 0.35], [32, length * 0.65], [20, length]];
+/** A thinner second strand that crosses the first. */
+const strand: Curve =
+  kind === 'drape'
+    ? [[0, top + 3], [span * 0.32, top + sag * 1.3 - 6], [span * 0.68, top + sag * 1.3 + 6], [span, top + 3]]
+    : [[22, 0], [32, length * 0.35], [8, length * 0.65], [21, length]];
+
+/** Leaves at even steps, alternating sides, drooping from the rope. */
+const leafMarks = Array.from({ length: leaves }, (_, i) => {
+  const point = at(rope, (i + 0.5) / leaves);
+  const side = i % 2 === 0 ? 1 : -1;
+  const droop = kind === 'drape' ? 90 + side * 38 + point.angle : side * 70 + 90;
+  const scale = kind === 'drape' ? ' scale(1.5)' : '';
+  return `<g transform="translate(${point.x.toFixed(0)} ${point.y.toFixed(0)}) rotate(${droop.toFixed(0)})${scale}"><use class="vine__leaf" style="--i:${i}" href="#${LEAF_ID}"/></g>`;
+}).join('');
+
+/** Built as one string: scoped attributes on every path would double it. */
+const strands = [d(rope), d(strand)];
+const curl = kind === 'hang' ? `M20 ${length} C20 ${length + 8} 30 ${length + 8} 30 ${length + 2} C30 ${length - 3} 24 ${length - 3} 24 ${length + 1}` : '';
+const viewBox = kind === 'drape' ? `0 0 ${span} ${Math.round(top + sag + 30)}` : `0 0 40 ${length + 14}`;
+---
+
+<svg
+  class:list={['vine', `vine--${kind}`, { 'vine--sway': sway }, 'reveal', className]}
+  viewBox={viewBox}
+  preserveAspectRatio={kind === 'drape' ? 'none' : undefined}
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  <g
+    set:html={
+      `<path class="vine__strand" pathLength="100" d="${strands[0]}"/>` +
+      `<path class="vine__strand vine__strand--thin" pathLength="100" d="${strands[1]}"/>` +
+      (curl ? `<path class="vine__strand vine__strand--thin" pathLength="100" d="${curl}"/>` : '') +
+      leafMarks
+    }
+  />
+</svg>
+
+<style>
+  .vine {
+    display: block;
+    overflow: visible;
+    color: var(--color-moss-700);
+    --vine-leaf: var(--color-lichen-100);
+  }
+
+  .vine--drape {
+    width: 100%;
+    height: auto;
+  }
+
+  /* No non-scaling-stroke here: Chrome then measures the draw-in dashes in
+     screen pixels and ignores pathLength, so a wide rope draws only part
+     of the way. */
+  .vine :global(.vine__strand) {
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+  }
+
+  .vine :global(.vine__strand--thin) {
+    stroke-width: 1.1;
+    opacity: 0.7;
+  }
+
+  .vine :global(.vine__leaf) {
+    fill: var(--vine-leaf);
+    stroke: currentColor;
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .vine.reveal--wait :global(.vine__strand) {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+    }
+
+    .vine.reveal--wait.is-in :global(.vine__strand) {
+      animation: vine-grow 1.2s var(--ease-out) forwards;
+    }
+
+    .vine.reveal--wait :global(.vine__leaf) {
+      scale: 0;
+    }
+
+    .vine.reveal--wait.is-in :global(.vine__leaf) {
+      animation: vine-leaf 0.4s var(--ease-out) forwards;
+      animation-delay: calc(0.5s + var(--i) * 0.09s);
+    }
+
+    .vine--sway {
+      transform-origin: 50% 0;
+      animation: vine-sway 4.5s ease-in-out infinite;
+    }
+  }
+
+  @keyframes vine-grow {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes vine-leaf {
+    from {
+      scale: 0;
+    }
+    to {
+      scale: 1;
+    }
+  }
+
+  @keyframes vine-sway {
+    0%, 100% { rotate: -2deg; }
+    50% { rotate: 2deg; }
+  }
+</style>

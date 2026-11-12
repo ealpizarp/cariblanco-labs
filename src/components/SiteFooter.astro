@@ -1,9 +1,11 @@
 ---
 /**
  * A quiet footer: the name, the pages, one way to reach us, and the year.
+ * A cariblanco peeks over the bottom edge, next to its name.
  */
 import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
 import Wordmark from '@/components/Wordmark.astro';
+import Cariblanco from '@/components/visuals/Cariblanco.astro';
 import Terrain from '@/components/visuals/Terrain.astro';
 import { primaryNav } from '@/data/navigation';
 import { site, whatsappUrl } from '@/data/site';
@@ -49,7 +51,8 @@ const nav = primaryNav(locale);
     </div>
   </div>
 
-  <p class="site-footer__giant" aria-hidden="true">Foresta</p>
+  <p class="site-footer__giant" aria-hidden="true">Cariblanco</p>
+  <Cariblanco pose="peek" class="site-footer__cariblanco" />
 </footer>
 
 <style>
@@ -143,6 +146,32 @@ const nav = primaryNav(locale);
     color: transparent;
     -webkit-text-stroke: 1px rgb(197 208 99 / 0.3);
     user-select: none;
+  }
+
+  .site-footer :global(.site-footer__cariblanco) {
+    position: absolute;
+    right: max(var(--gutter), calc(50% - 41rem));
+    bottom: -1px;
+    width: clamp(4.75rem, 12vw, 11rem);
+    color: var(--color-dark-accent);
+    --cb-hood: var(--color-mist-50);
+    --cb-ring: var(--color-dark-bg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .site-footer :global(.site-footer__cariblanco) {
+      transform-origin: 50% 100%;
+      animation: footer-peek 9s var(--ease-out) infinite;
+    }
+  }
+
+  /* Up, a look around, and back down behind the edge. */
+  @keyframes footer-peek {
+    0%, 8% { translate: 0 100%; }
+    18%, 30% { translate: 0 0; rotate: 0deg; }
+    36%, 50% { translate: 0 0; rotate: -4deg; }
+    58%, 66% { translate: 0 0; rotate: 2deg; }
+    76%, 100% { translate: 0 100%; rotate: 0deg; }
   }
 
   .site-footer a {

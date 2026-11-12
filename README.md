@@ -1,6 +1,6 @@
-# Foresta Works website
+# Cariblanco Labs website
 
-Static marketing site for Foresta Works, a Costa Rica studio that builds and looks after websites, and can add an intelligent assistant (on the site, WhatsApp or social media), for businesses and organizations. Built with [Astro](https://astro.build) 7 and strict TypeScript.
+Static marketing site for Cariblanco Labs (formerly Foresta Works), a Costa Rica studio that builds and looks after websites, and can add an intelligent assistant (on the site, WhatsApp or social media), for businesses and organizations. Built with [Astro](https://astro.build) 7 and strict TypeScript.
 
 Costa Rican Spanish lives at `/es/`; English at `/en/`. There is no database, CMS, authentication, or server-side rendering.
 
@@ -106,6 +106,36 @@ src/
     ui/                     buttons, headers, labels
   styles/                   tokens and global CSS
 ```
+
+### The cariblanco
+
+The brand animal is the cariblanco (white-faced capuchin, *Cebus
+imitator*): black body and long prehensile tail, cream hood, black cap,
+pink face. It lives in the vines, so the vine is the other half of the
+language. Shapes are drawn once (`src/components/visuals/cariblanco-parts.ts`)
+and posed by `Cariblanco.astro`:
+
+| Pose | Where |
+|---|---|
+| `head` | Wordmark and `public/favicon.svg` |
+| `hang` (`swing`) | Hero vine, home steps, the troop in `CtaBand`, 404 (`look`), About troop |
+| `leap` | Bounding across the hero strip |
+| `sit` (`hold`, `think`) | On the home phone, on the contact form, the service drawings, About traits, services close (`think`) |
+| `sleep` | On its branch in the automation after-hours section |
+| `peek` | Footer, mobile menu, the shop drawing's bag |
+| busts | Founder portraits (`FounderPortraits.astro`) |
+
+Supporting motifs: `Vine.astro` (a drape across a width, or a hanging
+liana) replaces plain connector lines and is what the monkeys hang from;
+`glyphs.ts` has the vine leaf (breadcrumb separator) and the hand print
+(ownership stamp, founders' mark); the rule in `Plate.astro` section
+labels is a vine tendril.
+
+Colour comes from `color` (the body) plus `--cb-hood`, `--cb-face`,
+`--cb-ring` (the ground colour, for outlines where a limb crosses the
+body), `--cb-edge` (a hood outline for light grounds), `--cb-vine` and
+`--cb-leaf`. All of it is `aria-hidden`; animations stop under reduced
+motion and pause off-screen.
 
 ### Performance notes
 
