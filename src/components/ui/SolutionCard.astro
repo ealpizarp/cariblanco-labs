@@ -1,0 +1,166 @@
+---
+/**
+ * One offering as a card: its line icon (drawn in when seen), a title,
+ * one sentence, and optionally what it includes, the tools it touches
+ * (tags), and a note of what is paid separately. Used for the automation
+ * catalog and for the further services. Renders an `<li>`; put it in a
+ * list. Anything in the default slot (a link) goes at the foot.
+ */
+import LineGlyph, { type GlyphName } from '@/components/visuals/LineGlyph.astro';
+
+interface Props {
+  glyph: GlyphName;
+  title: string;
+  text: string;
+  items?: readonly string[];
+  tags?: readonly string[];
+  /** Paid separately, shown as "label: note". */
+  note?: { label: string; text: string };
+  /** The marked card in a set. */
+  lead?: boolean;
+  /** Anchor id, for links to this card. */
+  id?: string;
+  /** Position in its row, for a staggered entrance. */
+  stagger?: number;
+}
+
+const { glyph, title, text, items, tags, note, lead = false, id, stagger = 0 } = Astro.props;
+---
+
+<li class:list={['solution', 'reveal', { 'solution--lead': lead }]} id={id} style={`--i:${stagger}`}>
+  <span class="solution__glyph" aria-hidden="true">
+    <LineGlyph name={glyph} class="glyph--draw" delay={0.2 + stagger * 0.12} />
+  </span>
+  <h3 class="solution__title">{title}</h3>
+  <p class="solution__text">{text}</p>
+  {items && items.length > 0 && (
+    <ul class="solution__items">
+      {items.map((item) => <li>{item}</li>)}
+    </ul>
+  )}
+  {tags && tags.length > 0 && (
+    <ul class="solution__tags">
+      {tags.map((tag) => <li>{tag}</li>)}
+    </ul>
+  )}
+  {note && (
+    <p class="solution__note">
+      <span>{note.label}:</span> {note.text}
+    </p>
+  )}
+  <slot />
+</li>
+
+<style>
+  .solution {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    border: 1px solid var(--color-rule-strong);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    scroll-margin-top: calc(var(--header-height) + var(--space-5));
+    transition:
+      border-color var(--duration-fast) var(--ease-out),
+      translate var(--duration-base) var(--ease-out);
+  }
+
+  .solution:hover {
+    border-color: var(--color-moss-700);
+    translate: 0 -2px;
+  }
+
+  /* The marked one in a set. */
+  .solution--lead {
+    background: var(--color-wash-leaf);
+    border-color: var(--color-moss-700);
+  }
+
+  .solution__glyph {
+    --glyph-size: 2.6rem;
+    margin-bottom: var(--space-1);
+  }
+
+  .solution__title {
+    font-size: var(--text-lg);
+    line-height: 1.2;
+  }
+
+  .solution__text {
+    color: var(--color-text-soft);
+    font-size: var(--text-sm);
+    line-height: 1.55;
+  }
+
+  /* What it includes: a short checklist under a rule. */
+  .solution__items {
+    display: grid;
+    gap: var(--space-2);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-rule);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  .solution__items li {
+    position: relative;
+    padding-left: 1.1rem;
+  }
+
+  .solution__items li::before {
+    content: '';
+    position: absolute;
+    left: 0.15rem;
+    top: 0.55em;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background: var(--color-moss-700);
+  }
+
+  .solution__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: auto;
+    padding-top: var(--space-2);
+  }
+
+  .solution__tags li {
+    padding: 0.2rem 0.5rem;
+    border: 1px solid var(--color-rule-strong);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
+  }
+
+  /* Paid separately: last, quiet, on a dashed rule. */
+  .solution__note {
+    margin-top: auto;
+    padding-top: var(--space-3);
+    border-top: 1px dashed var(--color-rule-strong);
+    font-size: var(--text-xs);
+    line-height: 1.45;
+    color: var(--color-text-muted);
+  }
+
+  .solution__note span {
+    font-weight: var(--weight-semibold);
+    color: var(--color-clay);
+  }
+
+  .solution :global(.solution__more) {
+    align-self: flex-start;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .solution.reveal--wait.is-in {
+      animation-delay: calc(var(--i) * 0.08s);
+    }
+  }
+</style>

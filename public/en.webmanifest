@@ -1,12 +1,12 @@
 {
-  "name": "Foresta Works",
-  "short_name": "Foresta Works",
+  "name": "Cariblanco Labs",
+  "short_name": "Cariblanco Labs",
   "description": "A website, monthly care, and a WhatsApp assistant in Costa Rica.",
   "lang": "en",
   "start_url": "/en/",
   "display": "browser",
-  "background_color": "#e9e8dd",
-  "theme_color": "#e9e8dd",
+  "background_color": "#ece8da",
+  "theme_color": "#ece8da",
   "icons": [
     {
       "src": "/favicon.svg",

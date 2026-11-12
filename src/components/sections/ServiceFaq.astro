@@ -1,0 +1,120 @@
+---
+/**
+ * Services page: the questions people ask before they write, as
+ * disclosures (`<details>`), so the page stays short and each answer is
+ * one tap away. No script; the browser opens and closes them.
+ */
+import { useI18n } from '@/i18n';
+
+const { t } = useI18n(Astro);
+---
+
+<section id="preguntas" class="section section--page faq" aria-labelledby="faq-title">
+  <div class="container faq__grid">
+    <header class="faq__intro">
+      <p class="eyebrow">{t.services.faqLabel}</p>
+      <h2 class="faq__title" id="faq-title">{t.services.faqTitle}</h2>
+    </header>
+
+    <div class="faq__list">
+      {t.services.faq.map((item, index) => (
+        <details class="faq__item" open={index === 0 ? true : undefined}>
+          <summary>
+            <span>{item.q}</span>
+            <svg class="faq__mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+              <path d="M3 8 H13 M8 3 V13" />
+            </svg>
+          </summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    padding-block: var(--space-section-gap);
+  }
+
+  .faq__grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--col-gap);
+    row-gap: var(--space-6);
+    align-items: start;
+  }
+
+  .faq__intro {
+    grid-column: 1 / 5;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .faq__title {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-display);
+    max-width: 14ch;
+  }
+
+  .faq__list {
+    grid-column: 6 / 13;
+    border-top: 1px solid var(--color-rule-strong);
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--color-rule-strong);
+  }
+
+  .faq__item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-height: 3.5rem;
+    padding-block: var(--space-4);
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    line-height: 1.25;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__item summary:hover {
+    color: var(--color-moss-700);
+  }
+
+  .faq__mark {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: var(--color-clay);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    transition: rotate var(--duration-base) var(--ease-out);
+  }
+
+  /* Plus turns to a cross when open. */
+  .faq__item[open] .faq__mark {
+    rotate: 45deg;
+  }
+
+  .faq__item p {
+    max-width: 58ch;
+    padding-bottom: var(--space-5);
+    color: var(--color-text-soft);
+  }
+
+  @media (max-width: 899px) {
+    .faq__intro,
+    .faq__list {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

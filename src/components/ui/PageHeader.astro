@@ -4,6 +4,7 @@
  * and an optional lede. The breadcrumb names the page; a second eyebrow
  * would only repeat it.
  */
+import { LEAF, LEAF_VIEWBOX } from '@/components/visuals/glyphs';
 import { routes, useI18n } from '@/i18n';
 
 interface Props {
@@ -27,7 +28,7 @@ const hasActions = Astro.slots.has('actions');
   <div class:list={['container', 'page-header__grid', { 'page-header__grid--visual': hasVisual }]}>
     <nav class="page-header__crumb" aria-label={t.nav.breadcrumb}>
       <a class="link-underline" href={path(routes.home)}>{t.nav.home}</a>
-      <span aria-hidden="true">/</span>
+      <svg class="page-header__leaf" viewBox={LEAF_VIEWBOX} aria-hidden="true" focusable="false" set:html={LEAF} />
       <span aria-current="page">{eyebrow}</span>
     </nav>
     <h1 class="page-header__title">{title}</h1>
@@ -73,6 +74,15 @@ const hasActions = Astro.slots.has('actions');
     gap: var(--space-3);
     font-size: var(--text-sm);
     color: var(--color-text-muted);
+  }
+
+  /* A vine leaf instead of a slash: one step further in. */
+  .page-header__leaf {
+    width: 0.6rem;
+    fill: var(--color-lichen-100);
+    stroke: var(--color-moss-700);
+    stroke-width: 1.1;
+    rotate: 90deg;
   }
 
   .page-header__crumb [aria-current='page'] {

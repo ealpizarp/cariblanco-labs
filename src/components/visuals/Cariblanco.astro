@@ -1,0 +1,307 @@
+---
+/**
+ * The cariblanco (white-faced capuchin): black body and long prehensile
+ * tail curled at the tip, cream hood over the head and shoulders, black
+ * cap with a widow's peak, bare pink face. Drawn flat, face turned out,
+ * in its own colours on every ground (`onDark` adds a pale outline).
+ *
+ * Poses:
+ *  - sit:   sitting, tail hanging off the front edge and curling. Seat
+ *           line at y = 116 of 150. `hold` puts a leaf or a stone in its
+ *           hands; `think` has it scratching its head; `curious` tilts
+ *           its head now and then.
+ *  - hang:  hanging from a vine by its tail and one hand; the vine is at
+ *           y = 10. `look` shades its eyes with the free hand; `vine`
+ *           draws its own stretch of vine. `swing` rocks it.
+ *  - walk:  on all fours along a branch, tail up, face turned out. Feet
+ *           on y = 80 of 90. `stride` moves the legs.
+ *  - leap:  mid-jump to the right, arms reaching, tail hooked up.
+ *  - sleep: curled up asleep on its branch, tail hanging below.
+ *  - peek:  head and hands over a bottom edge.
+ *  - head:  the head alone, for the wordmark.
+ *
+ * Colours: `color` (fur), `--cb-hood`, `--cb-face`, `--cb-ring` (outline),
+ * `--cb-vine` and `--cb-leaf`. Decorative: aria-hidden. Open eyes blink
+ * now and then; nothing moves under reduced motion.
+ */
+import { body, core, head, headAt, hood, limb } from './cariblanco-parts';
+
+interface Props {
+  pose?: 'sit' | 'hang' | 'walk' | 'leap' | 'sleep' | 'peek' | 'head';
+  /** On a dark ground: cream hood, pale outline, quieter vine. */
+  onDark?: boolean;
+  hold?: 'leaf' | 'stone';
+  think?: boolean;
+  curious?: boolean;
+  look?: boolean;
+  vine?: boolean;
+  swing?: boolean;
+  stride?: boolean;
+  class?: string;
+  /** Placement when nested inside another SVG drawing (user units). */
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+}
+
+const {
+  pose = 'sit',
+  onDark = false,
+  hold,
+  think = false,
+  curious = false,
+  look = false,
+  vine = true,
+  swing = false,
+  stride = false,
+  class: className,
+  x,
+  y,
+  width,
+  height,
+} = Astro.props;
+
+const LEAF = 'M0 0 C-5 -3 -6 -10 0 -14 C6 -10 5 -3 0 0 Z';
+const leafAt = (lx: number, ly: number, turn: number): string =>
+  `<path class="cb__leaf" transform="translate(${lx} ${ly}) rotate(${turn})" d="${LEAF}"/>`;
+
+/** Sitting. Arms come forward over the body to the lap, or one goes up. */
+function sit(): string {
+  const right = core(think ? 'cb-arm-think' : hold === 'stone' ? 'cb-arm-stone' : 'cb-arm-lap');
+  return (
+    `<g class="cb__tail">${core('cb-sit-tail')}</g>` +
+    core('cb-sit') +
+    (hold === 'leaf' ? leafAt(50, 86, -20) : '') +
+    right +
+    headAt(50, 27, 1.18, think ? -8 : 0)
+  );
+}
+
+/** Hanging by its tail (and a hand) from a vine at y = 10. */
+function hangFrom(): string {
+  const free = look
+    ? limb('M64 64 C78 58 76 40 62 27', 7, [60, 26])
+    : limb('M64 64 C74 70 82 78 88 74', 7, [89, 73, 3.8]);
+  return (
+    core('cb-hang') +
+    headAt(50, 36, 1.15, look ? 6 : 0) +
+    free
+  );
+}
+
+/** On all fours along a branch: far legs, body, near legs, then the head.
+    Legs are classed by pair (a/b, diagonal, for a trot) and by end
+    (fore/hind, for a bound) and side (far). */
+const WALK =
+  `<g class="cb__tail">${core('cb-walk-tail')}</g>` +
+  `<g class="cb__leg cb__leg--b cb__leg--hind cb__leg--far">${limb('M37 58 C36 66 36 72 37 79', 6.5)}</g>` +
+  `<g class="cb__leg cb__leg--a cb__leg--fore cb__leg--far">${limb('M83 58 C84 66 84 72 83 79', 6.5)}</g>` +
+  core('cb-walk') +
+  `<g class="cb__leg cb__leg--a cb__leg--hind">${limb('M28 58 C26 66 27 72 28 79', 7)}</g>` +
+  `<g class="cb__leg cb__leg--b cb__leg--fore">${limb('M91 58 C93 66 93 72 92 79', 7)}</g>` +
+  headAt(103, 35, 0.95);
+
+const LEAP =
+  core('cb-leap') +
+  headAt(118, 34, 0.95, -12);
+
+const SLEEP =
+  `<g class="cb__tail">${limb('M66 70 C64 84 66 96 76 98 C84 99 86 90 80 88', 5)}</g>` +
+  `<g class="cb__breath">${body('<path d="M34 70 C30 50 52 34 78 36 C102 38 118 50 116 70 Z"/>')}` +
+  `${hood('M96 44 C110 46 120 56 118 70 L94 70 C90 62 90 50 96 44 Z')}</g>` +
+  limb('M98 66 C108 66 116 64 124 66') +
+  headAt(112, 54, 0.9, 8, 'shut') +
+  '<path class="cb__vine" d="M0 72 C40 70 100 76 160 70"/>' +
+  leafAt(20, 71, -120) +
+  leafAt(140, 71, 110) +
+  '<g class="cb__z" font-family="Georgia, serif" font-style="italic">' +
+  '<text x="128" y="34" font-size="11">z</text><text x="138" y="24" font-size="14">z</text></g>';
+
+const PEEK =
+  headAt(40, 36, 1.15) +
+  body('<rect x="20" y="49" width="15" height="14" rx="7"/><rect x="45" y="49" width="15" height="14" rx="7"/>');
+
+const art = {
+  sit: sit(),
+  hang: hangFrom(),
+  walk: WALK,
+  leap: LEAP,
+  sleep: SLEEP,
+  peek: PEEK,
+  head: head(),
+}[pose];
+
+const viewBox = {
+  sit: '10 0 80 150',
+  hang: '0 0 100 150',
+  walk: '0 0 130 90',
+  leap: '0 0 160 90',
+  sleep: '0 20 160 90',
+  peek: '0 0 80 60',
+  head: '-25 -26 50 50',
+}[pose];
+---
+
+<svg
+  class:list={[
+    'cariblanco',
+    `cariblanco--${pose}`,
+    { 'cariblanco--on-dark': onDark, 'cariblanco--swing': swing, 'cariblanco--stride': stride, 'cariblanco--curious': curious },
+    className,
+  ]}
+  viewBox={viewBox}
+  x={x}
+  y={y}
+  width={width}
+  height={height}
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  {pose === 'hang' && vine && <path class="cb__vine" d="M0 10 C30 16 70 16 100 10" />}
+  <g class="cb__body" fill="none" stroke-linecap="round" set:html={art} />
+</svg>
+
+<style>
+  .cariblanco {
+    display: block;
+    overflow: visible;
+    color: var(--color-fur);
+    --cb-hood: var(--color-paper);
+    --cb-face: var(--color-blush-200);
+    --cb-ring: var(--color-bg);
+    --cb-vine: var(--color-moss-700);
+    --cb-leaf: var(--color-lichen-100);
+  }
+
+  /* Black fur on a dark ground: a pale line round it, like the site's
+     other line work on moss. */
+  .cariblanco--on-dark {
+    --cb-hood: var(--color-mist-50);
+    --cb-ring: var(--color-fern-400);
+    --cb-vine: var(--color-fern-400);
+    --cb-leaf: rgb(197 208 99 / 0.22);
+  }
+
+  .cariblanco :global(.cb__z) {
+    fill: var(--cb-vine);
+  }
+
+
+  .cariblanco :global(.cb__vine) {
+    fill: none;
+    stroke: var(--cb-vine);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+  }
+
+  .cariblanco :global(.cb__leaf) {
+    fill: var(--cb-leaf);
+    stroke: var(--cb-vine);
+    stroke-width: 1;
+  }
+
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Now and then, a blink. */
+    .cariblanco :global(.cb__eyes) {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: cb-blink 5.5s ease-in-out infinite;
+    }
+
+    /* Curious: a tilt of the head, held a moment, every few seconds. */
+    .cariblanco--curious :global(.cb__head) {
+      transform-box: fill-box;
+      transform-origin: 50% 85%;
+      animation: cb-tilt 7s ease-in-out 2s infinite;
+    }
+
+    /* Walking: diagonal pairs of legs swing together. */
+    .cariblanco--stride :global(.cb__leg) {
+      transform-box: fill-box;
+      transform-origin: 50% 0;
+      animation: cb-step 0.5s ease-in-out infinite alternate;
+    }
+
+    .cariblanco--stride :global(.cb__leg--b) {
+      animation-direction: alternate-reverse;
+    }
+
+    .cariblanco--walk :global(.cb__tail) {
+      transform-box: view-box;
+      transform-origin: 24px 50px;
+      animation: cb-tail 3s ease-in-out infinite;
+    }
+
+    /* Rocks on its tail, pivoting where tail and hand hold the vine. */
+    .cariblanco--swing :global(.cb__body) {
+      transform-box: view-box;
+      transform-origin: 52px 11px;
+      animation: cb-swing 3.6s ease-in-out infinite;
+    }
+
+    .cariblanco--sit :global(.cb__tail) {
+      transform-box: view-box;
+      transform-origin: 38px 108px;
+      animation: cb-tail 4s ease-in-out infinite;
+    }
+
+    .cariblanco--sleep :global(.cb__breath) {
+      transform-box: fill-box;
+      transform-origin: 50% 100%;
+      animation: cb-breathe 3.2s ease-in-out infinite;
+    }
+
+    .cariblanco--sleep :global(.cb__tail) {
+      transform-box: view-box;
+      transform-origin: 66px 70px;
+      animation: cb-tail 5s ease-in-out infinite;
+    }
+
+    .cariblanco--sleep :global(.cb__z text) {
+      animation: cb-z 3.2s ease-out infinite;
+    }
+
+    .cariblanco--sleep :global(.cb__z text + text) {
+      animation-delay: 1.6s;
+    }
+  }
+
+  @keyframes cb-blink {
+    0%, 94%, 100% { scale: 1 1; }
+    96% { scale: 1 0.1; }
+  }
+
+  @keyframes cb-tilt {
+    0%, 12%, 100% { rotate: 0deg; }
+    4%, 9% { rotate: -11deg; }
+  }
+
+  @keyframes cb-step {
+    from { rotate: -13deg; }
+    to { rotate: 13deg; }
+  }
+
+  @keyframes cb-swing {
+    0%, 100% { rotate: -7deg; }
+    50% { rotate: 7deg; }
+  }
+
+  @keyframes cb-tail {
+    0%, 100% { rotate: -6deg; }
+    50% { rotate: 6deg; }
+  }
+
+  @keyframes cb-breathe {
+    0%, 100% { scale: 1 1; }
+    50% { scale: 1.015 1.06; }
+  }
+
+  @keyframes cb-z {
+    0% { opacity: 0; translate: 0 6px; }
+    30% { opacity: 1; }
+    100% { opacity: 0; translate: 6px -10px; }
+  }
+</style>

@@ -1,6 +1,6 @@
-# Foresta Works website
+# Cariblanco Labs website
 
-Static marketing site for Foresta Works, a Costa Rica studio that builds and looks after websites, and can add an intelligent assistant (on the site, WhatsApp or social media), for businesses and organizations. Built with [Astro](https://astro.build) 7 and strict TypeScript.
+Static marketing site for Cariblanco Labs (formerly Foresta Works), a Costa Rica studio that builds and looks after websites, and can add an intelligent assistant (on the site, WhatsApp or social media), for businesses and organizations. Built with [Astro](https://astro.build) 7 and strict TypeScript.
 
 Costa Rican Spanish lives at `/es/`; English at `/en/`. There is no database, CMS, authentication, or server-side rendering.
 
@@ -106,6 +106,47 @@ src/
     ui/                     buttons, headers, labels
   styles/                   tokens and global CSS
 ```
+
+### The cariblanco
+
+The brand animal is the cariblanco (white-faced capuchin, *Cebus
+imitator*): black body and long prehensile tail, cream hood, black cap,
+pink face. It lives in the vines, so the vine is the other half of the
+language. Shapes are drawn once (`src/components/visuals/cariblanco-parts.ts`)
+and posed by `Cariblanco.astro`:
+
+| Pose | Where |
+|---|---|
+| `head` | Wordmark (tilts on hover) and `public/favicon.svg` |
+| `hang` (`swing`, `look`) | Under the hero's branch (two hold points), 404, About troop |
+| `leap` | Between the hero's two hold points: wind-up, arc over the branch, catch and swing |
+| `walk` | Along the home steps' vine when it scrolls in |
+| `sit` (`hold`, `think`, `curious`) | The hero troop (mother and young, thinker, one with a stone), on the home phone, on the contact form, the troop on `CtaBand`'s liana, the service drawings, About traits, services close |
+| `sleep` | On its branch in the automation after-hours section |
+| `peek` | Footer, mobile menu, the shop drawing's bag |
+| busts | Founder portraits (`FounderPortraits.astro`) |
+
+Supporting motifs: `Vine.astro` (a drape across a width, or a hanging
+liana) replaces plain connector lines and is what the monkeys hang from,
+walk on and sit on; `glyphs.ts` has the vine leaf (breadcrumb separator)
+and the hand print (ownership stamp, founders' mark); the rule in
+`Plate.astro` section labels is a vine tendril.
+
+The cariblanco keeps its own colours on every ground: fur
+(`--color-fur`), `--cb-hood` and `--cb-face`. `--cb-ring` is a thin
+outline round every body part: the ground colour on light, and a pale
+line on dark (pass `onDark`), which is what makes black fur read on moss.
+`--cb-edge` outlines the hood where cream would sit on cream. All of it
+is `aria-hidden`; animations stop under reduced motion and pause
+off-screen. The head and the vine leaf are defined once per page
+(`CariblancoDefs.astro`) and referenced with `<use>`, to keep the HTML
+inside the size budget.
+
+The palette comes from the animal (see `src/styles/tokens.css`): fur for
+dark sections, hood cream for the page and its sheets, face blush as the
+soft warm note (founder portraits, the About commitments band, text
+selection), with the canopy around it: moss line work, leaf green as the
+accent on dark, poró for emphasis.
 
 ### Performance notes
 

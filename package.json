@@ -1,9 +1,9 @@
 {
-  "name": "foresta-works-website",
+  "name": "cariblanco-labs-website",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Sitio web de Foresta Works: sitio, cuidado mensual y asistente inteligente para empresas en Costa Rica.",
+  "description": "Sitio web de Cariblanco Labs: sitio, cuidado mensual y asistente inteligente para empresas en Costa Rica.",
   "engines": {
     "node": ">=22.12.0"
   },

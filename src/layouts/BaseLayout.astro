@@ -1,4 +1,5 @@
 ---
+import CariblancoDefs from '@/components/visuals/CariblancoDefs.astro';
 import { Font, getImage } from 'astro:assets';
 import SiteHeader from '@/components/SiteHeader.astro';
 import SiteFooter from '@/components/SiteFooter.astro';
@@ -105,7 +106,7 @@ const jsonLdBlocks = [
     <link rel="manifest" href={locale === 'en' ? '/en.webmanifest' : '/site.webmanifest'} />
     <slot name="head" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#1b2114" />
+    <meta name="theme-color" content="#181c12" />
 
     <Font cssVariable="--font-serif" preload={[{ weight: 400, style: 'normal' }]} />
     <Font cssVariable="--font-sans" preload={[{ weight: 400, style: 'normal' }]} />
@@ -116,6 +117,7 @@ const jsonLdBlocks = [
     ))}
   </head>
   <body>
+    <CariblancoDefs />
     <a class="skip-link" href="#contenido">{t.meta.skipToContent}</a>
     <SiteHeader />
     <main id="contenido">

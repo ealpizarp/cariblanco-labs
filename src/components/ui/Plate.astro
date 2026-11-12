@@ -1,7 +1,8 @@
 ---
 /**
  * Field-guide section label: a short rule, then the label. An optional
- * mark (such as "24 h") can lead it.
+ * mark (such as "24 h") can lead it. The rule is a short vine tendril
+ * with one leaf.
  */
 interface Props {
   /** Optional short mark before the rule, e.g. "24 h". */
@@ -44,11 +45,14 @@ const { numeral, label, onDark = false, class: className } = Astro.props;
     color: var(--color-clay);
   }
 
+  /* A vine tendril with one leaf, in the text colour (an SVG mask). */
   .plate__rule {
-    width: 2.5rem;
-    height: 1px;
+    width: 2.75rem;
+    height: 0.8rem;
     background: currentColor;
-    opacity: 0.5;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 12'%3E%3Cpath d='M1 7 C7 3 11 10 18 7 S29 3 35 6' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M25 5.5 C25 1.5 29 0 32 1 C31 4.5 28 6 25 5.5 Z'/%3E%3Ccircle cx='37' cy='5.4' r='1.4' fill='none' stroke='black' stroke-width='1'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 12'%3E%3Cpath d='M1 7 C7 3 11 10 18 7 S29 3 35 6' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M25 5.5 C25 1.5 29 0 32 1 C31 4.5 28 6 25 5.5 Z'/%3E%3Ccircle cx='37' cy='5.4' r='1.4' fill='none' stroke='black' stroke-width='1'/%3E%3C/svg%3E") center / contain no-repeat;
+    opacity: 0.75;
   }
 
   .plate--on-dark {

@@ -1,6 +1,6 @@
 ---
 /**
- * Automation page, part 1: how the assistant comes together, as four
+ * Automation page, part 4: how any automation comes together, as four
  * glyphs on one stem (listen, choose, connect, tune).
  */
 import LineGlyph, { type GlyphName } from '@/components/visuals/LineGlyph.astro';
@@ -42,6 +42,13 @@ const work = t.automation.work.map((step, index) => ({ ...step, glyph: workGlyph
 </section>
 
 <style>
+  /* Follows the assistant's sections: a rule and full spacing mark the
+     return to what holds for every automation. */
+  section.auto-work {
+    padding-top: var(--space-section-gap);
+    border-top: 1px solid var(--color-rule-strong);
+  }
+
   /* ---- How it comes together: four glyphs on one stem ---- */
   .auto-work__field {
     position: relative;

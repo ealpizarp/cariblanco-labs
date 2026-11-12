@@ -4,9 +4,9 @@
  */
 export const es = {
   meta: {
-    siteShortDescription: 'Sitio, cuidado mensual y asistente inteligente en Costa Rica',
+    siteShortDescription: 'Sitios web, automatización y cuidado mensual en Costa Rica',
     siteDescription:
-      'Construimos y cuidamos el sitio de su negocio, con perfil de Google, tienda con SINPE Móvil y un asistente inteligente cuando hace falta. Para empresas y organizaciones en Costa Rica.',
+      'Construimos y cuidamos el sitio de su negocio, con perfil de Google, tienda con SINPE Móvil y automatización con IA cuando hace falta. Para empresas y organizaciones en Costa Rica.',
     ogImageAlt:
       'Ilustración de una tienda en línea en un marco de navegador: ejemplo de oficio, no el sitio de un cliente.',
     skipToContent: 'Saltar al contenido',
@@ -23,9 +23,9 @@ export const es = {
       'SEO local',
       'Optimización para búsqueda con IA',
     ],
-    servicesCatalogName: 'Servicios de Foresta Works',
+    servicesCatalogName: 'Servicios de Cariblanco Labs',
     whatsappMessage:
-      'Hola, Foresta Works. Me interesa conversar sobre un sitio web y automatización para mi negocio.',
+      'Hola, Cariblanco Labs. Me interesa conversar sobre un sitio web y automatización para mi negocio.',
     emailSubject: 'Consulta desde el sitio web',
   },
   footer: {
@@ -49,11 +49,11 @@ export const es = {
     items: {
       servicios: {
         label: 'Servicios',
-        summary: 'Sitio y Google, tienda y pagos, asistente inteligente y cuidado.',
+        summary: 'Sitio y Google, tienda, automatización, correo, sistemas a la medida y más.',
       },
       automatizacion: {
         label: 'Automatización',
-        summary: 'Un asistente inteligente para lo que usted ya responde.',
+        summary: 'Asistente inteligente, citas, facturación, cobros y más.',
       },
       proceso: {
         label: 'Proceso',
@@ -61,7 +61,7 @@ export const es = {
       },
       nosotros: {
         label: 'Nosotros',
-        summary: 'Por qué existe Foresta y cómo trabaja con usted.',
+        summary: 'Por qué existe Cariblanco Labs y cómo trabaja con usted.',
       },
       contacto: {
         label: 'Contacto',
@@ -71,22 +71,22 @@ export const es = {
   },
   pages: {
     servicios: {
-      title: 'Servicios: sitio web y Google, tienda y pagos, asistente inteligente',
+      title: 'Servicios: sitio web, tienda, automatización y más',
       description:
-        'Sitio web con perfil de Google, tienda o reservas con tarjeta y SINPE Móvil, asistente inteligente y cuidado mensual. Para empresas y organizaciones en Costa Rica.',
+        'Sitio web con perfil de Google, tienda o reservas con tarjeta y SINPE Móvil, asistente y automatización, rediseño, correo profesional, sistemas a la medida, analítica, seguridad, capacitación en IA y cuidado mensual. Para empresas y organizaciones en Costa Rica.',
       eyebrow: 'Servicios',
-      heading: 'El sitio, lo que vende y lo que responde.',
-      lede: 'Para empresas, negocios y organizaciones. Cada trabajo empieza con una conversación y un alcance por escrito.',
+      heading: 'Lo que construimos, conectamos y cuidamos.',
+      lede: 'Los servicios principales, los que se suman y el cuidado que los sostiene. Para empresas, negocios y organizaciones; cada trabajo empieza con una conversación y un alcance por escrito.',
     },
     automatizacion: {
-      title: 'Asistente inteligente para lo que usted ya responde',
+      title: 'Automatización e IA para su negocio',
       description:
-        'Un asistente inteligente para preguntas, fuera de horario, citas o pedidos, recordatorios y reseñas. El alcance se escribe antes de encenderlo.',
+        'Asistente inteligente, citas y recordatorios, facturación electrónica, cobros, pedidos, seguimiento de clientes, reseñas y reportes automáticos. El alcance se escribe antes de encender nada.',
       eyebrow: 'Automatización',
-      heading: 'Un asistente inteligente para lo que usted ya responde.',
-      lede: 'El alcance se escribe antes de encenderlo.',
-      closeTitle: 'Cuéntenos cómo atiende hoy.',
-      closeText: 'Vemos si el asistente cabe en su operación. Si seguimos, el alcance va por escrito.',
+      heading: 'Lo que su negocio hace a mano todos los días, hecho solo.',
+      lede: 'Un asistente inteligente, citas, facturación, cobros, pedidos y reportes. El alcance se escribe antes de encender nada.',
+      closeTitle: 'Cuéntenos qué le quita tiempo.',
+      closeText: 'Vemos qué se puede automatizar en su operación. Si seguimos, el alcance va por escrito.',
     },
     proceso: {
       title: 'Cómo trabajamos',
@@ -97,9 +97,9 @@ export const es = {
       lede: 'La construcción deja el sitio listo. El cuidado mensual lo mantiene, lo mejora y le reporta.',
     },
     nosotros: {
-      title: 'Sobre Foresta',
+      title: 'Sobre Cariblanco Labs',
       description:
-        'Foresta cuida el sitio de negocios en Costa Rica. El trabajo es técnico y queda a su nombre. No somos una agencia de mercadeo.',
+        'Cariblanco Labs cuida el sitio de negocios en Costa Rica. El trabajo es técnico y queda a su nombre. No somos una agencia de mercadeo.',
       eyebrow: 'Nosotros',
       heading: 'Cuidamos el sitio de su negocio.',
       lede: 'Para empresas y organizaciones en Costa Rica. El sitio queda a su nombre.',
@@ -119,13 +119,13 @@ export const es = {
     description: 'La página que busca no existe o cambió de dirección.',
     eyebrow: 'Página no encontrada',
     heading: 'Esta dirección no existe o cambió de lugar.',
-    text: 'Puede volver al inicio o escribirnos si llegó aquí desde un enlace que debería funcionar.',
+    text: 'Nuestro cariblanco ya la buscó de rama en rama. Puede volver al inicio o escribirnos si llegó aquí desde un enlace que debería funcionar.',
     home: 'Volver al inicio',
     contact: 'Contacto',
   },
   hero: {
     place: 'Costa Rica',
-    offer: 'Sitios web · Cuidado mensual · Asistente inteligente',
+    offer: 'Sitios web · Automatización · Cuidado mensual',
     title: 'Transformamos su negocio para una nueva era de',
     titleEm: 'inteligencia artificial',
     lede: 'Un estudio basado en Costa Rica con la misión de entregar infraestructura digital moderna a negocios.',
@@ -135,18 +135,21 @@ export const es = {
     cueAuto: 'Automatización',
     cueCare: 'Cuidado',
   },
-  chatExample: {
-    label: 'Ejemplo de conversación',
-    business: 'Salón de belleza',
-    status: 'Fuera de horario · asistente',
-    typing: 'escribiendo…',
-    messages: [
-      { from: 'client', time: '21:47', text: 'Hola, ¿mañana abren? ¿Tienen campo para un corte a las 10?' },
-      { from: 'assistant', time: '21:47', text: 'Hola. Mañana abrimos de 9:00 a 18:00 y a las 10:00 hay espacio. ¿A nombre de quién lo apartamos?' },
-      { from: 'client', time: '21:48', text: 'Ana Mora' },
-      { from: 'assistant', time: '21:48', text: 'Listo, Ana. Queda apartado para mañana a las 10:00. El salón se lo confirma a primera hora.' },
+  /** The automation page's header: one example day, as a log. */
+  automationLog: {
+    label: 'Ejemplo de un día',
+    title: 'Bitácora de hoy',
+    status: 'Siete tareas, ninguna a mano',
+    caption: 'Cada línea es una de las automatizaciones de abajo.',
+    rows: [
+      { id: 'reportes', time: '07:00', text: 'Resumen de la semana, enviado a su correo' },
+      { id: 'citas', time: '08:30', text: 'Recordatorio enviado: Luis Vargas, cita a las 10:00' },
+      { id: 'facturacion', time: '09:12', text: 'Factura electrónica emitida y enviada al cliente' },
+      { id: 'cobros', time: '11:40', text: 'Pago recibido por enlace de cobro: ₡18 500' },
+      { id: 'pedidos', time: '14:05', text: 'Pedido del sitio anotado; quedan 3 en inventario' },
+      { id: 'resenas', time: '17:30', text: 'Reseña pedida a los clientes de hoy' },
+      { id: 'asistente', time: '21:47', text: 'El asistente apartó una cita: Ana Mora, mañana a las 10:00' },
     ],
-    caption: 'Responde con lo que usted aprobó y le deja la cita para confirmar.',
   },
   positioning: {
     eyebrow: 'El punto de partida',
@@ -204,7 +207,7 @@ export const es = {
     tags: {
       sitio: ['SEO local', 'Google Business', 'Datos estructurados'],
       tienda: ['SINPE Móvil', 'Pago con tarjeta', 'Reservas'],
-      asistente: ['IA', 'Sitio, WhatsApp y redes', 'Paso a una persona'],
+      asistente: ['IA', 'Citas y facturación', 'Cobros y reportes'],
     } as Record<string, string[]>,
   },
   homeProcess: {
@@ -222,11 +225,42 @@ export const es = {
   },
   services: {
     talk: 'Conversemos sobre este servicio.',
+    automationLink: 'Ver todas las automatizaciones',
     includesLabel: 'Incluye',
     separateLabel: 'Se paga aparte, a su nombre',
     baseLabel: 'La base',
     baseTitle: 'Todo lo que construimos sigue con cuidado mensual.',
     unsure: 'Si todavía no sabe por dónde empezar.',
+    moreLabel: 'Más servicios',
+    moreTitle: 'Lo que también hacemos.',
+    moreText: 'Servicios que se suman a los de arriba o se contratan solos. Cada uno con su alcance por escrito.',
+    startLabel: 'Para empezar',
+    startText: 'Empiece por un diagnóstico.',
+    startCta: 'Pedir un diagnóstico',
+    faqLabel: 'Preguntas frecuentes',
+    faqTitle: 'Lo que suelen preguntarnos.',
+    faq: [
+      {
+        q: '¿Cuánto cuesta?',
+        a: 'Depende del alcance. Después de la conversación le enviamos una propuesta por escrito con el precio, los tiempos y lo que se paga aparte. Sin sorpresas después.',
+      },
+      {
+        q: '¿Cuánto tarda?',
+        a: 'También depende de lo que se construya y de lo que se conecte. La propuesta trae las fechas por escrito, y en el camino usted ve avances reales, no maquetas.',
+      },
+      {
+        q: '¿Puedo empezar con una parte?',
+        a: 'Sí. Muchos empiezan con el sitio y suman la tienda o una automatización después. Todo queda hecho para conectarse.',
+      },
+      {
+        q: '¿Qué necesito tener listo?',
+        a: 'Nada técnico. Basta con saber cómo funciona su negocio; los textos, las fotos y los accesos los vemos juntos.',
+      },
+      {
+        q: '¿Y si un día quiero irme?',
+        a: 'Todo queda a su nombre desde el primer día: dominio, cuentas, código y accesos. Se lleva todo, sin pedirle permiso a nadie.',
+      },
+    ],
     items: {
       sitio: {
         name: 'Sitio web y perfil de Google',
@@ -261,18 +295,105 @@ export const es = {
         ],
       },
       asistente: {
-        name: 'Asistente inteligente',
-        summary: 'Responde lo que usted ya responde, dentro de un alcance escrito.',
-        purpose: 'Atiende por usted, solo con lo que usted aprobó.',
+        name: 'Asistente y automatización',
+        summary: 'Responde lo que usted ya responde y hace solo lo que se repite, dentro de un alcance escrito.',
+        purpose: 'Que lo que se repite se haga solo.',
         support:
-          'Para quienes contestan las mismas preguntas todos los días, también con la operación cerrada. Puede atender en su sitio, WhatsApp o redes sociales. Funciona junto a su sitio; no lo reemplaza.',
+          'Para quienes contestan las mismas preguntas, persiguen pagos o pasan datos a mano todos los días. Muchos empiezan con un asistente en su sitio, WhatsApp o redes, y suman lo demás. Siempre dentro de lo que usted aprobó, y junto a su sitio: no lo reemplaza.',
         includes: [
-          'Preguntas frecuentes que usted define',
-          'Mensajes fuera de horario, con aviso para usted',
-          'Datos para citas o pedidos, que usted confirma',
-          'Recordatorios y solicitudes de reseña',
+          'Asistente inteligente, también fuera de horario, que pasa a una persona cuando no sabe',
+          'Citas, recordatorios y solicitudes de reseña',
+          'Facturación electrónica y cobros',
+          'Pedidos, seguimiento de clientes y reportes',
         ],
-        separate: ['Los cargos por mensaje de cada canal, como WhatsApp, que se facturan a su cuenta'],
+        separate: [
+          'Los cargos por mensaje de cada canal, como WhatsApp, que se facturan a su cuenta',
+          'El plan de las herramientas que se conecten, como su sistema de facturación, si tiene costo',
+        ],
+      },
+      rediseno: {
+        name: 'Rediseño y migración',
+        summary: 'Su sitio actual, en Wix, WordPress u otro, pasado a uno nuevo y rápido sin perder lo que Google ya conoce de usted.',
+        purpose: '',
+        support: '',
+        includes: [
+          'Diseño nuevo con su contenido de siempre',
+          'Redirecciones para no perder posiciones en Google',
+          'Dominio y correo intactos durante el cambio',
+        ],
+        separate: [],
+      },
+      correo: {
+        name: 'Correo profesional y herramientas',
+        summary: 'Correo con su dominio en Google Workspace o Microsoft 365, con su equipo, su calendario y sus archivos en orden.',
+        purpose: '',
+        support: '',
+        includes: [
+          'Una cuenta con su dominio para cada persona',
+          'Calendario y archivos compartidos',
+          'El correo que ya usa, pasado sin perder nada',
+        ],
+        separate: ['La licencia de Google Workspace o Microsoft 365, por usuario'],
+      },
+      medida: {
+        name: 'Sistemas a la medida',
+        summary: 'Cuando ninguna herramienta calza: un portal para sus clientes, un cotizador o un panel interno, hecho para su operación.',
+        purpose: '',
+        support: '',
+        includes: [
+          'Portal de clientes o panel para su equipo',
+          'Cotizadores y formularios que hacen las cuentas',
+          'Conectado a sus datos y a sus herramientas',
+        ],
+        separate: [],
+      },
+      medicion: {
+        name: 'Medición y analítica',
+        summary: 'Sepa de dónde llegan sus clientes y qué funciona: la medición bien instalada y un tablero que se entiende.',
+        purpose: '',
+        support: '',
+        includes: [
+          'Google Analytics y Search Console',
+          'Clics a WhatsApp, llamadas y formularios medidos',
+          'Un tablero mensual en lenguaje claro',
+        ],
+        separate: [],
+      },
+      seguridad: {
+        name: 'Seguridad de cuentas',
+        summary: 'Contraseñas, verificación en dos pasos y respaldos, para que una cuenta perdida no detenga su negocio.',
+        purpose: '',
+        support: '',
+        includes: [
+          'Revisión de accesos: quién entra a qué',
+          'Verificación en dos pasos en correo, redes y banca',
+          'Respaldos de lo que no puede perder',
+        ],
+        separate: [],
+      },
+      capacitacion: {
+        name: 'Capacitación en IA',
+        summary: 'Talleres prácticos para que su equipo use la IA y sus herramientas en el trabajo de cada día, con criterio.',
+        purpose: '',
+        support: '',
+        includes: [
+          'Talleres en línea o en su oficina',
+          'Ejercicios con los casos de su negocio',
+          'Una guía escrita para después',
+        ],
+        separate: [],
+      },
+      diagnostico: {
+        name: 'Diagnóstico digital',
+        summary: 'Revisamos su sitio, su perfil de Google y cómo atiende hoy, y le entregamos por escrito qué conviene hacer primero.',
+        purpose: '',
+        support: '',
+        includes: [
+          'Revisión de su sitio, su velocidad y su presencia en Google',
+          'Lo que hoy se hace a mano y podría automatizarse',
+          'Un informe con prioridades y un estimado de cada una',
+        ],
+        separate: [],
       },
       cuidado: {
         name: 'Cuidado mensual',
@@ -283,7 +404,7 @@ export const es = {
           'Hosting, certificado de seguridad, respaldos y actualizaciones',
           'Cambios de textos, horario, fotos o precios',
           'Perfil de Google al día',
-          'Revisión y ajuste del asistente, si lo tiene',
+          'Revisión y ajuste de sus automatizaciones, si las tiene',
           'Reporte breve por escrito y soporte por WhatsApp o correo',
         ],
         separate: [] as string[],
@@ -291,29 +412,94 @@ export const es = {
     },
   },
   automation: {
-    doesNot: 'Lo que no hace',
+    doesNot: 'Lo que ninguna automatización hace',
+    catalog: {
+      label: 'Soluciones',
+      title: 'Lo que podemos automatizar.',
+      text: 'Empezamos por lo que más tiempo le quita. Cada automatización se escribe antes de encenderse, queda a su nombre y se revisa con el uso.',
+      detail: 'Ver el asistente en detalle',
+      moreTitle: '¿Tiene otra tarea que se repite?',
+      moreText: 'Si se hace igual cada vez, probablemente se puede automatizar. Cuéntenos cuál es y le decimos, por escrito, si vale la pena.',
+      moreLink: 'Contarnos la tarea',
+      items: [
+        {
+          id: 'asistente',
+          title: 'Asistente inteligente',
+          text: 'Responde las preguntas de siempre, toma los datos de una cita o un pedido y pasa a una persona cuando no sabe.',
+          tags: ['IA', 'Sitio, WhatsApp y redes'],
+        },
+        {
+          id: 'citas',
+          title: 'Citas y recordatorios',
+          text: 'Su cliente reserva en línea, la cita entra a su calendario y el recordatorio sale solo el día antes.',
+          tags: ['Agenda en línea', 'Google Calendar'],
+        },
+        {
+          id: 'facturacion',
+          title: 'Facturación electrónica',
+          text: 'Cada venta o pago emite su comprobante en su sistema de facturación y le llega al cliente, sin volver a digitarlo.',
+          tags: ['Hacienda', 'Comprobantes'],
+        },
+        {
+          id: 'cobros',
+          title: 'Cobros y pagos',
+          text: 'Enlaces de pago, cobros mensuales que se hacen solos y recordatorios amables a quien tiene un saldo pendiente.',
+          tags: ['Tarjeta', 'Suscripciones'],
+        },
+        {
+          id: 'pedidos',
+          title: 'Pedidos e inventario',
+          text: 'Los pedidos del sitio y de WhatsApp llegan a una sola lista, el inventario se descuenta y le avisamos cuando algo se acaba.',
+          tags: ['Una sola lista', 'Alertas'],
+        },
+        {
+          id: 'clientes',
+          title: 'Clientes y seguimiento',
+          text: 'Cada contacto de su sitio, WhatsApp o redes queda registrado, con un recordatorio para seguir a quien preguntó y no volvió.',
+          tags: ['CRM', 'Formularios'],
+        },
+        {
+          id: 'resenas',
+          title: 'Reseñas y clientes que vuelven',
+          text: 'Después de cada visita se pide una reseña en Google, y en fechas acordadas sale un mensaje a quien aceptó recibirlo.',
+          tags: ['Google', 'Correo y WhatsApp'],
+        },
+        {
+          id: 'reportes',
+          title: 'Reportes para usted',
+          text: 'Cada lunes le llega un resumen de ventas, citas, mensajes y pendientes, sin abrir cinco aplicaciones.',
+          tags: ['Resumen semanal', 'Tableros'],
+        },
+        {
+          id: 'documentos',
+          title: 'Documentos y datos',
+          text: 'Cotizaciones y contratos desde una plantilla, y facturas de proveedores leídas con IA y pasadas a su contabilidad.',
+          tags: ['IA', 'Plantillas'],
+        },
+      ],
+    },
     workLabel: 'Cómo se arma',
-    workTitle: 'De su operación al mensaje.',
+    workTitle: 'Cuatro pasos, para cualquiera de ellas.',
     work: [
       {
         title: 'Entender',
-        text: 'Vemos cómo atiende hoy: preguntas, horario, citas y pedidos.',
+        text: 'Vemos cómo trabaja hoy: qué se repite, qué se pierde y qué le quita tiempo.',
       },
       {
         title: 'Elegir',
-        text: 'Marcamos lo que ya responde a mano y puede pasar al asistente.',
+        text: 'Marcamos lo que se hace a mano y puede hacerse solo, y empezamos por lo que más pesa.',
       },
       {
         title: 'Conectar',
-        text: 'Lo escribimos, lo unimos a su sitio y lo encendemos.',
+        text: 'Lo escribimos, lo conectamos a su sitio y sus herramientas, y lo encendemos.',
       },
       {
         title: 'Ajustar',
-        text: 'Revisamos lo que no pudo resolver y afinamos lo escrito.',
+        text: 'Revisamos cómo funciona en el día a día y afinamos lo escrito.',
       },
     ],
     hours: {
-      label: 'Fuera de horario',
+      label: 'El asistente, fuera de horario',
       title: 'Su negocio cierra. La conversación sigue.',
       text: 'Usted atiende en su horario. Fuera de él, el asistente responde lo que usted aprobó y le deja todo anotado para la mañana.',
       open: 'Su horario',
@@ -323,7 +509,7 @@ export const es = {
       arrival: 'Llega un mensaje',
       arrivalValue: '21:47, como el del ejemplo de arriba',
     },
-    flowLabel: 'Lo que hace',
+    flowLabel: 'Lo que hace el asistente',
     flowTitle: 'Un mensaje, dentro de lo que usted aprobó.',
     /** One short exchange per capability, in the same order as stepTitles. */
     examples: [
@@ -351,7 +537,7 @@ export const es = {
       'Recordatorio y reseña',
     ],
     planTitle: 'Junto a su sitio.',
-    planText: 'El asistente se escribe antes de encenderse. Funciona junto a su sitio; no lo reemplaza.',
+    planText: 'Cada automatización se escribe antes de encenderse y queda a su nombre. Funciona junto a su sitio y sus herramientas; no las reemplaza.',
     planLink: 'Ver el servicio',
     doesItems: [
       'Responde preguntas frecuentes que usted define: horario, ubicación, servicios y formas de pago.',
@@ -360,9 +546,9 @@ export const es = {
       'Envía recordatorios de cita y solicitudes de reseña en el momento acordado.',
     ],
     doesNotItems: [
-      'No inventa respuestas fuera de lo que usted aprobó.',
-      'No cierra ventas ni toma decisiones por usted.',
-      'No reemplaza la atención humana: cuando no sabe, deriva a una persona.',
+      'No inventa respuestas ni datos fuera de lo que usted aprobó.',
+      'No toma decisiones por usted: lo que importa le llega para que lo confirme.',
+      'No reemplaza a su equipo: cuando algo se sale de lo previsto, avisa a una persona.',
       'No se instala y se olvida: se revisa y se ajusta con el uso.',
     ],
   },
@@ -422,13 +608,32 @@ export const es = {
   },
   about: {
     statementTitle: 'Un trabajo de cerca.',
-    origin: 'Foresta Works fue fundada por {name}, ingenieros graduados del Tecnológico de Costa Rica.',
+    origin: 'Cariblanco Labs fue fundada por {name}, ingenieros graduados del Tecnológico de Costa Rica.',
     and: 'y',
     statement: 'Conversamos, dejamos el alcance por escrito y usted ve avances reales.',
     statementMore:
       'Preferimos pocas herramientas, bien conectadas, hechas para durar y para quien las usa cada día.',
     /** Tag on each founder portrait until real photos are added. */
     portraitPending: 'Foto próximamente',
+    cariblanco: {
+      label: 'El nombre',
+      title: '¿Por qué cariblanco?',
+      text: 'El cariblanco es de aquí: anda de rama en rama por los bosques de Costa Rica. Tres cosas suyas son como trabajamos.',
+      traits: [
+        {
+          title: 'Curioso',
+          text: 'Preguntamos hasta entender cómo funciona su negocio hoy, antes de proponer algo.',
+        },
+        {
+          title: 'Usa herramientas',
+          text: 'Escogemos la herramienta justa para cada trabajo, y queda a su nombre.',
+        },
+        {
+          title: 'Anda en tropa',
+          text: 'Trabajamos de cerca con usted y su equipo, no por encargo y a distancia.',
+        },
+      ],
+    },
     principlesLabel: 'Compromisos',
     principlesTitle: 'Así queda el acuerdo.',
     principles: [
@@ -449,9 +654,6 @@ export const es = {
         text: 'No somos una agencia, ni llevamos sus redes ni trabajamos con influencers.',
       },
     ],
-    togetherLabel: 'Con usted',
-    togetherTitle: 'El alcance se ajusta. El avance se ve.',
-    together: 'Trabajamos de cerca y con claridad. El alcance se escribe para su negocio.',
   },
   contact: {
     methodsTitle: 'Formas de contacto',

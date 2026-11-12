@@ -81,9 +81,10 @@ a {
   text-decoration: none;
 }
 
+/* Selected text takes the cariblanco's face colour. */
 ::selection {
-  background: var(--color-primary);
-  color: var(--color-on-primary);
+  background: var(--color-blush-200);
+  color: var(--color-ink);
 }
 
 :focus-visible {
