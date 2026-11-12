@@ -32,14 +32,14 @@ const copy = t.about.cariblanco;
       {copy.traits.map((trait, index) => (
         <li class="trait reveal" style={`--i:${index}`}>
           <div class="trait__stage" aria-hidden="true">
-            {index === 0 && <Cariblanco pose="sit" hold="leaf" class="trait__monkey trait__monkey--sit" />}
-            {index === 1 && <Cariblanco pose="sit" hold="stone" class="trait__monkey trait__monkey--sit" />}
+            {index === 0 && <Cariblanco pose="sit" onDark curious hold="leaf" class="trait__monkey trait__monkey--sit" />}
+            {index === 1 && <Cariblanco pose="sit" onDark hold="stone" class="trait__monkey trait__monkey--sit" />}
             {index === 2 && (
               <div class="trait__troop">
                 <Vine span={300} sag={16} leaves={7} class="trait__vine" />
-                <Cariblanco pose="hang" vine={false} swing class="trait__monkey trait__monkey--hang trait__monkey--a" />
-                <Cariblanco pose="hang" vine={false} swing class="trait__monkey trait__monkey--hang trait__monkey--b" />
-                <Cariblanco pose="hang" vine={false} swing class="trait__monkey trait__monkey--hang trait__monkey--c" />
+                <Cariblanco pose="hang" onDark vine={false} swing class="trait__monkey trait__monkey--hang trait__monkey--a" />
+                <Cariblanco pose="hang" onDark vine={false} swing class="trait__monkey trait__monkey--hang trait__monkey--b" />
+                <Cariblanco pose="hang" onDark vine={false} swing class="trait__monkey trait__monkey--hang trait__monkey--c" />
               </div>
             )}
           </div>
@@ -123,17 +123,12 @@ const copy = t.about.cariblanco;
   }
 
   .trait__stage :global(.trait__monkey) {
-    color: var(--color-dark-accent);
-    --cb-hood: var(--color-mist-50);
-    --cb-ring: var(--color-dark-bg);
-    --cb-leaf: rgb(197 208 99 / 0.3);
-    --cb-vine: var(--color-fern-400);
   }
 
   /* Seated on the ground line: the seat is 116 of 150 down the box, so
      the box (and the hanging tail) drops below it. */
   .trait__stage :global(.trait__monkey--sit) {
-    --sit-w: 4.4rem;
+    --sit-w: 5.4rem;
     width: var(--sit-w);
     margin-bottom: calc(var(--sit-w) * -0.42);
   }
@@ -144,7 +139,7 @@ const copy = t.about.cariblanco;
   .trait__troop {
     position: relative;
     align-self: stretch;
-    width: min(100%, 16rem);
+    width: min(100%, 19rem);
     container-type: inline-size;
   }
 
@@ -154,7 +149,7 @@ const copy = t.about.cariblanco;
   }
 
   .trait__stage :global(.trait__monkey--hang) {
-    --hang-w: 3.2rem;
+    --hang-w: 3.9rem;
     position: absolute;
     width: var(--hang-w);
   }
@@ -165,7 +160,7 @@ const copy = t.about.cariblanco;
   }
 
   .trait__stage :global(.trait__monkey--b) {
-    --hang-w: 2.3rem;
+    --hang-w: 2.8rem;
     top: calc(8.5cqw - var(--hang-w) * 0.1);
     left: calc(50% - var(--hang-w) * 0.52);
   }
@@ -226,7 +221,7 @@ const copy = t.about.cariblanco;
 
     .trait__stage {
       justify-content: flex-start;
-      height: 7.5rem;
+      height: 8.75rem;
       padding-inline: 0;
     }
 

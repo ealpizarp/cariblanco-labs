@@ -2,7 +2,9 @@
 /**
  * The five working steps, each with a growth glyph (seed to tree, as on
  * the process page). Wide screens: one stem across the page with a column
- * per step; the stem is a vine, and a cariblanco hangs from its far end.
+ * per step; the stem is a vine. When the list scrolls into view a
+ * cariblanco bounds along it from the first step to the last, slows to
+ * a walk, and sits down on the vine to look at the reader.
  * Narrow: a ruled list. Glyphs draw in one after another.
  */
 import LineGlyph, { type GlyphName } from '@/components/visuals/LineGlyph.astro';
@@ -15,13 +17,18 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
 ---
 
 <ol class="steps reveal">
+  <li class="steps__walker" aria-hidden="true">
+    <Cariblanco pose="walk" />
+  </li>
+  <li class="steps__sitter" aria-hidden="true">
+    <Cariblanco pose="sit" curious />
+  </li>
   {t.process.steps.map((step, index) => (
     <li class="step">
       <span class="step__bud" aria-hidden="true">
         <LineGlyph name={growth[index] ?? 'seed'} class="glyph--draw" delay={0.15 + index * 0.22} />
       </span>
       <Vine span={260} sag={6} leaves={3} class="step__vine" />
-      {index === t.process.steps.length - 1 && <Cariblanco pose="hang" vine={false} swing class="step__monkey" />}
       <h3 class="step__title">{step.title}</h3>
       <p class="step__text">{step.text}</p>
     </li>
@@ -65,7 +72,8 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
 
   /* The vine and the cariblanco only appear on the wide stem. */
   .step :global(.step__vine),
-  .step :global(.step__monkey) {
+  .steps__walker,
+  .steps__sitter {
     display: none;
   }
 
@@ -141,17 +149,35 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
       width: calc(100% - 3rem);
     }
 
-    /* Hangs from the end of the last stretch (grip at 52, 10 of 100 × 150). */
-    .step :global(.step__monkey) {
-      --hang-w: 3.6rem;
+    /* At rest, a cariblanco sits on the last stretch of vine (seat 1.45
+       widths down its box, on the stem line at 1.5rem), under the middle
+       of where the walker's body ends up. The walker (feet 80/90 down its
+       box) only appears when there is a walk to show; see below. */
+    .steps {
+      container-type: inline-size;
+      --walk-w: 4.6rem;
+    }
+
+    .steps__walker {
+      position: absolute;
+      z-index: 2;
+      top: calc(1.5rem - var(--walk-w) * 90 / 130 * 80 / 90);
+      right: 0.4rem;
+      width: var(--walk-w);
+      pointer-events: none;
+    }
+
+    /* Its head matches the walker's: 1.18 x 48 units of 80 against
+       0.95 x 48 of 130, so the sitter is 0.49 of the walker's width. */
+    .steps__sitter {
+      --sit-w: calc(var(--walk-w) * 0.49);
       display: block;
       position: absolute;
-      top: calc(1.5rem - var(--hang-w) * 0.1);
-      right: calc(0.6rem - var(--hang-w) * 0.48);
-      width: var(--hang-w);
-      color: var(--color-primary);
-      --cb-hood: var(--color-paper);
-      --cb-ring: var(--color-bg);
+      z-index: 2;
+      top: calc(1.5rem - var(--sit-w) * 1.45);
+      right: calc(0.4rem + var(--walk-w) * 70 / 130 - var(--sit-w) / 2);
+      width: var(--sit-w);
+      pointer-events: none;
     }
 
     .step__bud {
@@ -192,5 +218,146 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
     to {
       clip-path: inset(0 0 0 0);
     }
+  }
+
+  /* ---- The walk ----
+     Only when the list starts below the fold (`.reveal--wait`), so there
+     is an arrival to watch. Timeline, from the reveal (seconds):
+       0.5 - 7.1   bounding: 22 bounds of 0.3s, covering 90% of the way;
+       7.1 - 8.1   two strides of a walk, slowing to a stop;
+       8.1 - 8.5   the walker hands over to the sitter, who stays.
+     A bound, from the moment the front feet land (0%): the front legs
+     take the weight and sweep back (to 30%), then swing forward; the
+     hind legs land under the body (40%), push it off (75%), and the body
+     flies, nose up then level, to the next landing. Legs turn about the
+     hip; the far legs run a few hundredths behind the near ones. */
+  @media (min-width: 1000px) and (prefers-reduced-motion: no-preference) {
+    .steps.reveal--wait .steps__walker {
+      display: block;
+      translate: calc(-100cqw + var(--walk-w) + 3.6rem) 0;
+    }
+
+    .steps.reveal--wait .steps__sitter {
+      opacity: 0;
+    }
+
+    .steps.reveal--wait.is-in .steps__walker {
+      animation:
+        steps-travel 7.6s linear 0.5s both,
+        steps-leave 0.4s ease-out 8.1s forwards;
+    }
+
+    .steps.reveal--wait.is-in .steps__sitter {
+      transform-origin: 50% 77%;
+      animation: steps-settle 0.45s var(--ease-out) 8.1s both;
+    }
+
+    .steps.reveal--wait.is-in .steps__walker :global(.cb__body) {
+      transform-box: fill-box;
+      transform-origin: 50% 60%;
+      animation:
+        steps-hop 0.3s linear 0.5s 22,
+        steps-sway 0.25s ease-in-out 7.1s 4 alternate;
+    }
+
+    .steps.reveal--wait.is-in .steps__walker :global(.cb__leg) {
+      transform-box: fill-box;
+      transform-origin: 50% 0;
+    }
+
+    /* Front legs: the far one (also trot pair a) and the near one (b). */
+    .steps.reveal--wait.is-in .steps__walker :global(.cb__leg--fore.cb__leg--far) {
+      animation:
+        steps-fore 0.3s linear 0.53s 22,
+        steps-stride 0.5s linear 7.1s 2;
+    }
+
+    .steps.reveal--wait.is-in .steps__walker :global(.cb__leg--fore:not(.cb__leg--far)) {
+      animation:
+        steps-fore 0.3s linear 0.5s 22,
+        steps-stride 0.5s linear 7.35s 2;
+    }
+
+    /* Hind legs: the near one (trot pair a) and the far one (b). */
+    .steps.reveal--wait.is-in .steps__walker :global(.cb__leg--hind:not(.cb__leg--far)) {
+      animation:
+        steps-hind 0.3s linear 0.5s 22,
+        steps-stride 0.5s linear 7.1s 2;
+    }
+
+    .steps.reveal--wait.is-in .steps__walker :global(.cb__leg--hind.cb__leg--far) {
+      animation:
+        steps-hind 0.3s linear 0.53s 22,
+        steps-stride 0.5s linear 7.35s 2;
+    }
+
+    .steps.reveal--wait.is-in .steps__walker :global(.cb__tail) {
+      transform-box: view-box;
+      transform-origin: 24px 50px;
+      animation: steps-flick 0.3s ease-in-out 0.5s 22;
+    }
+  }
+
+  /* Bounding at an even speed for 90% of the way, then two slowing
+     strides for the last 10%. */
+  @keyframes steps-travel {
+    0% { translate: calc(-100cqw + var(--walk-w) + 3.6rem) 0; }
+    86.8% { translate: calc((-100cqw + var(--walk-w) + 3.6rem) * 0.1) 0; animation-timing-function: cubic-bezier(0.2, 0.6, 0.35, 1); }
+    100% { translate: 0 0; }
+  }
+
+  /* The body over one bound (user units; one is about half a pixel). */
+  @keyframes steps-hop {
+    0% { translate: 0 2px; rotate: 3deg; animation-timing-function: ease-in-out; }
+    40% { translate: 0 3px; rotate: -1deg; animation-timing-function: ease-in; }
+    75% { translate: 0 0; rotate: -5deg; animation-timing-function: ease-out; }
+    90% { translate: 0 -13px; rotate: -1deg; animation-timing-function: ease-in; }
+    100% { translate: 0 2px; rotate: 3deg; }
+  }
+
+  /* The small rise and fall of a walk. */
+  @keyframes steps-sway {
+    from { translate: 0 0; }
+    to { translate: 0 -4px; }
+  }
+
+  @keyframes steps-fore {
+    0% { rotate: -22deg; scale: 1 1; }
+    30% { rotate: 30deg; scale: 1 1; }
+    55% { rotate: 6deg; scale: 1 0.82; }
+    80% { rotate: -36deg; scale: 1 0.95; }
+    100% { rotate: -22deg; scale: 1 1; }
+  }
+
+  @keyframes steps-hind {
+    0% { rotate: -4deg; scale: 1 0.86; }
+    40% { rotate: -30deg; scale: 1 1; }
+    75% { rotate: 34deg; scale: 1 1; }
+    88% { rotate: 22deg; scale: 1 0.84; }
+    100% { rotate: -4deg; scale: 1 0.86; }
+  }
+
+  /* A walking stride: planted and swept back, then lifted and brought
+     forward. */
+  @keyframes steps-stride {
+    0% { rotate: -16deg; scale: 1 1; }
+    50% { rotate: 16deg; scale: 1 1; }
+    75% { rotate: 0deg; scale: 1 0.84; }
+    100% { rotate: -16deg; scale: 1 1; }
+  }
+
+  @keyframes steps-flick {
+    0%, 100% { rotate: -5deg; }
+    75% { rotate: 9deg; }
+  }
+
+  @keyframes steps-leave {
+    to { opacity: 0; }
+  }
+
+  /* Sitting down: it fades in a little tall and settles onto its seat. */
+  @keyframes steps-settle {
+    from { opacity: 0; scale: 1 1.08; }
+    to { opacity: 1; scale: 1 1; }
   }
 </style>

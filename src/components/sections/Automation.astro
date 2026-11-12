@@ -1,11 +1,14 @@
 ---
 /**
- * Automation page body, in the order a visitor asks:
- * how it comes together (four glyphs on one stem), when it works (a 24-hour
- * dial), what it does (each capability with a two-line exchange), what it
- * does not do, and where the plan lives. Each fact appears once; each part
+ * Automation page body, in the order a visitor asks: what can be
+ * automated (a catalog of solutions); the intelligent assistant, the first
+ * of them, in detail (when it works, on a 24-hour dial, and what it does,
+ * each capability with a two-line exchange); then what holds for all of
+ * them: how one comes together (four glyphs on one stem), what none of
+ * them does, and where they sit among the services. Each fact appears once; each part
  * is its own component in `./automation/`.
  */
+import AutomationCatalog from './automation/AutomationCatalog.astro';
 import AutomationFlow from './automation/AutomationFlow.astro';
 import AutomationHours from './automation/AutomationHours.astro';
 import AutomationPlan from './automation/AutomationPlan.astro';
@@ -14,8 +17,9 @@ import AutomationWork from './automation/AutomationWork.astro';
 import './automation/block.css';
 ---
 
-<AutomationWork />
+<AutomationCatalog />
 <AutomationHours />
 <AutomationFlow />
+<AutomationWork />
 <AutomationScope />
 <AutomationPlan />

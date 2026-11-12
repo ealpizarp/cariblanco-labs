@@ -1,9 +1,10 @@
 ---
 /**
- * The services page body. The three lead services each get a plate:
- * name, statement, who it is for, what it includes, what the client pays
- * third parties directly, and its drawing on a mounted sheet. Monthly care
- * follows as the base all three run on.
+ * The services page's long-form sections. `tier="lead"`: the three lead
+ * services, each a plate with its name, statement, who it is for, what it
+ * includes, what the client pays third parties directly, and its drawing
+ * on a mounted sheet. `tier="base"`: monthly care, the base everything
+ * runs on. The page puts the further services between the two.
  */
 import Button from '@/components/ui/Button.astro';
 import Plate from '@/components/ui/Plate.astro';
@@ -11,10 +12,15 @@ import ServiceSketch from '@/components/visuals/ServiceSketch.astro';
 import { getServices } from '@/data/services';
 import { routes, useI18n } from '@/i18n';
 
+interface Props {
+  tier: 'lead' | 'base';
+}
+
+const { tier } = Astro.props;
 const { locale, t, path } = useI18n(Astro);
 const services = getServices(locale);
-const lead = services.filter((service) => service.lead);
-const base = services.filter((service) => !service.lead);
+const lead = tier === 'lead' ? services.filter((service) => service.tier === 'lead') : [];
+const base = tier === 'base' ? services.filter((service) => service.tier === 'base') : [];
 const contact = path(routes.contacto);
 ---
 
@@ -50,6 +56,9 @@ const contact = path(routes.contacto);
             {t.services.talk}
             <span class="sr-only"> {service.name}.</span>
           </Button>
+          {service.id === 'asistente' && (
+            <Button href={path(routes.automatizacion)} variant="text">{t.services.automationLink}</Button>
+          )}
         </div>
       </div>
 
@@ -185,6 +194,10 @@ const contact = path(routes.contacto);
   }
 
   .detail__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4) var(--space-6);
     margin-top: var(--space-3);
   }
 

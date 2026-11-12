@@ -52,7 +52,7 @@ const nav = primaryNav(locale);
   </div>
 
   <p class="site-footer__giant" aria-hidden="true">Cariblanco</p>
-  <Cariblanco pose="peek" class="site-footer__cariblanco" />
+  <Cariblanco pose="peek" onDark class="site-footer__cariblanco" />
 </footer>
 
 <style>
@@ -153,9 +153,6 @@ const nav = primaryNav(locale);
     right: max(var(--gutter), calc(50% - 41rem));
     bottom: -1px;
     width: clamp(4.75rem, 12vw, 11rem);
-    color: var(--color-dark-accent);
-    --cb-hood: var(--color-mist-50);
-    --cb-ring: var(--color-dark-bg);
   }
 
   @media (prefers-reduced-motion: no-preference) {

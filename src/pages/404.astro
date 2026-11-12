@@ -48,7 +48,7 @@ const fallback = packs[defaultLocale];
     <meta name="description" content={fallback.description} />
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta name="theme-color" content="#e9e8dd" />
+    <meta name="theme-color" content="#ece8da" />
     <script is:inline define:vars={{ cookieName: LOCALE_COOKIE, packs, defaultLocale }}>
       (function () {
         function detect() {
@@ -199,9 +199,6 @@ const fallback = packs[defaultLocale];
     top: calc(7.4cqw - var(--hang-w) * 0.1);
     left: calc(50% - var(--hang-w) * 0.52);
     width: var(--hang-w);
-    color: var(--color-primary);
-    --cb-hood: var(--color-paper);
-    --cb-ring: var(--color-bg);
   }
 
   @media (max-width: 700px) {

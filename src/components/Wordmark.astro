@@ -43,9 +43,14 @@ const { t, path } = useI18n(Astro, localeProp);
     width: 1.25em;
     height: auto;
     margin-top: -0.1em;
-    color: var(--color-primary);
     --cb-hood: var(--color-paper);
-    --cb-edge: var(--color-moss-800);
+    --cb-edge: var(--color-fur);
+    transition: rotate var(--duration-base) var(--ease-out);
+  }
+
+  /* A tilt of the head when you point at the name. */
+  .wordmark:hover :global(.wordmark__mark) {
+    rotate: -12deg;
   }
 
   .wordmark--on-dark {
@@ -53,7 +58,6 @@ const { t, path } = useI18n(Astro, localeProp);
   }
 
   .wordmark--on-dark :global(.wordmark__mark) {
-    color: var(--color-moss-950);
     --cb-hood: var(--color-mist-50);
     --cb-edge: none;
   }

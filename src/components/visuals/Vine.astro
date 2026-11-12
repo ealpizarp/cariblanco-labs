@@ -1,4 +1,5 @@
 ---
+import { ropeAngle, ropeBottom, ropePath, ropeY, type RopeShape } from '@/lib/vine';
 import { LEAF_ID } from './cariblanco-parts';
 
 /**
@@ -11,6 +12,10 @@ import { LEAF_ID } from './cariblanco-parts';
  *           on a short stretch.
  *  - hang:  down from the top, `length` units long, ending in a curl
  *           (viewBox 40 wide).
+ *  - bough: a branch that rises and dips across a width, from a `shape`
+ *           (see `src/lib/vine.ts`, which also tells you where the rope is
+ *           at any point, for placing things on it). Viewbox from y = 0 to
+ *           just below the rope's lowest point.
  *
  * Two strands twist along the rope; leaves hang off it at even steps,
  * left and right in turn. It draws itself in when it scrolls into view
@@ -18,7 +23,11 @@ import { LEAF_ID } from './cariblanco-parts';
  * Colours: `color` (rope) and `--vine-leaf`. Decorative: aria-hidden.
  */
 interface Props {
-  kind?: 'drape' | 'hang';
+  kind?: 'drape' | 'hang' | 'bough';
+  /** Rope shape (bough). */
+  shape?: RopeShape;
+  /** Leaves droop below the rope (default), or grow up off it. */
+  leavesGrow?: 'down' | 'up';
   /** Depth of the sag (drape), in viewBox units. */
   sag?: number;
   /** Width of the drape's viewBox; leaves are the same size at any span. */
@@ -26,12 +35,28 @@ interface Props {
   /** Length (hang), in viewBox units. */
   length?: number;
   leaves?: number;
+  /** Leaf scale; drapes default to 1.5, hanging vines to 1. */
+  leafSize?: number;
   /** A hanging vine sways from its top. */
   sway?: boolean;
+  /** Draw in when scrolled into view (off for vines on the first screen). */
+  reveal?: boolean;
   class?: string;
 }
 
-const { kind = 'drape', sag = 40, span = 1000, length = 160, leaves = 7, sway = false, class: className } = Astro.props;
+const {
+  kind = 'drape',
+  shape,
+  leavesGrow = 'down',
+  sag = 40,
+  span = 1000,
+  length = 160,
+  leaves = 7,
+  leafSize = kind === 'hang' ? 1 : 1.5,
+  sway = false,
+  reveal = true,
+  class: className,
+} = Astro.props;
 
 type Point = readonly [number, number];
 type Curve = readonly [Point, Point, Point, Point];
@@ -60,25 +85,40 @@ const strand: Curve =
     ? [[0, top + 3], [span * 0.32, top + sag * 1.3 - 6], [span * 0.68, top + sag * 1.3 + 6], [span, top + 3]]
     : [[22, 0], [32, length * 0.35], [8, length * 0.65], [21, length]];
 
-/** Leaves at even steps, alternating sides, drooping from the rope. */
+/** A bough is the rope shape's own path; drapes and hanging vines are one curve. */
+const bough = kind === 'bough' && shape ? shape : null;
+const pointAt = (t: number): { x: number; y: number; angle: number } =>
+  bough ? { x: t * bough.span, y: ropeY(t, bough), angle: ropeAngle(t, bough) } : at(rope, t);
+
+/** Leaves at even steps, alternating sides: drooping from the rope, or
+    growing up off it, leaning forward and back in turn. */
 const leafMarks = Array.from({ length: leaves }, (_, i) => {
-  const point = at(rope, (i + 0.5) / leaves);
+  const point = pointAt((i + 0.5) / leaves);
   const side = i % 2 === 0 ? 1 : -1;
-  const droop = kind === 'drape' ? 90 + side * 38 + point.angle : side * 70 + 90;
-  const scale = kind === 'drape' ? ' scale(1.5)' : '';
+  const droop =
+    kind === 'hang'
+      ? side * 70 + 90
+      : leavesGrow === 'up'
+        ? -90 + side * 42 + point.angle
+        : 90 + side * 38 + point.angle;
+  const scale = leafSize === 1 ? '' : ` scale(${leafSize})`;
   return `<g transform="translate(${point.x.toFixed(0)} ${point.y.toFixed(0)}) rotate(${droop.toFixed(0)})${scale}"><use class="vine__leaf" style="--i:${i}" href="#${LEAF_ID}"/></g>`;
 }).join('');
 
 /** Built as one string: scoped attributes on every path would double it. */
-const strands = [d(rope), d(strand)];
+const strands = bough ? [ropePath(bough), ropePath(bough, { dy: 2.5, dPhase: 0.5 })] : [d(rope), d(strand)];
 const curl = kind === 'hang' ? `M20 ${length} C20 ${length + 8} 30 ${length + 8} 30 ${length + 2} C30 ${length - 3} 24 ${length - 3} 24 ${length + 1}` : '';
-const viewBox = kind === 'drape' ? `0 0 ${span} ${Math.round(top + sag + 30)}` : `0 0 40 ${length + 14}`;
+const viewBox = bough
+  ? `0 0 ${bough.span} ${Math.ceil(ropeBottom(bough) + (leavesGrow === 'up' ? 6 : 30))}`
+  : kind === 'drape'
+    ? `0 0 ${span} ${Math.round(top + sag + 30)}`
+    : `0 0 40 ${length + 14}`;
 ---
 
 <svg
-  class:list={['vine', `vine--${kind}`, { 'vine--sway': sway }, 'reveal', className]}
+  class:list={['vine', `vine--${kind}`, { 'vine--sway': sway, reveal }, className]}
   viewBox={viewBox}
-  preserveAspectRatio={kind === 'drape' ? 'none' : undefined}
+  preserveAspectRatio={kind === 'hang' ? undefined : 'none'}
   fill="none"
   aria-hidden="true"
   focusable="false"
@@ -101,7 +141,8 @@ const viewBox = kind === 'drape' ? `0 0 ${span} ${Math.round(top + sag + 30)}` :
     --vine-leaf: var(--color-lichen-100);
   }
 
-  .vine--drape {
+  .vine--drape,
+  .vine--bough {
     width: 100%;
     height: auto;
   }

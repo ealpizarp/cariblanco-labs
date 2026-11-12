@@ -202,6 +202,8 @@ const [gx, gy, grx, gry] = art.ground;
        drawing is on. Also the outline where a monkey's arm crosses it. */
     --sketch-paper: var(--color-surface);
     --sketch-mark: var(--color-paper);
+    /* Outline round the cariblanco: the paper on light, a line on dark. */
+    --sketch-ring: var(--sketch-paper);
   }
 
   .sketch :global(.plan__draw) {
@@ -257,9 +259,9 @@ const [gx, gy, grx, gry] = art.ground;
   }
 
   .sketch :global(.plan__monkey) {
-    color: var(--sketch-ink);
+    color: var(--color-fur);
     --cb-hood: var(--sketch-mark);
-    --cb-ring: var(--sketch-paper);
+    --cb-ring: var(--sketch-ring);
     --cb-leaf: var(--sketch-leaf);
     --cb-vine: var(--sketch-ink);
   }

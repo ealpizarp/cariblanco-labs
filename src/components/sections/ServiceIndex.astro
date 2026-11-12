@@ -15,8 +15,8 @@ import { routes, useI18n } from '@/i18n';
 const { locale, t, path } = useI18n(Astro);
 const services = getServices(locale);
 const servicesPath = path(routes.servicios);
-const lead = services.filter((service) => service.lead);
-const more = services.filter((service) => !service.lead);
+const lead = services.filter((service) => service.tier === 'lead');
+const more = services.filter((service) => service.tier === 'base');
 ---
 
 <section class="section index" aria-labelledby="services-title">
@@ -171,10 +171,11 @@ const more = services.filter((service) => !service.lead);
     --sketch-ink: var(--color-lichen-200);
     --sketch-emboss: rgb(197 208 99 / 0.28);
     --sketch-leaf: rgb(197 208 99 / 0.18);
-    --sketch-ground: rgb(233 232 221 / 0.06);
+    --sketch-ground: rgb(236 232 218 / 0.06);
     --sketch-bud: var(--color-poro-400);
     --sketch-paper: var(--color-moss-900);
     --sketch-mark: var(--color-mist-50);
+    --sketch-ring: var(--color-fern-400);
   }
 
   .specimen__name {

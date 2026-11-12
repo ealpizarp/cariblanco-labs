@@ -1,6 +1,6 @@
 ---
 /**
- * Automation page, part 2: when it works. A 24-hour dial of your hours
+ * Automation page, part 2 (the assistant in detail): when it works. A 24-hour dial of your hours
  * against the assistant's, on moss with a contour survey behind it.
  * At the foot of the section a cariblanco sleeps on its branch: the
  * assistant has the night.
@@ -15,7 +15,7 @@ const { t } = useI18n(Astro);
 const hours = t.automation.hours;
 ---
 
-<section class="section auto-hours" aria-labelledby="auto-hours-title">
+<section id="asistente" class="section auto-hours" aria-labelledby="auto-hours-title">
   <div class="auto-hours__terrain" aria-hidden="true">
     <Contours preset="band" />
   </div>
@@ -41,7 +41,7 @@ const hours = t.automation.hours;
     </div>
     <HoursDial />
   </div>
-  <Cariblanco pose="sleep" class="auto-hours__cariblanco" />
+  <Cariblanco pose="sleep" onDark class="auto-hours__cariblanco" />
 </section>
 
 <style>
@@ -68,11 +68,6 @@ const hours = t.automation.hours;
     bottom: -0.15rem;
     right: max(var(--gutter), calc(50% - 41rem));
     width: clamp(8rem, 13vw, 12rem);
-    color: var(--color-dark-accent);
-    --cb-hood: var(--color-mist-50);
-    --cb-ring: var(--color-dark-bg);
-    --cb-vine: var(--color-fern-400);
-    --cb-leaf: rgb(197 208 99 / 0.22);
     opacity: 0.92;
   }
 

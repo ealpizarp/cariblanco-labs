@@ -1,0 +1,174 @@
+---
+/**
+ * Automation page, part 1: the solutions on offer, as a catalog of cards
+ * (what it does, in one sentence, and the tools it touches). The
+ * intelligent assistant comes first and links to its own sections further
+ * down; the rest are the other automations a small business asks for most.
+ * A closing band invites any other task that repeats, with a cariblanco
+ * thinking it over.
+ */
+import Cariblanco from '@/components/visuals/Cariblanco.astro';
+import SolutionCard from '@/components/ui/SolutionCard.astro';
+import type { GlyphName } from '@/components/visuals/LineGlyph.astro';
+import { routes, useI18n } from '@/i18n';
+
+const { t, path } = useI18n(Astro);
+const catalog = t.automation.catalog;
+
+/** One glyph per solution, by id. */
+const glyphs: Record<string, GlyphName> = {
+  asistente: 'chat',
+  citas: 'calendar',
+  facturacion: 'ledger',
+  cobros: 'card',
+  pedidos: 'box',
+  clientes: 'people',
+  resenas: 'star',
+  reportes: 'chart',
+  documentos: 'scan',
+};
+---
+
+<section id="soluciones" class="section section--page auto-catalog" aria-labelledby="auto-catalog-title">
+  <div class="container">
+    <header class="auto-catalog__head">
+      <div class="auto-block__intro">
+        <p class="eyebrow">{catalog.label}</p>
+        <h2 class="auto-block__title" id="auto-catalog-title">{catalog.title}</h2>
+      </div>
+      <p class="auto-catalog__text">{catalog.text}</p>
+    </header>
+
+    <ul class="auto-catalog__grid">
+      {catalog.items.map((item, index) => (
+        <SolutionCard
+          glyph={glyphs[item.id] ?? 'connect'}
+          title={item.title}
+          text={item.text}
+          tags={item.tags}
+          lead={index === 0}
+          stagger={index % 3}
+        >
+          {index === 0 && (
+            <a class="solution__more link-underline" href="#asistente">
+              {catalog.detail} <span aria-hidden="true">↓</span>
+            </a>
+          )}
+        </SolutionCard>
+      ))}
+    </ul>
+
+    <div class="auto-catalog__other reveal">
+      <Cariblanco pose="sit" think class="auto-catalog__monkey" />
+      <div class="auto-catalog__other-copy">
+        <h3>{catalog.moreTitle}</h3>
+        <p>{catalog.moreText}</p>
+      </div>
+      <a class="auto-catalog__other-link link-underline" href={path(routes.contacto)}>
+        {catalog.moreLink} <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .auto-catalog__head {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--col-gap);
+    row-gap: var(--space-4);
+    align-items: end;
+    margin-bottom: var(--space-7);
+  }
+
+  .auto-catalog__head .auto-block__intro {
+    grid-column: 1 / 7;
+  }
+
+  .auto-catalog__text {
+    grid-column: 8 / 13;
+    max-width: 42ch;
+    color: var(--color-text-soft);
+    text-wrap: pretty;
+  }
+
+  /* ---- The cards ---- */
+  .auto-catalog__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  /* ---- Anything else ---- */
+  .auto-catalog__other {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    margin-top: var(--space-6);
+    padding: var(--space-5) var(--space-6);
+    border-radius: var(--radius-md);
+    background: var(--color-wash-face);
+  }
+
+  .auto-catalog__other :global(.auto-catalog__monkey) {
+    flex: none;
+    width: 3.4rem;
+    margin-block: -0.5rem -1.4rem;
+    --cb-ring: var(--color-wash-face);
+  }
+
+  .auto-catalog__other-copy {
+    flex: 1;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .auto-catalog__other-copy h3 {
+    font-size: var(--text-lg);
+    line-height: 1.2;
+  }
+
+  .auto-catalog__other-copy p {
+    max-width: 60ch;
+    color: var(--color-text-soft);
+  }
+
+  .auto-catalog__other-link {
+    flex: none;
+    font-weight: var(--weight-semibold);
+  }
+
+
+  @media (max-width: 999px) {
+    .auto-catalog__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* Nine in two columns: the assistant takes a full row, the other
+       eight pair up evenly. */
+    .auto-catalog__grid > :global(.solution--lead) {
+      grid-column: 1 / -1;
+    }
+
+    .auto-catalog__head .auto-block__intro,
+    .auto-catalog__text {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 599px) {
+    .auto-catalog__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .auto-catalog__other {
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      padding: var(--space-5);
+    }
+
+    .auto-catalog__other-copy {
+      flex-basis: calc(100% - 3.4rem - var(--space-4));
+    }
+  }
+</style>

@@ -5,9 +5,9 @@ import type { es } from './es';
  */
 export const en = {
   meta: {
-    siteShortDescription: 'Website, monthly care, and an intelligent assistant in Costa Rica',
+    siteShortDescription: 'Websites, automation, and monthly care in Costa Rica',
     siteDescription:
-      'We build and look after your business’s website, with a Google profile, a store that takes SINPE Móvil, and an intelligent assistant when it is needed. For businesses and organizations in Costa Rica. The build is quoted, and third-party costs are billed to you directly.',
+      'We build and look after your business’s website, with a Google profile, a store that takes SINPE Móvil, and AI automation when it is needed. For businesses and organizations in Costa Rica. The build is quoted, and third-party costs are billed to you directly.',
     ogImageAlt: 'Illustration of an online shop in a browser frame: an example of the craft, not a client site.',
     skipToContent: 'Skip to content',
     homeAria: '{name}, home',
@@ -49,11 +49,11 @@ export const en = {
     items: {
       servicios: {
         label: 'Services',
-        summary: 'Website and Google, store and payments, an intelligent assistant, and care.',
+        summary: 'Website and Google, store, automation, email, custom systems, and more.',
       },
       automatizacion: {
         label: 'Automation',
-        summary: 'An intelligent assistant for what you already answer.',
+        summary: 'Intelligent assistant, appointments, invoicing, billing, and more.',
       },
       proceso: {
         label: 'Process',
@@ -71,22 +71,22 @@ export const en = {
   },
   pages: {
     servicios: {
-      title: 'Services: website and Google, store and payments, intelligent assistant',
+      title: 'Services: website, store, automation, and more',
       description:
-        'A website with a Google profile, a store or bookings that take card and SINPE Móvil, an intelligent assistant, and monthly care. For companies and organizations in Costa Rica.',
+        'A website with a Google profile, a store or bookings that take card and SINPE Móvil, an assistant and automation, redesign, professional email, custom systems, analytics, security, AI training, and monthly care. For companies and organizations in Costa Rica.',
       eyebrow: 'Services',
-      heading: 'The site, what sells, and what answers.',
-      lede: 'For companies, businesses, and organizations. Every job starts with a conversation and a written scope.',
+      heading: 'What we build, connect, and look after.',
+      lede: 'The main services, the ones that build on them, and the care that keeps them going. For companies, businesses, and organizations; every job starts with a conversation and a written scope.',
     },
     automatizacion: {
-      title: 'An intelligent assistant for what you already answer',
+      title: 'Automation and AI for your business',
       description:
-        'An intelligent assistant for questions, after hours, appointments or orders, reminders, and reviews. The scope is written before it is turned on.',
+        'Intelligent assistant, appointments and reminders, electronic invoicing, billing, orders, customer follow-up, reviews, and automatic reports. The scope is written before anything is turned on.',
       eyebrow: 'Automation',
-      heading: 'An intelligent assistant for what you already answer.',
-      lede: 'The scope is written before it is turned on.',
-      closeTitle: 'Tell us how you serve people today.',
-      closeText: 'We look at whether the assistant fits your operation. If we continue, the scope goes in writing.',
+      heading: 'What your business does by hand every day, done on its own.',
+      lede: 'An intelligent assistant, appointments, invoicing, billing, orders, and reports. The scope is written before anything is turned on.',
+      closeTitle: 'Tell us what takes up your time.',
+      closeText: 'We look at what can be automated in your operation. If we continue, the scope goes in writing.',
     },
     proceso: {
       title: 'How we work',
@@ -125,7 +125,7 @@ export const en = {
   },
   hero: {
     place: 'Costa Rica',
-    offer: 'Websites · Monthly care · Intelligent assistant',
+    offer: 'Websites · Automation · Monthly care',
     title: 'We transform your business for a new era of',
     titleEm: 'artificial intelligence.',
     lede: 'A studio based in Costa Rica, with the mission of delivering modern digital infrastructure to businesses.',
@@ -135,18 +135,21 @@ export const en = {
     cueAuto: 'Automation',
     cueCare: 'Care',
   },
-  chatExample: {
-    label: 'Example conversation',
-    business: 'Hair salon',
-    status: 'After hours · assistant',
-    typing: 'typing…',
-    messages: [
-      { from: 'client', time: '21:47', text: 'Hi, are you open tomorrow? Do you have a slot for a haircut at 10?' },
-      { from: 'assistant', time: '21:47', text: 'Hi. Tomorrow we are open 9:00 to 18:00, and 10:00 is free. What name should we hold it under?' },
-      { from: 'client', time: '21:48', text: 'Ana Mora' },
-      { from: 'assistant', time: '21:48', text: 'Done, Ana. It is held for tomorrow at 10:00. The salon will confirm first thing in the morning.' },
+  /** The automation page's header: one example day, as a log. */
+  automationLog: {
+    label: 'An example day',
+    title: 'Today’s log',
+    status: 'Seven tasks, none by hand',
+    caption: 'Each line is one of the automations below.',
+    rows: [
+      { id: 'reportes', time: '07:00', text: 'Weekly summary sent to your email' },
+      { id: 'citas', time: '08:30', text: 'Reminder sent: Luis Vargas, appointment at 10:00' },
+      { id: 'facturacion', time: '09:12', text: 'Electronic invoice issued and sent to the customer' },
+      { id: 'cobros', time: '11:40', text: 'Payment received by link: ₡18,500' },
+      { id: 'pedidos', time: '14:05', text: 'Order from the site logged; 3 left in stock' },
+      { id: 'resenas', time: '17:30', text: 'Review requested from today’s customers' },
+      { id: 'asistente', time: '21:47', text: 'The assistant booked an appointment: Ana Mora, tomorrow at 10:00' },
     ],
-    caption: 'It answers with what you approved and leaves the booking for you to confirm.',
   },
   positioning: {
     eyebrow: 'Where we start',
@@ -203,7 +206,7 @@ export const en = {
     tags: {
       sitio: ['Local SEO', 'Google Business', 'Structured data'],
       tienda: ['SINPE Móvil', 'Card payments', 'Bookings'],
-      asistente: ['AI', 'Site, WhatsApp and social', 'Handoff to a person'],
+      asistente: ['AI', 'Appointments and invoicing', 'Billing and reports'],
     } as Record<string, string[]>,
   },
   homeProcess: {
@@ -221,11 +224,42 @@ export const en = {
   },
   services: {
     talk: 'Let’s talk about this service.',
+    automationLink: 'See every automation',
     includesLabel: 'Includes',
     separateLabel: 'Paid separately, in your name',
     baseLabel: 'The base',
     baseTitle: 'Everything we build continues with monthly care.',
     unsure: 'If you are not sure where to start yet.',
+    moreLabel: 'More services',
+    moreTitle: 'What else we do.',
+    moreText: 'Services that build on the ones above or stand on their own. Each with its scope in writing.',
+    startLabel: 'To begin',
+    startText: 'Start with a check-up.',
+    startCta: 'Ask for a check-up',
+    faqLabel: 'Frequently asked questions',
+    faqTitle: 'What people usually ask us.',
+    faq: [
+      {
+        q: 'How much does it cost?',
+        a: 'It depends on the scope. After we talk, we send you a written proposal with the price, the timeline, and what is paid separately. No surprises later.',
+      },
+      {
+        q: 'How long does it take?',
+        a: 'That also depends on what is built and what it connects to. The proposal gives the dates in writing, and along the way you see real progress, not mock-ups.',
+      },
+      {
+        q: 'Can I start with one part?',
+        a: 'Yes. Many clients start with the site and add the store or an automation later. Everything is built to connect.',
+      },
+      {
+        q: 'What do I need to have ready?',
+        a: 'Nothing technical. Knowing how your business works is enough; we go through the text, photos, and access together.',
+      },
+      {
+        q: 'What if I want to leave one day?',
+        a: 'Everything is in your name from day one: domain, accounts, code, and access. You take it all with you, without asking anyone.',
+      },
+    ],
     items: {
       sitio: {
         name: 'Website and Google profile',
@@ -260,18 +294,105 @@ export const en = {
         ],
       },
       asistente: {
-        name: 'Intelligent assistant',
-        summary: 'It answers what you already answer, within a written scope.',
-        purpose: 'It serves people for you, only with what you approved.',
+        name: 'Assistant and automation',
+        summary: 'It answers what you already answer and runs what repeats on its own, within a written scope.',
+        purpose: 'What repeats, done on its own.',
         support:
-          'For anyone who answers the same questions every day, including when the business is closed. It can work on your site, WhatsApp or social media. It works alongside your site; it does not replace it.',
+          'For anyone who answers the same questions, chases payments, or retypes data by hand every day. Many start with an assistant on their site, WhatsApp, or social media, and add the rest. Always within what you approved, and alongside your site: it does not replace it.',
         includes: [
-          'Frequent questions that you define',
-          'After-hours messages, with a heads-up for you',
-          'Details for appointments or orders, which you confirm',
-          'Reminders and review requests',
+          'An intelligent assistant, after hours too, that hands off to a person when it does not know',
+          'Appointments, reminders, and review requests',
+          'Electronic invoicing and billing',
+          'Orders, customer follow-up, and reports',
         ],
-        separate: ['Per-message charges from each channel, such as WhatsApp, billed to your account'],
+        separate: [
+          'Per-message charges from each channel, such as WhatsApp, billed to your account',
+          'The plan for any tool it connects to, such as your invoicing system, if it has a cost',
+        ],
+      },
+      rediseno: {
+        name: 'Redesign and migration',
+        summary: 'Your current site, on Wix, WordPress, or anything else, moved to a new, fast one without losing what Google already knows about you.',
+        purpose: '',
+        support: '',
+        includes: [
+          'A new design with your existing content',
+          'Redirects so you keep your Google rankings',
+          'Domain and email untouched during the move',
+        ],
+        separate: [],
+      },
+      correo: {
+        name: 'Professional email and tools',
+        summary: 'Email on your own domain with Google Workspace or Microsoft 365, with your team, calendar, and files in order.',
+        purpose: '',
+        support: '',
+        includes: [
+          'An account on your domain for each person',
+          'Shared calendars and files',
+          'The email you already use, moved over without losing anything',
+        ],
+        separate: ['The Google Workspace or Microsoft 365 license, per user'],
+      },
+      medida: {
+        name: 'Custom systems',
+        summary: 'When no tool fits: a customer portal, a quote calculator, or an internal dashboard, built for how you operate.',
+        purpose: '',
+        support: '',
+        includes: [
+          'A customer portal or a dashboard for your team',
+          'Quote calculators and forms that do the math',
+          'Connected to your data and your tools',
+        ],
+        separate: [],
+      },
+      medicion: {
+        name: 'Measurement and analytics',
+        summary: 'Know where your customers come from and what works: measurement set up properly and a dashboard that makes sense.',
+        purpose: '',
+        support: '',
+        includes: [
+          'Google Analytics and Search Console',
+          'WhatsApp clicks, calls, and forms measured',
+          'A monthly dashboard in plain language',
+        ],
+        separate: [],
+      },
+      seguridad: {
+        name: 'Account security',
+        summary: 'Passwords, two-step verification, and backups, so one lost account does not stop your business.',
+        purpose: '',
+        support: '',
+        includes: [
+          'An access review: who gets into what',
+          'Two-step verification on email, social media, and banking',
+          'Backups of what you cannot afford to lose',
+        ],
+        separate: [],
+      },
+      capacitacion: {
+        name: 'AI training',
+        summary: 'Hands-on workshops so your team uses AI and its tools in everyday work, with good judgment.',
+        purpose: '',
+        support: '',
+        includes: [
+          'Workshops online or at your office',
+          'Exercises built on your own business cases',
+          'A written guide for afterwards',
+        ],
+        separate: [],
+      },
+      diagnostico: {
+        name: 'Digital check-up',
+        summary: 'We review your site, your Google profile, and how you serve people today, and tell you in writing what to do first.',
+        purpose: '',
+        support: '',
+        includes: [
+          'A review of your site, its speed, and your presence on Google',
+          'What is done by hand today and could be automated',
+          'A report with priorities and an estimate for each',
+        ],
+        separate: [],
       },
       cuidado: {
         name: 'Monthly care',
@@ -282,7 +403,7 @@ export const en = {
           'Hosting, security certificate, backups, and updates',
           'Changes to copy, hours, photos, or prices',
           'Google profile kept current',
-          'Review and adjustment of the assistant, if you have one',
+          'Review and adjustment of your automations, if you have any',
           'A short written report and support by WhatsApp or email',
         ],
         separate: [] as string[],
@@ -290,29 +411,94 @@ export const en = {
     },
   },
   automation: {
-    doesNot: 'What it does not do',
+    doesNot: 'What no automation does',
+    catalog: {
+      label: 'Solutions',
+      title: 'What we can automate.',
+      text: 'We start with what takes up most of your time. Every automation is written before it is turned on, stays in your name, and is reviewed with use.',
+      detail: 'See the assistant in detail',
+      moreTitle: 'Have another task that repeats?',
+      moreText: 'If it is done the same way every time, it can probably be automated. Tell us which one, and we will tell you in writing whether it is worth it.',
+      moreLink: 'Tell us about the task',
+      items: [
+        {
+          id: 'asistente',
+          title: 'Intelligent assistant',
+          text: 'Answers the usual questions, takes the details for an appointment or an order, and hands off to a person when it does not know.',
+          tags: ['AI', 'Site, WhatsApp and social'],
+        },
+        {
+          id: 'citas',
+          title: 'Appointments and reminders',
+          text: 'Your customer books online, the appointment lands in your calendar, and the reminder goes out on its own the day before.',
+          tags: ['Online booking', 'Google Calendar'],
+        },
+        {
+          id: 'facturacion',
+          title: 'Electronic invoicing',
+          text: 'Every sale or payment issues its electronic invoice in your invoicing system and sends it to the customer, with no retyping.',
+          tags: ['Hacienda', 'E-invoices'],
+        },
+        {
+          id: 'cobros',
+          title: 'Billing and payments',
+          text: 'Payment links, monthly charges that run on their own, and friendly reminders for anyone with a balance due.',
+          tags: ['Card', 'Subscriptions'],
+        },
+        {
+          id: 'pedidos',
+          title: 'Orders and inventory',
+          text: 'Orders from your site and WhatsApp arrive in one list, stock is deducted, and you get a heads-up when something runs low.',
+          tags: ['One list', 'Alerts'],
+        },
+        {
+          id: 'clientes',
+          title: 'Customers and follow-up',
+          text: 'Every contact from your site, WhatsApp, or social media is recorded, with a reminder to follow up with anyone who asked and did not come back.',
+          tags: ['CRM', 'Forms'],
+        },
+        {
+          id: 'resenas',
+          title: 'Reviews and repeat customers',
+          text: 'After each visit a Google review is requested, and on agreed dates a message goes out to anyone who opted in.',
+          tags: ['Google', 'Email and WhatsApp'],
+        },
+        {
+          id: 'reportes',
+          title: 'Reports for you',
+          text: 'Every Monday you get a summary of sales, appointments, messages, and what is pending, without opening five apps.',
+          tags: ['Weekly summary', 'Dashboards'],
+        },
+        {
+          id: 'documentos',
+          title: 'Documents and data',
+          text: 'Quotes and contracts from a template, and supplier invoices read with AI and passed on to your accounting.',
+          tags: ['AI', 'Templates'],
+        },
+      ],
+    },
     workLabel: 'How it comes together',
-    workTitle: 'From your operation to the message.',
+    workTitle: 'Four steps, for any of them.',
     work: [
       {
         title: 'Understand',
-        text: 'We look at how you serve people today: questions, hours, appointments, and orders.',
+        text: 'We look at how you work today: what repeats, what gets lost, and what takes up your time.',
       },
       {
         title: 'Choose',
-        text: 'We mark what you already answer by hand and what can move to the assistant.',
+        text: 'We mark what is done by hand and could run on its own, and start with what weighs most.',
       },
       {
         title: 'Connect',
-        text: 'We write it, join it to your site, and turn it on.',
+        text: 'We write it, connect it to your site and your tools, and turn it on.',
       },
       {
         title: 'Adjust',
-        text: 'We review what it could not resolve and refine what is written.',
+        text: 'We review how it works day to day and refine what is written.',
       },
     ],
     hours: {
-      label: 'After hours',
+      label: 'The assistant, after hours',
       title: 'Your business closes. The conversation goes on.',
       text: 'You serve people during your hours. Outside them, the assistant answers what you approved and leaves everything noted for the morning.',
       open: 'Your hours',
@@ -322,7 +508,7 @@ export const en = {
       arrival: 'A message arrives',
       arrivalValue: '21:47, like the example above',
     },
-    flowLabel: 'What it does',
+    flowLabel: 'What the assistant does',
     flowTitle: 'One message, inside what you approved.',
     /** One short exchange per capability, in the same order as stepTitles. */
     examples: [
@@ -350,7 +536,7 @@ export const en = {
       'Reminder and review',
     ],
     planTitle: 'Alongside your site.',
-    planText: 'The assistant is written before it is turned on. It works alongside your site; it does not replace it.',
+    planText: 'Every automation is written before it is turned on and stays in your name. It works alongside your site and your tools; it does not replace them.',
     planLink: 'See the service',
     doesItems: [
       'Answers frequent questions you define: hours, location, services, and ways to pay.',
@@ -359,9 +545,9 @@ export const en = {
       'Sends appointment reminders and review requests at the agreed time.',
     ],
     doesNotItems: [
-      'It does not invent answers beyond what you approved.',
-      'It does not close sales or make decisions for you.',
-      'It does not replace a person: when it does not know, it hands off to someone.',
+      'It does not invent answers or data beyond what you approved.',
+      'It does not make decisions for you: what matters comes to you to confirm.',
+      'It does not replace your team: when something falls outside the plan, it alerts a person.',
       'It is not installed and forgotten: it is reviewed and adjusted with use.',
     ],
   },

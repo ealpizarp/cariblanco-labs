@@ -3,21 +3,44 @@
  * One headline, one supporting sentence, one primary action, on moss.
  * Behind it, a contour survey under a drafting grid; beside it, the root
  * network that maps the work (site, automation, care), with data moving
- * along it. A vine drapes across the top with a cariblanco swinging from
- * it; a coordinates strip closes it, and now and then a cariblanco bounds
- * across its top edge.
+ * along it. A coordinates strip closes the hero, and along its top runs a
+ * branch where a troop of cariblancos lives: a mother turning over a leaf
+ * with her young one, two hanging underneath (one leaps to the other's
+ * spot and back), one scratching its head and one with a stone. They are decorative; the strip's text is
+ * the content.
  */
 import Button from '@/components/ui/Button.astro';
 import Contours from '@/components/visuals/Contours.astro';
 import Cariblanco from '@/components/visuals/Cariblanco.astro';
-import Vine from '@/components/visuals/Vine.astro';
 import RootField from '@/components/visuals/RootField.astro';
+import Vine from '@/components/visuals/Vine.astro';
+import { ropeBottom, ropeY, type RopeShape } from '@/lib/vine';
 import TechGrid from '@/components/visuals/TechGrid.astro';
 import { whatsappUrl } from '@/data/site';
 import { routes, useI18n } from '@/i18n';
 
 const { t, path } = useI18n(Astro);
 const whatsapp = whatsappUrl(t.meta.whatsappMessage);
+
+/**
+ * The troop's branch: it rises and dips across the full width. Its lowest
+ * point sits on the strip's top edge (y = 0 of the tribe layer), and every
+ * member is placed on the rope's height where it stands. A viewBox unit
+ * is 0.1cqw (the layer is a size container as wide as the window).
+ */
+const BRANCH: RopeShape = { span: 1000, top: 30, sag: 0, wave: 8, waves: 1.65, phase: 0.85 };
+const LOW = ropeBottom(BRANCH);
+const cq = (units: number): string => `${(units / 10).toFixed(3)}cqw`;
+/** Height of the rope above the strip's edge at t, as a length (≤ 0). */
+const yAt = (at: number): string => cq(ropeY(at, BRANCH) - LOW);
+/** Inline position: where it stands wide, and (optionally) on phones. */
+const place = (at: number, narrow?: number): string =>
+  `--t:${at};--y:${yAt(at)}` + (narrow === undefined ? '' : `;--mt:${narrow};--my:${yAt(narrow)}`);
+const tribeStyle = [
+  `--branch-top:${cq(-LOW)}`,
+  `--ay:${cq(ropeY(0.4, BRANCH) - LOW)}`,
+  `--by:${cq(ropeY(0.55, BRANCH) - LOW)}`,
+].join(';');
 ---
 
 <section class="hero" aria-labelledby="hero-title">
@@ -25,11 +48,6 @@ const whatsapp = whatsappUrl(t.meta.whatsappMessage);
     <Contours preset="hero" />
   </div>
   <TechGrid focus="72% 42%" />
-
-  <div class="hero__canopy" aria-hidden="true">
-    <Vine sag={34} leaves={11} class="hero__vine" />
-    <Cariblanco pose="hang" vine={false} swing class="hero__hanger" />
-  </div>
 
   <div class="container hero__layout">
     <div class="hero__copy">
@@ -54,10 +72,16 @@ const whatsapp = whatsappUrl(t.meta.whatsappMessage);
   </div>
 
   <div class="container hero__notes">
-    <div class="hero__walker" aria-hidden="true">
-      <div class="hero__leaper">
-        <Cariblanco pose="leap" class="hero__cariblanco" />
-      </div>
+    <div class="hero__tribe" style={tribeStyle} aria-hidden="true">
+      <Vine kind="bough" shape={BRANCH} leavesGrow="up" leaves={13} leafSize={0.85} reveal={false} class="hero__branch" />
+      <div class="tribe__member tribe__member--mother" style={place(0.075, 0.1)}><Cariblanco pose="sit" onDark hold="leaf" curious /></div>
+      <div class="tribe__member tribe__member--young" style={place(0.115, 0.19)}><Cariblanco pose="sit" onDark curious /></div>
+      <div class="hero__perch hero__perch--a"><Cariblanco pose="hang" onDark vine={false} swing /></div>
+      <div class="hero__perch hero__perch--b"><Cariblanco pose="hang" onDark look vine={false} swing /></div>
+      <div class="hero__flight hero__flight--out"><Cariblanco pose="leap" onDark class="hero__flyer" /></div>
+      <div class="hero__flight hero__flight--back"><Cariblanco pose="leap" onDark class="hero__flyer" /></div>
+      <div class="tribe__member tribe__member--thinker" style={place(0.875, 0.88)}><Cariblanco pose="sit" onDark think /></div>
+      <div class="tribe__member tribe__member--tool" style={place(0.925)}><Cariblanco pose="sit" onDark hold="stone" /></div>
     </div>
     <p>{t.hero.place}</p>
     <p>{t.hero.offer}<span class="hero__caret" aria-hidden="true"></span></p>
@@ -98,7 +122,8 @@ const whatsapp = whatsappUrl(t.meta.whatsappMessage);
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-8);
-    padding-bottom: var(--space-section-gap);
+    /* Clear room above the branch for the seated troop. */
+    padding-bottom: calc(var(--space-section-gap) + 1.5rem);
   }
 
   .hero__copy {
@@ -148,8 +173,9 @@ const whatsapp = whatsappUrl(t.meta.whatsappMessage);
     flex-wrap: wrap;
     justify-content: space-between;
     gap: var(--space-2) var(--space-6);
-    padding-block: var(--space-5);
-    border-top: 1px solid var(--color-dark-rule);
+    /* The branch is the top rule; room above it for the troop to sit, and
+       below it for tails and the two hanging under it. */
+    padding-block: 2.4rem clamp(4.25rem, 5.6vw, 5.25rem);
     font-family: var(--font-mono);
     font-size: var(--text-xs);
     font-weight: 400;
@@ -162,92 +188,244 @@ const whatsapp = whatsappUrl(t.meta.whatsappMessage);
     max-width: none;
   }
 
-  /* A vine across the top of the hero; a cariblanco hangs from it by its
-     tail, over the root drawing's side. */
-  .hero__canopy {
+  /* ---- The troop on the branch ----
+     The tribe layer spans the full window width at the strip's top edge
+     and is a size container, so 1cqw is 1% of the window. The branch's
+     shape and every member's height on it come from the frontmatter
+     (`--y` per member, `--ay`/`--by` for the hold points), so the troop
+     always stands on the rope. */
+  .hero__tribe {
     position: absolute;
-    inset: 0 0 auto 0;
-    z-index: 0;
+    top: 0;
+    left: calc(50% - 50vw);
+    width: 100vw;
+    height: 0;
     container-type: inline-size;
     pointer-events: none;
+    --sit-w: clamp(2.6rem, 3.7vw, 3.5rem);
   }
 
-  .hero__canopy :global(.hero__vine) {
+  .hero__tribe :global(.hero__branch) {
+    position: absolute;
+    top: var(--branch-top);
+    left: 0;
     color: var(--color-fern-400);
-    --vine-leaf: rgb(197 208 99 / 0.22);
-    opacity: 0.85;
+    --vine-leaf: rgb(197 208 99 / 0.2);
   }
 
-  /* At 74% across, the vine's rope is 36 units down its 1000-unit width
-     (3.6cqw). The monkey's grip is at (52, 10) of its 100 × 150 box. */
-  .hero__canopy :global(.hero__hanger) {
-    --hang-w: clamp(3.6rem, 6vw, 5.6rem);
+  /* Seated on the branch: the seat is 1.45 widths down a sitting
+     monkey's box, its middle at half the width. */
+  .tribe__member {
+    --w: var(--sit-w);
     position: absolute;
-    top: calc(3.6cqw - var(--hang-w) * 0.1);
-    left: calc(74% - var(--hang-w) * 0.52);
+    top: calc(var(--y) - var(--w) * 1.45);
+    left: calc(var(--t) * 100cqw - var(--w) / 2);
+    width: var(--w);
+  }
+
+  .tribe__member--young { --w: calc(var(--sit-w) * 0.66); }
+  .tribe__member--tool { --w: calc(var(--sit-w) * 0.9); }
+
+  /* Each turns its head at its own moment. */
+  .tribe__member--young :global(.cb__head) {
+    animation-delay: 4.5s;
+  }
+
+  /* Two hold points under the branch, A at 40% and B at 55% (their
+     heights, --ay and --by, come from the frontmatter). A hanging
+     monkey's grip is at (52, 10) of its 100 x 150 box. */
+  .hero__tribe {
+    --hang-w: clamp(2.8rem, 3.9vw, 3.6rem);
+    --ax: 40cqw;
+    --bx: 55cqw;
+  }
+
+  .hero__perch {
+    position: absolute;
     width: var(--hang-w);
-    color: var(--color-dark-accent);
-    --cb-hood: var(--color-mist-50);
-    --cb-ring: var(--color-dark-bg);
   }
 
-  /* Narrow: out at the far right, clear of the headline. At 88% across
-     the rope is 26 units down (2.6cqw). */
-  @media (max-width: 699px) {
-    .hero__canopy :global(.hero__hanger) {
-      --hang-w: 2.8rem;
-      top: calc(2.6cqw - var(--hang-w) * 0.1);
-      left: calc(88% - var(--hang-w) * 0.52);
-    }
+  .hero__perch--a {
+    top: calc(var(--ay) - var(--hang-w) * 0.1);
+    left: calc(var(--ax) - var(--hang-w) * 0.52);
   }
 
-  /* Bounds across the strip's top rule now and then. Hidden without
-     motion: a monkey frozen mid-air reads as a mistake. */
-  .hero__walker {
-    position: absolute;
-    bottom: calc(100% - 1px);
-    left: calc(50% - 50vw);
-    right: calc(50% - 50vw);
-    height: 0;
-    pointer-events: none;
+  .hero__perch--b {
+    display: none;
+    top: calc(var(--by) - var(--hang-w) * 0.1);
+    left: calc(var(--bx) - var(--hang-w) * 0.52);
   }
 
-  .hero__leaper {
+  /* The leap: a second drawing that only exists between perches. The
+     wrapper carries it across; the drawing itself rises, falls and turns. */
+  .hero__flight {
     display: none;
     position: absolute;
-    bottom: 0;
-    left: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
   }
 
-  .hero__leaper :global(.hero__cariblanco) {
-    width: clamp(4.5rem, 7vw, 6.5rem);
-    color: var(--color-dark-accent);
-    --cb-hood: var(--color-mist-50);
-    --cb-ring: var(--color-dark-bg);
+  /* Placed by the hands, not the middle: the leaping drawing's hands are
+     at (+0.77w, -0.13w) from its centre; turned to the take-off angle
+     (62deg) that is (+0.25w, -0.74w). Putting the centre there puts the
+     hands on the grip, so the crossfades line up with the hanging monkey. */
+  .hero__flight--out {
+    top: calc(var(--ay) + var(--hang-w) * 0.74);
+    left: calc(var(--ax) - var(--hang-w) * 0.25);
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    .hero__leaper {
+  .hero__flight--back {
+    top: calc(var(--by) + var(--hang-w) * 0.74);
+    left: calc(var(--bx) + var(--hang-w) * 0.25);
+  }
+
+  /* Centred on the carrier with offsets (it is 1.9w wide, 1.07w tall),
+     not with a translate: the `rotate` below turns about the box's own
+     centre, and a translate would swing the drawing off it. */
+  .hero__flight :global(.hero__flyer) {
+    position: absolute;
+    left: calc(var(--hang-w) * -0.95);
+    top: calc(var(--hang-w) * -0.534);
+    width: calc(var(--hang-w) * 1.9);
+  }
+
+  .hero__flight--back :global(.hero__flyer) {
+    transform: scaleX(-1);
+  }
+
+  /* Narrow: the strip's two lines of text fill the space under the
+     branch, so only the sitters stay: mother and young on the left, the
+     thinker on the right. */
+  @media (max-width: 699px) {
+    .hero__tribe {
+      --sit-w: 2.5rem;
+    }
+
+    .hero__notes {
+      padding-bottom: var(--space-5);
+    }
+
+    .tribe__member {
+      top: calc(var(--my, var(--y)) - var(--w) * 1.45);
+      left: calc(var(--mt, var(--t)) * 100cqw - var(--w) / 2);
+    }
+
+    .tribe__member--tool,
+    .hero__perch,
+    .hero__flight {
+      display: none !important;
+    }
+  }
+
+
+  /* One 16-second loop (1% = 160ms). Each leap has four beats:
+       wind-up   the monkey swings back and pulls up on the branch (2%);
+       take-off  the hanging drawing hands over to the leaping one in a
+                 short crossfade, already moving (0.8%);
+       flight    a projectile: steady across, up fast and down slower,
+                 stretching out at the top and reaching up to land (7.4%);
+       catch     the leaping drawing hands back to a hanging one that
+                 carries its momentum into a swing and settles, with the
+                 vine giving a little under it (7%).
+     Out: A to B from 37.6%, landing at 47%. Back: B to A from 83.6%,
+     landing at 93%. Rotations are about the grip on the vine. */
+  .hero__perch {
+    transform-origin: 52% 6.7%;
+  }
+
+  @media (min-width: 700px) and (prefers-reduced-motion: no-preference) {
+    .hero__perch--a {
+      animation: hero-at-a 16s ease-in-out infinite;
+    }
+
+    .hero__perch--b {
       display: block;
-      animation: hero-cross 30s linear 1.2s infinite both;
+      animation: hero-at-b 16s ease-in-out infinite;
     }
 
-    .hero__leaper :global(.hero__cariblanco) {
-      animation: hero-bound 1.25s ease-in-out infinite;
+    .hero__flight {
+      display: block;
+    }
+
+    .hero__flight--out {
+      animation: hero-fly-out 16s linear infinite;
+    }
+
+    .hero__flight--out :global(.hero__flyer) {
+      animation: hero-arc-out 16s linear infinite;
+    }
+
+    .hero__flight--back {
+      animation: hero-fly-back 16s linear infinite;
+    }
+
+    .hero__flight--back :global(.hero__flyer) {
+      animation: hero-arc-back 16s linear infinite;
     }
   }
 
-  /* Across in the first ~55%, then off-stage for a while. */
-  @keyframes hero-cross {
-    0% { translate: -9rem 0; }
-    55% { translate: calc(100vw + 2rem) 0; }
-    100% { translate: calc(100vw + 2rem) 0; }
+  /* Perch A: at rest, wind up and let go; later, catch the return leap
+     (swinging in from the right) and settle. */
+  @keyframes hero-at-a {
+    0%, 37.6% { opacity: 1; rotate: 0deg; translate: 0 0; }
+    39.6% { opacity: 1; rotate: 14deg; translate: 0 calc(var(--hang-w) * -0.06); animation-timing-function: ease-in; }
+    40.4% { opacity: 0; rotate: -18deg; translate: 0 calc(var(--hang-w) * -0.1); }
+    40.5%, 92.6% { opacity: 0; rotate: -26deg; translate: 0 calc(var(--hang-w) * 0.07); }
+    93.4% { opacity: 1; rotate: -26deg; translate: 0 calc(var(--hang-w) * 0.07); }
+    94.8% { opacity: 1; rotate: 14deg; translate: 0 calc(var(--hang-w) * -0.02); }
+    96.2% { opacity: 1; rotate: -7deg; translate: 0 0; }
+    97.6% { opacity: 1; rotate: 3deg; translate: 0 0; }
+    99% { opacity: 1; rotate: -1deg; translate: 0 0; }
+    100% { opacity: 1; rotate: 0deg; translate: 0 0; }
   }
 
-  /* One bound: up and over, then down to touch the line. */
-  @keyframes hero-bound {
-    0%, 100% { translate: 0 0; rotate: 8deg; }
-    50% { translate: 0 -3.2rem; rotate: -10deg; }
+  /* Perch B: catch the leap from A (swinging in from the left) and
+     settle; later, wind up and let go back to A. */
+  @keyframes hero-at-b {
+    0%, 46.6% { opacity: 0; rotate: 26deg; translate: 0 calc(var(--hang-w) * 0.07); }
+    47.4% { opacity: 1; rotate: 26deg; translate: 0 calc(var(--hang-w) * 0.07); }
+    48.8% { opacity: 1; rotate: -14deg; translate: 0 calc(var(--hang-w) * -0.02); }
+    50.2% { opacity: 1; rotate: 7deg; translate: 0 0; }
+    51.6% { opacity: 1; rotate: -3deg; translate: 0 0; }
+    53% { opacity: 1; rotate: 1deg; translate: 0 0; }
+    54.4%, 83.6% { opacity: 1; rotate: 0deg; translate: 0 0; }
+    85.6% { opacity: 1; rotate: -14deg; translate: 0 calc(var(--hang-w) * -0.06); animation-timing-function: ease-in; }
+    86.4% { opacity: 0; rotate: 18deg; translate: 0 calc(var(--hang-w) * -0.1); }
+    86.5%, 100% { opacity: 0; rotate: 26deg; translate: 0 calc(var(--hang-w) * 0.07); }
+  }
+
+  /* The carrier: steady across from perch to perch (a touch of ease at
+     each end), visible only between the two crossfades. */
+  @keyframes hero-fly-out {
+    0%, 39.6% { opacity: 0; translate: 0 0; animation-timing-function: cubic-bezier(0.3, 0.1, 0.7, 0.9); }
+    40.4%, 46.6% { opacity: 1; }
+    47% { translate: calc(var(--bx) - var(--ax)) calc(var(--by) - var(--ay)); }
+    47.4%, 100% { opacity: 0; translate: calc(var(--bx) - var(--ax)) calc(var(--by) - var(--ay)); }
+  }
+
+  @keyframes hero-fly-back {
+    0%, 85.6% { opacity: 0; translate: 0 0; animation-timing-function: cubic-bezier(0.3, 0.1, 0.7, 0.9); }
+    86.4%, 92.6% { opacity: 1; }
+    93% { translate: calc(var(--ax) - var(--bx)) calc(var(--ay) - var(--by)); }
+    93.4%, 100% { opacity: 0; translate: calc(var(--ax) - var(--bx)) calc(var(--ay) - var(--by)); }
+  }
+
+  /* The body in flight. It leaves with arms up (the hanging angle),
+     rises with gravity's ease-out to a stretched-out apex, falls with
+     ease-in, and swings its arms up again to meet the vine. */
+  @keyframes hero-arc-out {
+    0%, 39.6% { translate: 0 0; rotate: -62deg; animation-timing-function: cubic-bezier(0.5, 1, 0.89, 1); }
+    43.6% { translate: 0 calc(var(--hang-w) * -1.2); rotate: -6deg; animation-timing-function: cubic-bezier(0.11, 0, 0.5, 0); }
+    46.2% { translate: 0 calc(var(--hang-w) * -0.2); rotate: -30deg; animation-timing-function: ease-out; }
+    47%, 100% { translate: 0 0; rotate: -62deg; }
+  }
+
+  @keyframes hero-arc-back {
+    0%, 85.6% { translate: 0 0; rotate: 62deg; animation-timing-function: cubic-bezier(0.5, 1, 0.89, 1); }
+    89.6% { translate: 0 calc(var(--hang-w) * -1.2); rotate: 6deg; animation-timing-function: cubic-bezier(0.11, 0, 0.5, 0); }
+    92.2% { translate: 0 calc(var(--hang-w) * -0.2); rotate: 30deg; animation-timing-function: ease-out; }
+    93%, 100% { translate: 0 0; rotate: 62deg; }
   }
 
   /* A terminal caret at the end of the line. */

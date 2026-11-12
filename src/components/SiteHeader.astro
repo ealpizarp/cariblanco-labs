@@ -90,7 +90,7 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
         </div>
       )}
       <p>{t.meta.siteShortDescription}</p>
-      <Cariblanco pose="peek" class="site-menu__cariblanco" />
+      <Cariblanco pose="peek" onDark class="site-menu__cariblanco" />
     </div>
   </div>
 
@@ -431,9 +431,6 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
     right: var(--gutter);
     bottom: 0;
     width: 5.5rem;
-    color: var(--color-dark-accent);
-    --cb-hood: var(--color-mist-50);
-    --cb-ring: var(--color-dark-bg);
   }
 
   .site-menu__talk :global(.btn) {

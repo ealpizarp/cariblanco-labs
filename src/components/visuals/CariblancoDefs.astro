@@ -1,18 +1,19 @@
 ---
 /**
- * The cariblanco's head and the vine leaf, defined once per page; every drawing of a
- * cariblanco references it with `<use href="#cb-head">` (see
- * `cariblanco-parts.ts`). Rendered once, at the top of the body, by each
+ * The cariblanco's head, the vine leaf and the still parts of each pose,
+ * defined once per page; every drawing of a cariblanco references them
+ * with `<use>` (see `cariblanco-parts.ts`). Rendered once, at the top of the body, by each
  * layout. Its fills are CSS variables, resolved where it is used, so
  * each monkey keeps its own colours.
  */
-import { HEAD_ART, HEAD_ID, LEAF_ART, LEAF_ID } from './cariblanco-parts';
+import { CORES, HEAD_ART, HEAD_ID, LEAF_ART, LEAF_ID } from './cariblanco-parts';
 ---
 
 <svg class="cb-defs" width="0" height="0" aria-hidden="true" focusable="false">
   <defs>
     <g id={HEAD_ID} set:html={HEAD_ART} />
     <g id={LEAF_ID} set:html={LEAF_ART} />
+    {Object.entries(CORES).map(([id, art]) => <g id={id} fill="none" stroke-linecap="round" set:html={art} />)}
   </defs>
 </svg>
 

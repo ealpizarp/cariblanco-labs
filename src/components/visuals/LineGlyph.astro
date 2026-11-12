@@ -25,7 +25,18 @@ export type GlyphName =
   | 'night'
   | 'pin'
   | 'calendar'
-  | 'card';
+  | 'card'
+  | 'chat'
+  | 'box'
+  | 'people'
+  | 'star'
+  | 'chart'
+  | 'scan'
+  | 'move'
+  | 'mail'
+  | 'code'
+  | 'learn'
+  | 'lens';
 
 interface Props {
   name: GlyphName;
@@ -121,6 +132,79 @@ const glyphs: Record<GlyphName, { lines: string[]; accent?: string }> = {
       'M10 30 H21',
     ],
     accent: 'M30 27 H37 V32 H30 Z',
+  },
+  // Automation solutions.
+  // Two speech bubbles, one with a spark: the intelligent assistant.
+  chat: {
+    lines: [
+      'M8 9 H30 C32.2 9 34 10.8 34 13 V23 C34 25.2 32.2 27 30 27 H17 L11 32 V27 H8 C5.8 27 4 25.2 4 23 V13 C4 10.8 5.8 9 8 9 Z',
+      'M38 21 C41.3 21 44 22.8 44 25 V32 C44 34.2 42.2 36 40 36 V40 L35 36 H26 C23.8 36 22 34.2 22 32 V31',
+    ],
+    accent: 'M19 12 L20.4 16.6 L25 18 L20.4 19.4 L19 24 L17.6 19.4 L13 18 L17.6 16.6 Z',
+  },
+  // A taped parcel: orders and inventory.
+  box: {
+    lines: ['M8 16 L24 8 L40 16 V34 L24 42 L8 34 Z', 'M8 16 L24 24 L40 16', 'M24 24 V42'],
+    accent: 'M16 12 L32 20',
+  },
+  // Two people, one with a new mark: customers and follow-up.
+  people: {
+    lines: [
+      'M12 15 A6 6 0 1 0 24 15 A6 6 0 1 0 12 15',
+      'M5 40 C5 31 10.5 26 18 26 C25.5 26 31 31 31 40',
+      'M29 17.5 A5 5 0 0 0 33 9.5',
+      'M34 26.5 C39.5 28 43 32.5 43 39',
+    ],
+    accent: 'M40 5 V12 M36.5 8.5 H43.5',
+  },
+  // A star with a glint: reviews.
+  star: {
+    lines: ['M24 7 L29 17.5 L40.5 19 L32 27 L34.2 38.5 L24 33 L13.8 38.5 L16 27 L7.5 19 L19 17.5 Z'],
+    accent: 'M41 5 V10 M38.5 7.5 H43.5',
+  },
+  // Axes, bars and a rising line: reports.
+  chart: {
+    lines: ['M7 7 V41 H43', 'M15 34 V27', 'M23 34 V21', 'M31 34 V25', 'M39 34 V17'],
+    accent: 'M13 21 L21 14 L29 18 L39 9',
+  },
+  // A document passing a scan line: documents and data.
+  scan: {
+    lines: ['M13 5 H30 L37 12 V43 H13 Z', 'M30 5 V12 H37', 'M18 19 H31', 'M18 25 H31', 'M18 37 H26'],
+    accent: 'M8 31 H42',
+  },
+  // Further services.
+  // An old window, a new one, and the way across: redesign and migration.
+  move: {
+    lines: [
+      'M5 9 H21 V24 H5 Z',
+      'M5 13.5 H21',
+      'M25 20 H43 V39 H25 Z',
+      'M25 25 H43',
+    ],
+    accent: 'M10 29 C10 35 14 37 20 37 M17 34 L20 37 L17 40',
+  },
+  // An envelope with a badge: email on your own domain.
+  mail: {
+    lines: ['M6 13 H40 C41.1 13 42 13.9 42 15 V34 C42 35.1 41.1 36 40 36 H8 C6.9 36 6 35.1 6 34 V15 C6 13.9 6.9 13 8 13 Z', 'M6.5 14 L24 27 L41.5 14'],
+    accent: 'M37 8.5 A4 4 0 1 0 45 8.5 A4 4 0 1 0 37 8.5',
+  },
+  // A window with code brackets: systems built to measure.
+  code: {
+    lines: ['M7 8 H41 C42.1 8 43 8.9 43 10 V38 C43 39.1 42.1 40 41 40 H7 C5.9 40 5 39.1 5 38 V10 C5 8.9 5.9 8 7 8 Z', 'M5 15 H43', 'M19 22 L13 28 L19 34', 'M29 22 L35 28 L29 34'],
+    accent: 'M26.5 21 L21.5 35',
+  },
+  // An open book with a spark: training.
+  learn: {
+    lines: [
+      'M24 14 C19 10 11 9.5 5 11.5 V37.5 C11 35.5 19 36 24 40 C29 36 37 35.5 43 37.5 V11.5 C37 9.5 29 10 24 14 Z',
+      'M24 14 V40',
+    ],
+    accent: 'M37 2.5 V8 M34.25 5.25 H39.75',
+  },
+  // A magnifier over a tick: the diagnosis.
+  lens: {
+    lines: ['M7 20 A13 13 0 1 0 33 20 A13 13 0 1 0 7 20', 'M29.5 29.5 L42 42'],
+    accent: 'M14 20.5 L18.5 25 L26.5 15.5',
   },
   // Growth stages for the process: a seed in the ground…
   seed: {

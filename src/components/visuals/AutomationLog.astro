@@ -1,0 +1,204 @@
+---
+/**
+ * The automation page's header picture: one example day as a log of what
+ * ran on its own, one line per automation in the catalog below (weekly
+ * summary, reminder, invoice, payment, order, review request), ending
+ * with the assistant booking an appointment at 21:47 (the message the
+ * after-hours dial further down points at). Labelled as an example.
+ *
+ * The lines arrive one after another on load, each ticking off as it
+ * lands; reduced motion shows the finished day.
+ */
+import Cariblanco from '@/components/visuals/Cariblanco.astro';
+import LineGlyph, { type GlyphName } from '@/components/visuals/LineGlyph.astro';
+import { useI18n } from '@/i18n';
+
+const { t } = useI18n(Astro);
+const log = t.automationLog;
+
+/** The same icons as the catalog cards, by automation id. */
+const glyphs: Record<string, GlyphName> = {
+  asistente: 'chat',
+  citas: 'calendar',
+  facturacion: 'ledger',
+  cobros: 'card',
+  pedidos: 'box',
+  resenas: 'star',
+  reportes: 'chart',
+};
+const last = log.rows.length - 1;
+---
+
+<figure class="log-example">
+  <div class="log">
+    <div class="log__bar">
+      <span class="log__avatar" aria-hidden="true"><Cariblanco pose="head" /></span>
+      <span class="log__who">
+        <strong>{log.title}</strong>
+        <span>{log.status}</span>
+      </span>
+    </div>
+    <ol class="log__rows">
+      {log.rows.map((row, index) => (
+        <li class:list={['log__row', { 'log__row--last': index === last }]} style={`--n:${index}`}>
+          <time class="log__time">{row.time}</time>
+          <span class="log__glyph" aria-hidden="true">
+            <LineGlyph name={glyphs[row.id] ?? 'connect'} />
+          </span>
+          <span class="log__text">{row.text}</span>
+          <svg class="log__tick" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path d="M3.5 8.5 L6.6 11.4 L12.5 4.8" />
+          </svg>
+        </li>
+      ))}
+    </ol>
+  </div>
+  <figcaption class="log-example__caption">
+    <span class="log-example__label">{log.label}.</span>
+    {' '}
+    {log.caption}
+  </figcaption>
+</figure>
+
+<style>
+  .log-example {
+    width: min(100%, 26rem);
+  }
+
+  .log {
+    overflow: hidden;
+    border: 1px solid var(--color-rule-strong);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    font-size: var(--text-sm);
+    line-height: 1.35;
+  }
+
+  .log__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0.65rem var(--space-4);
+    background: var(--color-moss-800);
+    color: var(--color-dark-text);
+  }
+
+  .log__avatar {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--color-moss-900);
+  }
+
+  .log__avatar :global(.cariblanco) {
+    width: 1.6rem;
+    --cb-hood: var(--color-mist-50);
+  }
+
+  .log__who {
+    display: grid;
+    line-height: 1.25;
+  }
+
+  .log__who span {
+    font-size: var(--text-xs);
+    color: var(--color-dark-text-muted);
+  }
+
+  .log__rows {
+    display: grid;
+    padding: var(--space-2) 0;
+  }
+
+  .log__row {
+    display: grid;
+    grid-template-columns: 2.6rem 1.5rem minmax(0, 1fr) 1rem;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0.55rem var(--space-4);
+  }
+
+  .log__row + .log__row {
+    border-top: 1px solid var(--color-rule);
+  }
+
+  /* The assistant's line, the one the dial further down points at. */
+  .log__row--last {
+    background: var(--color-wash-leaf);
+  }
+
+  .log__time {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-text-muted);
+  }
+
+  .log__glyph {
+    --glyph-size: 1.5rem;
+    --glyph-stroke: 1.4;
+  }
+
+  .log__text {
+    color: var(--color-text);
+  }
+
+  .log__tick {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: var(--color-moss-700);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .log-example__caption {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .log-example__label {
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-soft);
+  }
+
+  /* The day fills in: each line slides in, then its tick lands. */
+  @media (prefers-reduced-motion: no-preference) {
+    .log__row {
+      animation: log-row 0.45s var(--ease-out) both;
+      animation-delay: calc(0.5s + var(--n) * 0.32s);
+    }
+
+    .log__tick {
+      animation: log-tick 0.35s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+      animation-delay: calc(0.75s + var(--n) * 0.32s);
+    }
+  }
+
+  @keyframes log-row {
+    from {
+      opacity: 0;
+      translate: 0 0.4rem;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  @keyframes log-tick {
+    from {
+      opacity: 0;
+      scale: 0.4;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+</style>

@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <!-- Cariblanco Labs: the cariblanco's face (same drawing as src/components/visuals/cariblanco-parts.ts). -->
-  <rect width="64" height="64" rx="14" fill="#1b2114"/>
+  <rect width="64" height="64" rx="14" fill="#181c12"/>
   <g transform="translate(32 33) scale(1.12)">
-    <g fill="#e9e8dd">
+    <g fill="#ece8da">
       <circle cx="-18.5" cy="1" r="5.5"/><circle cx="18.5" cy="1" r="5.5"/>
       <path d="M-17 -5 C-19 -19 -10 -25 0 -25 C10 -25 19 -19 17 -5 C19 9 11 20 0 21 C-11 20 -19 9 -17 -5 Z"/>
     </g>

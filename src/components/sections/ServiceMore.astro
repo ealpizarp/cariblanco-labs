@@ -1,0 +1,97 @@
+---
+/**
+ * Services page: the further services, as cards (what it is, what it
+ * includes, what is paid separately). Each card carries its service id,
+ * so the catalog's structured data can link to it.
+ */
+import SolutionCard from '@/components/ui/SolutionCard.astro';
+import { getServices } from '@/data/services';
+import { useI18n } from '@/i18n';
+
+const { locale, t } = useI18n(Astro);
+const more = getServices(locale).filter((service) => service.tier === 'more');
+---
+
+<section id="mas" class="section section--page more" aria-labelledby="more-title">
+  <div class="container">
+    <header class="more__head">
+      <div class="more__intro">
+        <p class="eyebrow">{t.services.moreLabel}</p>
+        <h2 class="more__title" id="more-title">{t.services.moreTitle}</h2>
+      </div>
+      <p class="more__text">{t.services.moreText}</p>
+    </header>
+
+    <ul class="more__grid">
+      {more.map((service, index) => (
+        <SolutionCard
+          id={service.id}
+          glyph={service.glyph ?? 'connect'}
+          title={service.name}
+          text={service.summary}
+          items={service.includes}
+          stagger={index % 3}
+          {...(service.separate[0] ? { note: { label: t.services.separateLabel, text: service.separate[0] } } : {})}
+        />
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .more {
+    padding-block: var(--space-section-gap);
+    border-top: 1px solid var(--color-rule-strong);
+  }
+
+  .more__head {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--col-gap);
+    row-gap: var(--space-4);
+    align-items: end;
+    margin-bottom: var(--space-7);
+  }
+
+  .more__intro {
+    grid-column: 1 / 7;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .more__title {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-display);
+  }
+
+  .more__text {
+    grid-column: 8 / 13;
+    max-width: 42ch;
+    color: var(--color-text-soft);
+    text-wrap: pretty;
+  }
+
+  .more__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  @media (max-width: 999px) {
+    .more__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .more__intro,
+    .more__text {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 599px) {
+    .more__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

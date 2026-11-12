@@ -1,10 +1,18 @@
 ---
+/**
+ * The services page: the three lead services in full, the further services as cards, monthly care (the base), the
+ * questions people ask, and a close for anyone unsure: start with a
+ * check-up, with a cariblanco thinking it over under a hanging vine.
+ */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Button from '@/components/ui/Button.astro';
 import Cariblanco from '@/components/visuals/Cariblanco.astro';
 import Vine from '@/components/visuals/Vine.astro';
 import ServiceDetails from '@/components/sections/ServiceDetails.astro';
+import ServiceFaq from '@/components/sections/ServiceFaq.astro';
+import ServiceMore from '@/components/sections/ServiceMore.astro';
 import PageHeader from '@/components/ui/PageHeader.astro';
+import { getServices } from '@/data/services';
 import { breadcrumbJsonLd, servicesJsonLd } from '@/data/structured-data';
 import { routes, useI18n } from '@/i18n';
 
@@ -14,6 +22,8 @@ if (!Astro.site) {
 
 const { locale, t, path } = useI18n(Astro);
 const meta = t.pages.servicios;
+const services = getServices(locale);
+const start = services.find((service) => service.id === 'diagnostico');
 ---
 
 <BaseLayout
@@ -25,26 +35,49 @@ const meta = t.pages.servicios;
   ]}
 >
   <PageHeader eyebrow={meta.eyebrow} title={meta.heading} lede={meta.lede} />
-  <ServiceDetails />
-  <section class="section section--page plan-close" aria-labelledby="plan-unsure">
-    <Vine kind="hang" length={190} leaves={6} sway class="plan-close__vine" />
-    <div class="container plan-close__layout">
-      <div class="plan-close__inner">
-        <h2 id="plan-unsure">{t.services.unsure}</h2>
-        <Button href={path(routes.contacto)}>{t.nav.letsTalk}</Button>
+
+  <ServiceDetails tier="lead" />
+  <ServiceMore />
+  <ServiceDetails tier="base" />
+  <ServiceFaq />
+
+  {start && (
+    <section id={start.id} class="section section--page plan-close" aria-labelledby="plan-unsure">
+      <Vine kind="hang" length={190} leaves={6} sway class="plan-close__vine" />
+      <div class="container plan-close__layout">
+        <div class="plan-close__inner">
+          <p class="eyebrow">{t.services.startLabel}</p>
+          <h2 id="plan-unsure">
+            {t.services.unsure}
+            {' '}
+            <em>{t.services.startText}</em>
+          </h2>
+          <p class="plan-close__summary">{start.summary}</p>
+          <ul class="plan-close__includes">
+            {start.includes.map((item) => <li>{item}</li>)}
+          </ul>
+          <Button href={path(routes.contacto)}>{t.services.startCta}</Button>
+        </div>
+        <div class="plan-close__scene" aria-hidden="true">
+          <Cariblanco pose="sit" think class="plan-close__cariblanco" />
+        </div>
       </div>
-      <div class="plan-close__scene" aria-hidden="true">
-        <Cariblanco pose="sit" think class="plan-close__cariblanco" />
-      </div>
-    </div>
-  </section>
+    </section>
+  )}
 </BaseLayout>
 
 <style>
-  /* Follows the lichen "base" band, so it needs its own top spacing
-     (`.section--page` assumes it continues a section of the same colour). */
+  /* Sections reached by a link (#mas, #preguntas…) stop below the
+     sticky header. */
+  :global(main section[id]) {
+    scroll-margin-top: var(--header-height);
+  }
+
+  /* ---- The close: start with a check-up ---- */
   .plan-close {
+    position: relative;
     padding-top: var(--space-section-gap);
+    border-top: 1px solid var(--color-rule-strong);
   }
 
   .plan-close__layout {
@@ -55,8 +88,56 @@ const meta = t.pages.servicios;
     gap: var(--space-6);
   }
 
-  /* Not sure where to start: a cariblanco scratching its head under a
-     hanging vine. */
+  .plan-close__inner {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-4);
+    max-width: 40rem;
+  }
+
+  .plan-close__inner h2 {
+    max-width: 22ch;
+    font-size: var(--text-2xl);
+    line-height: var(--leading-snug);
+  }
+
+  .plan-close__inner h2 em {
+    display: block;
+    font-style: italic;
+    color: var(--color-clay);
+  }
+
+  .plan-close__summary {
+    max-width: 52ch;
+    color: var(--color-text-soft);
+  }
+
+  .plan-close__includes {
+    display: grid;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .plan-close__includes li {
+    position: relative;
+    padding-left: 1.6rem;
+  }
+
+  /* A small tick in clay, like the deed on the process page. */
+  .plan-close__includes li::before {
+    content: '';
+    position: absolute;
+    left: 0.2rem;
+    top: 0.35em;
+    width: 0.45rem;
+    height: 0.8rem;
+    border-right: 2px solid var(--color-clay);
+    border-bottom: 2px solid var(--color-clay);
+    rotate: 40deg;
+  }
+
+  /* Not sure where to start: a cariblanco scratching its head, and a
+     liana hanging from the top of the section beside it. */
   .plan-close__scene {
     display: flex;
     align-items: flex-end;
@@ -64,11 +145,6 @@ const meta = t.pages.servicios;
     padding-bottom: 0.2rem;
     border-bottom: 1px solid var(--color-rule-strong);
     color: var(--color-primary);
-  }
-
-  /* A liana hangs from the band above, next to the thinking monkey. */
-  .plan-close {
-    position: relative;
   }
 
   .plan-close :global(.plan-close__vine) {
@@ -85,20 +161,11 @@ const meta = t.pages.servicios;
   .plan-close__scene :global(.plan-close__cariblanco) {
     width: clamp(4.4rem, 7vw, 5.6rem);
     margin-bottom: calc(clamp(4.4rem, 7vw, 5.6rem) * -0.42);
-    --cb-hood: var(--color-paper);
-    --cb-ring: var(--color-bg);
   }
 
-  .plan-close__inner {
-    display: grid;
-    justify-items: start;
-    gap: var(--space-5);
-    max-width: 36rem;
-  }
-
-  .plan-close__inner h2 {
-    max-width: 18ch;
-    font-size: var(--text-2xl);
-    line-height: var(--leading-snug);
+  @media (max-width: 599px) {
+    .plan-close :global(.plan-close__vine) {
+      display: none;
+    }
   }
 </style>
