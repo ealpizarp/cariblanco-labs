@@ -163,7 +163,6 @@ Anything the business has not confirmed is `null` in `src/data/site.ts` (or the 
 - **Email** (`contact.email`).
 - **Hours** (`contact.hoursValue` in both i18n dictionaries).
 - **Social** (`social.linkedin`, `social.instagram`, `social.facebook`).
-- **Production origin**: environment variable `SITE_URL` (canonical URLs, Open Graph, sitemap, robots.txt). The default in `astro.config.ts` is a placeholder; confirm it before the first indexable deploy.
 - **Official logo**: text wordmark (`Wordmark.astro`) and `public/favicon.svg`.
 - **Street address**: omitted from JSON-LD until a public location is confirmed.
 

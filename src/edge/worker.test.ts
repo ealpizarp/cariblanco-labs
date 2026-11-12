@@ -17,7 +17,7 @@ function assets(): AssetEnv & { served: string[] } {
 }
 
 const get = (path: string, cookie?: string): Request =>
-  new Request(`https://forestaworks.com${path}`, cookie ? { headers: { cookie } } : {});
+  new Request(`https://cariblancolabs.com${path}`, cookie ? { headers: { cookie } } : {});
 
 describe('edge worker', () => {
   it('sends / to Spanish by default, without caching', async () => {
