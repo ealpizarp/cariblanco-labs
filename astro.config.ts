@@ -9,9 +9,9 @@ import { crossSlugRedirects, localeRedirect, localizePath } from './src/i18n/pat
  * sitemap and robots.txt. Override with a shell/CI environment variable,
  * e.g. `SITE_URL=https://staging.example.com npm run build`.
  *
- * TODO(business): confirm the final production domain before launch.
+ * Production domain: cariblancolabs.com.
  */
-const SITE_URL = process.env.SITE_URL ?? 'https://forestaworks.com';
+const SITE_URL = process.env.SITE_URL ?? 'https://cariblancolabs.com';
 
 export default defineConfig({
   site: SITE_URL,

@@ -6,7 +6,7 @@ import { serviceFacts } from './services';
 describe('servicesJsonLd', () => {
   for (const locale of ['es', 'en'] as const) {
     it(`lists every service without a price (${locale})`, () => {
-      const catalog = servicesJsonLd(new URL('https://forestaworks.com'), locale);
+      const catalog = servicesJsonLd(new URL('https://cariblancolabs.com'), locale);
       const items = catalog['itemListElement'] as Array<Record<string, unknown>>;
       assert.equal(items.length, serviceFacts.length);
       for (const item of items) {
