@@ -23,9 +23,9 @@ export const en = {
       'Local SEO',
       'Optimization for AI search',
     ],
-    servicesCatalogName: 'Foresta Works services',
+    servicesCatalogName: 'Pizote Labs services',
     whatsappMessage:
-      'Hello, Foresta Works. I would like to talk about a website and automation for my business.',
+      'Hello, Pizote Labs. I would like to talk about a website and automation for my business.',
     emailSubject: 'Inquiry from the website',
   },
   footer: {
@@ -61,7 +61,7 @@ export const en = {
       },
       nosotros: {
         label: 'About',
-        summary: 'Why Foresta exists, and how we work with you.',
+        summary: 'Why Pizote Labs exists, and how we work with you.',
       },
       contacto: {
         label: 'Contact',
@@ -97,9 +97,9 @@ export const en = {
       lede: 'The build gets the site ready. Monthly care keeps it, improves it, and reports on it.',
     },
     nosotros: {
-      title: 'About Foresta',
+      title: 'About Pizote Labs',
       description:
-        'Foresta looks after websites for businesses in Costa Rica. The work is technical, and it stays in your name. We are not a marketing agency.',
+        'Pizote Labs looks after websites for businesses in Costa Rica. The work is technical, and it stays in your name. We are not a marketing agency.',
       eyebrow: 'About',
       heading: "We look after your business's website.",
       lede: 'For businesses and organizations in Costa Rica. The site stays in your name.',
@@ -119,7 +119,7 @@ export const en = {
     description: 'The page you are looking for does not exist or has moved.',
     eyebrow: 'Page not found',
     heading: 'This address does not exist or has moved.',
-    text: 'You can go back home, or write to us if you followed a link that should still work.',
+    text: 'Our pizote has already sniffed everywhere for it. You can go back home, or write to us if you followed a link that should still work.',
     home: 'Back to home',
     contact: 'Contact',
   },
@@ -421,13 +421,32 @@ export const en = {
   },
   about: {
     statementTitle: 'Work done closely.',
-    origin: 'Foresta Works was founded by {name}, engineers who graduated from the Tecnológico de Costa Rica.',
+    origin: 'Pizote Labs was founded by {name}, engineers who graduated from the Tecnológico de Costa Rica.',
     and: 'and',
     statement: 'We talk, we put the scope in writing, and you see real progress.',
     statementMore:
       'We prefer a few tools, well connected, made to last and for the people who use them every day.',
     /** Tag on each founder portrait until real photos are added. */
     portraitPending: 'Photo coming soon',
+    pizote: {
+      label: 'The name',
+      title: 'Why a pizote?',
+      text: 'The pizote (white-nosed coati) is from here: on the beach, in the forest, by the side of the road. Three things about it are how we work.',
+      traits: [
+        {
+          title: 'Curious',
+          text: 'We ask until we understand how your business works today, before proposing anything.',
+        },
+        {
+          title: 'Nose in everything',
+          text: 'We check every detail: hours, payments, messages, and what shows up on Google.',
+        },
+        {
+          title: 'Moves in a band',
+          text: 'We work closely with you and your team, not as a remote job from a distance.',
+        },
+      ],
+    },
     principlesLabel: 'Commitments',
     principlesTitle: 'This is the agreement.',
     principles: [
@@ -448,9 +467,6 @@ export const en = {
         text: 'We are not an agency, and we do not run your social networks or work with influencers.',
       },
     ],
-    togetherLabel: 'With you',
-    togetherTitle: 'The scope fits. You can see the progress.',
-    together: 'We work closely, and with clarity. The scope is written for your business.',
   },
   contact: {
     methodsTitle: 'Ways to reach us',

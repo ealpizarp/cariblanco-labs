@@ -2,6 +2,7 @@
 import Button from '@/components/ui/Button.astro';
 import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
 import Wordmark from '@/components/Wordmark.astro';
+import Pizote from '@/components/visuals/Pizote.astro';
 import Terrain from '@/components/visuals/Terrain.astro';
 import { isCurrentPage, primaryNav } from '@/data/navigation';
 import { routes, useI18n } from '@/i18n';
@@ -89,6 +90,7 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
         </div>
       )}
       <p>{t.meta.siteShortDescription}</p>
+      <Pizote pose="peek" class="site-menu__pizote" />
     </div>
   </div>
 
@@ -410,6 +412,7 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
   }
 
   .site-menu__foot {
+    position: relative;
     display: grid;
     gap: var(--space-4);
     padding: var(--space-6) var(--gutter) var(--space-7);
@@ -419,6 +422,17 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
 
   .site-menu__foot p {
     max-width: 32ch;
+    padding-right: 5.5rem;
+  }
+
+  /* Pops up from the bottom edge when the menu opens. */
+  .site-menu__foot :global(.site-menu__pizote) {
+    position: absolute;
+    right: var(--gutter);
+    bottom: 0;
+    width: 5.5rem;
+    color: var(--color-dark-accent);
+    --pz-ring: var(--color-dark-bg);
   }
 
   .site-menu__talk :global(.btn) {
@@ -449,6 +463,10 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
 
     /* Links rise in one after another, each under a rule that draws across. */
     .site-menu:popover-open .site-menu__list li,
+    .site-menu:popover-open :global(.site-menu__pizote) {
+      animation: menu-pizote 0.6s cubic-bezier(0.3, 1.4, 0.5, 1) 0.45s both;
+    }
+
     .site-menu:popover-open .site-menu__foot {
       animation: menu-rise 0.5s var(--ease-out) both;
       animation-delay: calc(0.16s + var(--i, 0) * 0.055s);
@@ -585,5 +603,10 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
         display: block;
       }
     }
+  }
+
+  @keyframes menu-pizote {
+    from { translate: 0 100%; }
+    to { translate: 0 0; }
   }
 </style>

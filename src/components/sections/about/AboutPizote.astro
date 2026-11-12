@@ -1,0 +1,214 @@
+---
+/**
+ * About page, part 2: why the studio is named after the pizote, on moss.
+ * Three of its habits, each drawn: curious (up on its hind legs, looking),
+ * nose in everything (sniffing along its own tracks), and moving in a band
+ * (a mother and two young). The text carries the meaning; drawings are
+ * decorative.
+ */
+import Plate from '@/components/ui/Plate.astro';
+import PawTrail from '@/components/visuals/PawTrail.astro';
+import Pizote from '@/components/visuals/Pizote.astro';
+import Terrain from '@/components/visuals/Terrain.astro';
+import { useI18n } from '@/i18n';
+
+const { t } = useI18n(Astro);
+const copy = t.about.pizote;
+---
+
+<section class="section story-pizote" aria-labelledby="story-pizote-title">
+  <Terrain preset="band" class="story-pizote__terrain" />
+
+  <div class="container">
+    <div class="story-pizote__head">
+      <div>
+        <Plate label={copy.label} onDark />
+        <h2 class="story-pizote__title" id="story-pizote-title">{copy.title}</h2>
+      </div>
+      <p class="story-pizote__text">{copy.text}</p>
+    </div>
+
+    <ol class="story-pizote__traits">
+      {copy.traits.map((trait, index) => (
+        <li class="trait reveal" style={`--i:${index}`}>
+          <div class="trait__stage" aria-hidden="true">
+            {index === 0 && <Pizote pose="stand" class="trait__pizote trait__pizote--stand" />}
+            {index === 1 && (
+              <>
+                <PawTrail count={4} direction="right" class="trait__tracks" />
+                <Pizote pose="sniff" class="trait__pizote trait__pizote--sniff" />
+              </>
+            )}
+            {index === 2 && (
+              <div class="trait__band">
+                <Pizote trot class="trait__pizote trait__pizote--young" />
+                <Pizote trot class="trait__pizote trait__pizote--young" />
+                <Pizote trot class="trait__pizote trait__pizote--walk" />
+              </div>
+            )}
+          </div>
+          <h3 class="trait__title">
+            <span class="trait__num" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            {trait.title}
+          </h3>
+          <p class="trait__text">{trait.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .story-pizote {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: var(--space-section-gap);
+    background: var(--color-dark-bg);
+    color: var(--color-dark-text);
+  }
+
+  .story-pizote :global(.story-pizote__terrain) {
+    opacity: 0.12;
+  }
+
+  .story-pizote__head {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--col-gap);
+    row-gap: var(--space-4);
+    align-items: end;
+    margin-bottom: var(--space-8);
+  }
+
+  .story-pizote__head > div {
+    grid-column: 1 / 7;
+  }
+
+  .story-pizote__title {
+    margin-top: var(--space-4);
+    font-size: var(--text-3xl);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+  }
+
+  .story-pizote__text {
+    grid-column: 8 / 13;
+    max-width: 40ch;
+    font-size: var(--text-md);
+    color: var(--color-dark-text-muted);
+    text-wrap: pretty;
+  }
+
+  .story-pizote__traits {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--col-gap);
+  }
+
+  .trait {
+    display: grid;
+    align-content: start;
+    gap: var(--space-3);
+  }
+
+  /* Each pizote stands on its own strip of ground. */
+  .trait__stage {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: var(--space-3);
+    height: 9rem;
+    margin-bottom: var(--space-3);
+    padding-inline: var(--space-4);
+    border-bottom: 1px solid var(--color-dark-rule);
+    color: var(--color-dark-accent);
+  }
+
+  .trait__stage :global(.trait__pizote) {
+    color: var(--color-dark-accent);
+    --pz-ring: var(--color-dark-bg);
+    --pz-mark: var(--color-mist-50);
+  }
+
+  .trait__stage :global(.trait__pizote--stand) {
+    height: 8.4rem;
+    width: auto;
+  }
+
+  .trait__stage :global(.trait__pizote--sniff) {
+    width: 9.5rem;
+  }
+
+  .trait__stage :global(.trait__tracks) {
+    height: 1.4rem;
+    margin-bottom: 0.2rem;
+    opacity: 0.55;
+  }
+
+  .trait__band {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+
+  .trait__stage :global(.trait__pizote--walk) {
+    width: 6.6rem;
+  }
+
+  .trait__stage :global(.trait__pizote--young) {
+    width: 3.8rem;
+  }
+
+  .trait__title {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    font-size: var(--text-xl);
+    line-height: 1.15;
+  }
+
+  .trait__num {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-mono);
+    color: var(--color-dark-emphasis);
+  }
+
+  .trait__text {
+    max-width: 34ch;
+    color: var(--color-dark-text-muted);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .trait.reveal--wait.is-in {
+      animation-delay: calc(var(--i) * 0.12s);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .story-pizote__head > div,
+    .story-pizote__text {
+      grid-column: 1 / -1;
+    }
+
+    .story-pizote__head {
+      margin-bottom: var(--space-7);
+    }
+
+    .story-pizote__traits {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-7);
+    }
+
+    .trait__stage {
+      justify-content: flex-start;
+      height: 7.5rem;
+      padding-inline: 0;
+    }
+
+    .trait__stage :global(.trait__pizote--stand) {
+      height: 7rem;
+    }
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 /**
- * The process page: five stages on one growing stem, from seed to tree.
+ * The process page: five stages on one growing stem, from seed to tree,
+ * with a pizote's tracks down each stretch of stem.
  * Each stage has a small scene beside it (scenes/process/*). Scenes are
  * decorative; the step text carries the meaning.
  *
@@ -15,6 +16,7 @@ import ProposalScene from '@/components/scenes/process/ProposalScene.astro';
 import RingsScene from '@/components/scenes/process/RingsScene.astro';
 import '@/components/scenes/process/keyframes.css';
 import LineGlyph, { type GlyphName } from '@/components/visuals/LineGlyph.astro';
+import PawTrail from '@/components/visuals/PawTrail.astro';
 import { useI18n } from '@/i18n';
 
 const { t } = useI18n(Astro);
@@ -28,9 +30,7 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
       {t.process.steps.map((step, index) => (
         <li class:list={['grow__step', 'reveal', { 'grow__step--flip': index % 2 === 1 }]}>
           <span class="grow__stem" aria-hidden="true"></span>
-          <svg class="grow__leaf" viewBox="0 0 24 14" fill="none" aria-hidden="true" focusable="false">
-            <path d="M1 13 C 5 4 13 1 23 1 C 20 9 12 13 1 13 Z M1 13 C 8 9 14 6 19 3.5" />
-          </svg>
+          <PawTrail count={3} class="grow__tracks" />
           <div class="grow__node" aria-hidden="true">
             <LineGlyph name={growth[index] ?? 'seed'} class="glyph--draw grow__glyph" delay={0.25} />
           </div>
@@ -91,33 +91,18 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
   }
 
   .grow__step:last-child .grow__stem,
-  .grow__step:last-child .grow__leaf {
+  .grow__step:last-child :global(.grow__tracks) {
     display: none;
   }
 
-  /* One leaf on each stretch of stem, alternating sides. */
-  .grow__leaf {
+  /* A pizote's tracks on each stretch of stem, walking down. */
+  .grow :global(.grow__tracks) {
     position: absolute;
     z-index: 0;
-    top: calc(var(--node) + 45%);
-    left: calc(var(--node) / 2);
-    width: 1.4rem;
+    top: calc(var(--node) + 40%);
+    left: calc(var(--node) / 2 - 0.75rem);
+    width: 1.5rem;
     color: var(--color-moss-700);
-    transform-origin: 0 100%;
-    rotate: -18deg;
-  }
-
-  /* Mirrored with `transform`, so the pop-in `scale` stays free. */
-  .grow__step--flip .grow__leaf {
-    transform: scaleX(-1);
-    rotate: 18deg;
-  }
-
-  .grow__leaf path {
-    fill: var(--color-lichen-100);
-    stroke: currentColor;
-    stroke-width: 1;
-    stroke-linejoin: round;
   }
 
   .grow__node {
@@ -202,9 +187,9 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
       top: 50%;
     }
 
-    .grow__leaf {
-      top: calc(100% - 1rem);
-      left: 50%;
+    .grow :global(.grow__tracks) {
+      top: calc(100% - 2.4rem);
+      left: calc(50% - 0.75rem);
     }
 
     .grow__node {
@@ -228,13 +213,6 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
     }
   }
 
-  @media (max-width: 899px) {
-    .grow__step--flip .grow__leaf {
-      transform: none;
-      rotate: -18deg;
-    }
-  }
-
   @media (max-width: 520px) {
     .grow {
       --node: 3.25rem;
@@ -255,15 +233,11 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
       animation: grow-wipe 1.4s var(--ease-out) 0.4s forwards;
     }
 
-    .grow__leaf {
-      animation: grow-pop 0.5s var(--ease-out) 1.3s both;
-    }
-
     .grow__node {
       animation: grow-pop 0.55s var(--ease-out) 0.05s both;
     }
 
-    :global(.reveal--wait:not(.is-in)) :is(.grow__stem, .grow__leaf, .grow__node) {
+    :global(.reveal--wait:not(.is-in)) :is(.grow__stem, .grow__node) {
       animation-play-state: paused;
     }
   }

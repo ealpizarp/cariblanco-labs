@@ -2,9 +2,12 @@
 /**
  * The five working steps, each with a growth glyph (seed to tree, as on
  * the process page). Wide screens: one stem across the page with a column
- * per step. Narrow: a ruled list. Glyphs draw in one after another.
+ * per step, with a pizote's tracks along it and the pizote at the end.
+ * Narrow: a ruled list. Glyphs draw in one after another.
  */
 import LineGlyph, { type GlyphName } from '@/components/visuals/LineGlyph.astro';
+import PawTrail from '@/components/visuals/PawTrail.astro';
+import Pizote from '@/components/visuals/Pizote.astro';
 import { useI18n } from '@/i18n';
 
 const { t } = useI18n(Astro);
@@ -17,6 +20,11 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
       <span class="step__bud" aria-hidden="true">
         <LineGlyph name={growth[index] ?? 'seed'} class="glyph--draw" delay={0.15 + index * 0.22} />
       </span>
+      {index < t.process.steps.length - 1 ? (
+        <PawTrail count={3} direction="right" class="step__tracks" />
+      ) : (
+        <Pizote trot class="step__pizote" />
+      )}
       <h3 class="step__title">{step.title}</h3>
       <p class="step__text">{step.text}</p>
     </li>
@@ -56,6 +64,12 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
   .step:last-child .step__bud {
     background: var(--color-lichen-100);
     border-color: var(--color-moss-700);
+  }
+
+  /* Tracks and the pizote only appear on the wide stem. */
+  .step :global(.step__tracks),
+  .step :global(.step__pizote) {
+    display: none;
   }
 
   .step__title {
@@ -122,6 +136,27 @@ const growth: GlyphName[] = ['seed', 'sprout', 'sapling', 'young', 'tree'];
       row-gap: var(--space-3);
       padding-block: 0;
       border-bottom: 0;
+    }
+
+    .step :global(.step__tracks) {
+      display: block;
+      position: absolute;
+      top: 0.75rem;
+      left: calc(3rem + var(--space-4));
+      height: 1.5rem;
+      color: var(--color-moss-700);
+      opacity: 0.75;
+    }
+
+    .step :global(.step__pizote) {
+      display: block;
+      position: absolute;
+      top: calc(1.5rem - 3.1rem);
+      right: 0;
+      width: 4.4rem;
+      color: var(--color-primary);
+      --pz-ring: var(--color-bg);
+      --pz-mark: var(--color-paper);
     }
 
     .step__bud {

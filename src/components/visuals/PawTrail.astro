@@ -1,0 +1,91 @@
+---
+import { PAW_PRINT } from './paw';
+
+/**
+ * Pizote tracks ("huellas"): a short line of paw prints, left and right in
+ * turn, walking `down` or to the `right`. Used where the site would draw a
+ * connector, so a line between steps reads as a pizote passing through.
+ *
+ * The prints appear one after another when the trail scrolls into view
+ * (it is a `.reveal`); without the motion script they are simply there.
+ * Colour comes from `color`. Decorative: aria-hidden.
+ */
+interface Props {
+  count?: number;
+  direction?: 'down' | 'right';
+  class?: string;
+}
+
+const { count = 4, direction = 'down', class: className } = Astro.props;
+
+/** Distance between prints along the trail, and the sway to either side. */
+const STEP = 22;
+const SWAY = 6;
+const length = STEP * (count - 1) + 24;
+const prints = Array.from({ length: count }, (_, index) => {
+  const along = 12 + index * STEP;
+  const side = index % 2 === 0 ? -SWAY : SWAY;
+  return direction === 'down'
+    ? { x: 12 + side, y: along, angle: 180 }
+    : { x: along, y: 12 + side, angle: 90 };
+});
+const viewBox = direction === 'down' ? `0 0 24 ${length}` : `0 0 ${length} 24`;
+---
+
+<svg
+  class:list={['paw-trail', `paw-trail--${direction}`, 'reveal', className]}
+  viewBox={viewBox}
+  aria-hidden="true"
+  focusable="false"
+>
+  {prints.map((print, index) => (
+    <g transform={`translate(${print.x} ${print.y}) rotate(${print.angle})`}>
+      <g class="paw-trail__print" style={`--i: ${index}`} set:html={PAW_PRINT} />
+    </g>
+  ))}
+</svg>
+
+<style>
+  .paw-trail {
+    display: block;
+    fill: currentColor;
+    overflow: visible;
+  }
+
+  .paw-trail--down {
+    width: 1.5rem;
+    height: auto;
+  }
+
+  .paw-trail--right {
+    height: 1.5rem;
+    width: auto;
+  }
+
+  .paw-trail__print {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .paw-trail.reveal--wait .paw-trail__print {
+      opacity: 0;
+    }
+
+    .paw-trail.reveal--wait.is-in .paw-trail__print {
+      animation: paw-trail-in 0.35s var(--ease-out) both;
+      animation-delay: calc(0.2s + var(--i) * 0.22s);
+    }
+  }
+
+  @keyframes paw-trail-in {
+    from {
+      opacity: 0;
+      scale: 0.6;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+</style>

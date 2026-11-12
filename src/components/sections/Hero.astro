@@ -3,10 +3,12 @@
  * One headline, one supporting sentence, one primary action, on moss.
  * Behind it, a contour survey under a drafting grid; beside it, the root
  * network that maps the work (site, automation, care), with data moving
- * along it. A coordinates strip closes it.
+ * along it. A coordinates strip closes it; now and then a pizote trots
+ * along its top edge.
  */
 import Button from '@/components/ui/Button.astro';
 import Contours from '@/components/visuals/Contours.astro';
+import Pizote from '@/components/visuals/Pizote.astro';
 import RootField from '@/components/visuals/RootField.astro';
 import TechGrid from '@/components/visuals/TechGrid.astro';
 import { whatsappUrl } from '@/data/site';
@@ -45,6 +47,9 @@ const whatsapp = whatsappUrl(t.meta.whatsappMessage);
   </div>
 
   <div class="container hero__notes">
+    <div class="hero__walker" aria-hidden="true">
+      <Pizote trot class="hero__pizote" />
+    </div>
     <p>{t.hero.place}</p>
     <p>{t.hero.offer}<span class="hero__caret" aria-hidden="true"></span></p>
   </div>
@@ -129,6 +134,7 @@ const whatsapp = whatsappUrl(t.meta.whatsappMessage);
   }
 
   .hero__notes {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -145,6 +151,40 @@ const whatsapp = whatsappUrl(t.meta.whatsappMessage);
 
   .hero__notes p {
     max-width: none;
+  }
+
+  /* Stands on the strip's top rule. Without motion it waits at the right. */
+  .hero__walker {
+    position: absolute;
+    bottom: calc(100% - 1px);
+    left: calc(50% - 50vw);
+    right: calc(50% - 50vw);
+    height: 0;
+    pointer-events: none;
+  }
+
+  .hero__walker :global(.hero__pizote) {
+    position: absolute;
+    bottom: 0;
+    right: var(--gutter, 1.5rem);
+    width: clamp(4.5rem, 7vw, 6.5rem);
+    color: var(--color-dark-accent);
+    --pz-ring: var(--color-dark-bg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__walker :global(.hero__pizote) {
+      right: auto;
+      left: 0;
+      animation: hero-trot 34s linear 1.2s infinite both;
+    }
+  }
+
+  /* Across in the first ~60%, then off-stage for a while. */
+  @keyframes hero-trot {
+    0% { translate: -8rem 0; }
+    62% { translate: calc(100vw + 2rem) 0; }
+    100% { translate: calc(100vw + 2rem) 0; }
   }
 
   /* A terminal caret at the end of the line. */
