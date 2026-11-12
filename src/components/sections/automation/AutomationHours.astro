@@ -2,10 +2,12 @@
 /**
  * Automation page, part 2: when it works. A 24-hour dial of your hours
  * against the assistant's, on moss with a contour survey behind it.
+ * At the foot of the section a pizote sleeps: the assistant has the night.
  */
 import Plate from '@/components/ui/Plate.astro';
 import Contours from '@/components/visuals/Contours.astro';
 import HoursDial from '@/components/visuals/HoursDial.astro';
+import Pizote from '@/components/visuals/Pizote.astro';
 import { useI18n } from '@/i18n';
 
 const { t } = useI18n(Astro);
@@ -38,6 +40,7 @@ const hours = t.automation.hours;
     </div>
     <HoursDial />
   </div>
+  <Pizote pose="sleep" class="auto-hours__pizote" />
 </section>
 
 <style>
@@ -57,6 +60,16 @@ const hours = t.automation.hours;
     z-index: -1;
     --contour-color: var(--color-lichen-300);
     --contour-opacity: 0.07;
+  }
+
+  .auto-hours :global(.auto-hours__pizote) {
+    position: absolute;
+    bottom: -0.15rem;
+    right: max(var(--gutter), calc(50% - 41rem));
+    width: clamp(8rem, 13vw, 12rem);
+    color: var(--color-dark-accent);
+    --pz-ring: var(--color-dark-bg);
+    opacity: 0.92;
   }
 
   .auto-hours__grid {

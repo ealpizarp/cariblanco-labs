@@ -1,7 +1,8 @@
 ---
 /**
  * Field-guide section label: a short rule, then the label. An optional
- * mark (such as "24 h") can lead it.
+ * mark (such as "24 h") can lead it. The rule is ringed like a pizote's
+ * tail, tapering to the tip.
  */
 interface Props {
   /** Optional short mark before the rule, e.g. "24 h". */
@@ -44,11 +45,16 @@ const { numeral, label, onDark = false, class: className } = Astro.props;
     color: var(--color-clay);
   }
 
+  /* Pizote tail: dark rings on a lighter band, narrowing to the right. */
   .plate__rule {
     width: 2.5rem;
-    height: 1px;
-    background: currentColor;
-    opacity: 0.5;
+    height: 4px;
+    border-radius: 0 3px 3px 0;
+    background:
+      repeating-linear-gradient(to right, currentColor 0 4px, transparent 4px 8px),
+      color-mix(in srgb, currentColor 35%, transparent);
+    clip-path: polygon(0 0, 100% 35%, 100% 65%, 0 100%);
+    opacity: 0.7;
   }
 
   .plate--on-dark {

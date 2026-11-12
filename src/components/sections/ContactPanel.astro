@@ -1,9 +1,11 @@
 ---
 /**
  * Contact methods and optional WhatsApp form. Lives on the dedicated contact
- * page so the form is not buried in a dark band.
+ * page so the form is not buried in a dark band. A pizote keeps watch on
+ * top of the form and tilts its head while you type.
  */
 import Button from '@/components/ui/Button.astro';
+import Pizote from '@/components/visuals/Pizote.astro';
 import { emailUrl, formatWhatsapp, site, whatsappUrl } from '@/data/site';
 import { useI18n } from '@/i18n';
 
@@ -80,6 +82,7 @@ if (whatsapp === null && email === null) {
 
     {formAction !== null && (
       <form class="contact-form panel" action={formAction} method="get" target="_blank">
+        <Pizote pose="stand" class="contact-form__pizote" />
         <label class="label" for="contact-message">{t.contact.formLabel}</label>
         <textarea
           class="contact-form__field"
@@ -174,10 +177,39 @@ if (whatsapp === null && email === null) {
   }
 
   .contact-form {
+    position: relative;
     grid-column: 7 / 13;
     display: grid;
     gap: var(--space-3);
     padding: var(--space-inset-lg);
+  }
+
+  /* Stands on the panel's top edge. */
+  .contact-form :global(.contact-form__pizote) {
+    position: absolute;
+    bottom: calc(100% - 0.2rem);
+    right: var(--space-6);
+    width: 4.2rem;
+    color: var(--color-primary);
+    --pz-ring: var(--color-bg);
+    --pz-mark: var(--color-paper);
+  }
+
+  .contact-form :global(.contact-form__pizote .pizote__head) {
+    transform-box: fill-box;
+    transform-origin: 10% 70%;
+    transition: rotate var(--duration-base) var(--ease-out);
+  }
+
+  .contact-form:focus-within :global(.contact-form__pizote .pizote__head) {
+    rotate: 14deg;
+  }
+
+  /* Stacked: room above the form for the lookout. */
+  @media (max-width: 699px) {
+    .contact-form {
+      margin-top: var(--space-6);
+    }
   }
 
   .contact-form__field {

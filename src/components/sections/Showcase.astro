@@ -4,8 +4,10 @@
  * informative site, in a phone, built in HTML and CSS (no image) and
  * labelled as an example. The page scrolls slowly on its own, the way a
  * visitor reads it. Three callouts say what it does. The phone is
- * decorative; the callouts carry the meaning as a list.
+ * decorative; the callouts carry the meaning as a list. A pizote hides
+ * behind it and leans out for a look now and then.
  */
+import Pizote from '@/components/visuals/Pizote.astro';
 import { useI18n } from '@/i18n';
 
 const { t } = useI18n(Astro);
@@ -29,6 +31,7 @@ const s = t.showcase;
     </div>
 
     <div class="showcase__stage reveal" aria-hidden="true">
+      <Pizote pose="stand" class="showcase__pizote" />
       <div class="phone">
         <div class="phone__screen">
           <div class="phone__chrome">
@@ -168,6 +171,24 @@ const s = t.showcase;
   .showcase__stage {
     display: grid;
     justify-items: center;
+    isolation: isolate;
+  }
+
+  /* A pizote hides behind the phone; only its snout and paws show. */
+  .showcase__stage > :global(.showcase__pizote) {
+    grid-area: 1 / 1;
+    align-self: end;
+    z-index: -1;
+    width: 5.6rem;
+    margin-bottom: 3rem;
+    translate: 10.4rem 0;
+    color: var(--color-primary);
+    --pz-ring: var(--color-bg);
+    --pz-mark: var(--color-paper);
+  }
+
+  .showcase__stage > .phone {
+    grid-area: 1 / 1;
   }
 
   .phone {
@@ -487,6 +508,10 @@ const s = t.showcase;
       animation: show-phone 1s var(--ease-out) 0.1s both;
     }
 
+    .showcase__stage > :global(.showcase__pizote) {
+      animation: show-peek 7s var(--ease-out) 1.4s infinite;
+    }
+
     .site__scroll {
       animation: show-read 14s ease-in-out 1.6s infinite;
     }
@@ -560,5 +585,12 @@ const s = t.showcase;
     69% {
       scale: 0.95;
     }
+  }
+
+  /* Out for a look, then back behind the phone. */
+  @keyframes show-peek {
+    0%, 12% { translate: 7rem 0; }
+    22%, 62% { translate: 10.4rem 0; }
+    72%, 100% { translate: 7rem 0; }
   }
 </style>

@@ -1,6 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Placeholder favicon derived from the text wordmark. Replace with the official logo mark when available. -->
-  <rect width="64" height="64" fill="#1b2114"/>
-  <text x="32" y="42" text-anchor="middle" font-family="Newsreader, Georgia, serif" font-size="34" font-weight="500" fill="#e9e8dd">F</text>
-  <path d="M22 50c4-6 10-9 20-10-2 5-6 9-14 11" fill="none" stroke="#c5d063" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- Pizote Labs: the pizote's head (same drawing as src/components/visuals/Pizote.astro). -->
+  <rect width="64" height="64" rx="14" fill="#1b2114"/>
+  <g transform="translate(32 33) scale(.68) translate(-185 -88)">
+    <path fill="#c5d063" d="M150 76 C156 68 168 64 178 68 C188 72 194 80 202 86 C208 90 214 92 219 93 C223 94 223 99 219 100 C211 102 202 103 194 104 C186 106 178 112 166 116 C156 118 148 110 148 98 C147 90 147 82 150 76 Z"/>
+    <circle cx="164" cy="66" r="7" fill="#c5d063"/>
+    <circle cx="164" cy="66" r="3" fill="#1b2114" opacity=".5"/>
+    <g fill="#e9e8dd">
+      <path d="M176 76 C181 74 186 76 189 79 C185 80 180 79 176 76 Z"/>
+      <path d="M178 92 C183 92 188 94 191 97 C186 98 181 96 178 92 Z"/>
+      <circle cx="182" cy="84" r="4"/>
+      <path d="M200 96 C207 97 213 98 218 99 C212 101 205 101 199 100 Z"/>
+    </g>
+    <circle cx="182.5" cy="84" r="2.6" fill="#12160d"/>
+    <circle cx="220.5" cy="96.5" r="2.8" fill="#12160d"/>
+  </g>
 </svg>

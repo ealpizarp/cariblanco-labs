@@ -1,6 +1,6 @@
 ---
 /**
- * About page, part 2: the four commitments, as field-guide cards.
+ * About page, part 3: the four commitments, as field-guide cards.
  */
 import LineGlyph, { type GlyphName } from '@/components/visuals/LineGlyph.astro';
 import { useI18n } from '@/i18n';
@@ -35,8 +35,7 @@ const principles = about.principles.map((item, index) => ({
 
 <style>
   .story__copy h2,
-  .story-terms h2,
-  .story-together h2 {
+  .story-terms h2 {
     font-size: var(--text-2xl);
     line-height: var(--leading-snug);
   }

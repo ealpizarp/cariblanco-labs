@@ -2,8 +2,10 @@
 /**
  * Dark closing invitation used at the end of each page. Routes visitors to
  * WhatsApp when a number is configured, otherwise to the contact page.
+ * Along its foot walks a band of pizotes (they move in groups, like us).
  */
 import Button from '@/components/ui/Button.astro';
+import Pizote from '@/components/visuals/Pizote.astro';
 import Terrain from '@/components/visuals/Terrain.astro';
 import { whatsappUrl } from '@/data/site';
 import { routes, useI18n } from '@/i18n';
@@ -44,6 +46,14 @@ const mobileRest = splitAt === -1 ? '' : text.slice(splitAt + 2);
       </div>
     </div>
   </div>
+
+  <div class="cta-band__ground" aria-hidden="true">
+    <div class="cta-band__troop">
+      <Pizote trot class="cta-band__pizote cta-band__pizote--young" />
+      <Pizote trot class="cta-band__pizote cta-band__pizote--young" />
+      <Pizote trot class="cta-band__pizote" />
+    </div>
+  </div>
 </section>
 
 <style>
@@ -53,11 +63,53 @@ const mobileRest = splitAt === -1 ? '' : text.slice(splitAt + 2);
     overflow: hidden;
     background: var(--color-moss-800);
     color: var(--color-dark-text);
-    padding-block: var(--space-section);
+    padding-block: var(--space-section) calc(var(--space-section) + 3rem);
   }
 
   .cta-band :global(.cta-band__terrain) {
     opacity: 0.22;
+  }
+
+  /* A strip of ground under the content for the band of pizotes. */
+  .cta-band__ground {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  .cta-band__troop {
+    position: absolute;
+    bottom: 0;
+    left: var(--gutter);
+    display: flex;
+    align-items: flex-end;
+    gap: 0.6rem;
+  }
+
+  .cta-band__troop :global(.cta-band__pizote) {
+    width: 4.6rem;
+    color: var(--color-dark-accent);
+    --pz-ring: var(--color-moss-800);
+    margin-bottom: -0.1rem;
+  }
+
+  .cta-band__troop :global(.cta-band__pizote--young) {
+    width: 2.8rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cta-band__troop {
+      left: 0;
+      animation: cta-band-walk 48s linear infinite both;
+    }
+  }
+
+  @keyframes cta-band-walk {
+    from { translate: -16rem 0; }
+    to { translate: calc(100vw + 2rem) 0; }
   }
 
   .cta-band__grid {
@@ -100,7 +152,15 @@ const mobileRest = splitAt === -1 ? '' : text.slice(splitAt + 2);
 
   @media (max-width: 900px) {
     .cta-band {
-      padding-block: var(--space-7);
+      padding-block: var(--space-7) calc(var(--space-7) + 2.5rem);
+    }
+
+    .cta-band__troop :global(.cta-band__pizote) {
+      width: 3.6rem;
+    }
+
+    .cta-band__troop :global(.cta-band__pizote--young) {
+      width: 2.2rem;
     }
 
     .cta-band__title,

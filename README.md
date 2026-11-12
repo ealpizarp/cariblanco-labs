@@ -1,6 +1,6 @@
-# Foresta Works website
+# Pizote Labs website
 
-Static marketing site for Foresta Works, a Costa Rica studio that builds and looks after websites, and can add an intelligent assistant (on the site, WhatsApp or social media), for businesses and organizations. Built with [Astro](https://astro.build) 7 and strict TypeScript.
+Static marketing site for Pizote Labs (formerly Foresta Works), a Costa Rica studio that builds and looks after websites, and can add an intelligent assistant (on the site, WhatsApp or social media), for businesses and organizations. Built with [Astro](https://astro.build) 7 and strict TypeScript.
 
 Costa Rican Spanish lives at `/es/`; English at `/en/`. There is no database, CMS, authentication, or server-side rendering.
 
@@ -106,6 +106,29 @@ src/
     ui/                     buttons, headers, labels
   styles/                   tokens and global CSS
 ```
+
+### The pizote
+
+The brand animal is the pizote (white-nosed coati, *Nasua narica*). It is
+drawn once, flat, in `src/components/visuals/Pizote.astro`, and every
+appearance reuses that drawing:
+
+| Pose | Where |
+|---|---|
+| `head` | Wordmark and `public/favicon.svg` |
+| `walk` (`trot`) | Hero strip, home steps, About note, the band in `CtaBand` |
+| `peek` | Footer, mobile menu |
+| `stand` | Lookout on the contact form; hiding behind the home phone |
+| `sniff` | 404 page, services close ("not sure where to start") |
+| `sleep` | After-hours section on the automation page |
+
+Supporting motifs: paw prints (`PawTrail.astro`, one print in `paw.ts`) are
+the connector on step lines, the breadcrumb separator and the ownership
+stamp; the ringed tail is the rule in `Plate.astro` section labels.
+
+Colour comes from `color`, plus `--pz-ring` (tail rings and inner ear; set
+it to the ground colour) and `--pz-mark` (face marks). All of it is
+`aria-hidden`; animations stop under reduced motion and pause off-screen.
 
 ### Performance notes
 

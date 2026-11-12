@@ -1,14 +1,17 @@
 ---
 /**
  * The founders, as two formal portrait cards side by side. Until real
- * photos exist, each portrait is a plain silhouette: neutral on purpose,
- * it stands in for a person without inventing a likeness.
+ * photos exist, each portrait is a pizote sitting for it, in front of an
+ * arched backdrop: round glasses for the first (software), a gear pin for
+ * the second (mechatronics), the two turned toward each other. A pizote
+ * stands in for a person without inventing a likeness.
  *
  * To use photos later: give each founder in `site.founders` a portrait
  * image and render it in place of `.portrait__placeholder`.
  */
 import { site } from '@/data/site';
 import { useI18n } from '@/i18n';
+import { head, TAIL } from './pizote-parts';
 
 const { t } = useI18n(Astro);
 /** Job titles read "Position · Profession"; the card sets them apart. */
@@ -22,16 +25,52 @@ const founders = site.founders.map((person, index) => {
     school: person.alumniOf,
   };
 });
+
+/** A pizote's head and shoulders in a 120 × 150 frame, facing right. */
+const bust = (detail: { head?: string; chest?: string }) => `
+  <g transform="translate(-28 62) scale(1.05)">${TAIL}</g>
+  <path fill="currentColor" d="M12 150 C14 124 28 108 46 102 C56 99 70 99 80 103 C98 110 108 128 110 150 Z"/>
+  <path fill="currentColor" d="M46 108 C44 98 44 90 48 82 L74 84 C76 92 78 100 80 106 Z"/>
+  <path class="portrait__chest" d="M52 104 C56 112 66 116 76 112 C80 122 76 136 66 144 C58 134 52 120 52 104 Z"/>
+  <g transform="translate(38 34) scale(.95) translate(-148 -59)">${head()}${detail.head ?? ''}</g>
+  ${detail.chest ?? ''}`;
+
+/** Round glasses on the profile head: lens, bridge to the snout, arm to the ear. */
+const GLASSES =
+  '<g class="portrait__glasses"><circle cx="183" cy="84" r="8.5"/><path d="M191.5 85.5 L197 87.5"/><path d="M174.6 82.4 L163 79"/></g>';
+
+/** An eight-toothed gear, worn as a pin. */
+function gear(x: number, y: number, r: number): string {
+  const teeth = Array.from(
+    { length: 8 },
+    (_, i) => `<rect x="${x - 1.6}" y="${y - r - 2.4}" width="3.2" height="4" rx=".6" transform="rotate(${i * 45} ${x} ${y})"/>`,
+  ).join('');
+  return `<g class="portrait__pin">${teeth}<circle cx="${x}" cy="${y}" r="${r}"/><circle class="portrait__pin-hole" cx="${x}" cy="${y}" r="${r * 0.42}"/></g>`;
+}
+
+const BACKDROP =
+  '<path class="portrait__arch" d="M14 150 V64 C14 37 35 16 60 16 C85 16 106 37 106 64 V150 Z"/>' +
+  '<g class="portrait__arch-lines"><path d="M22 150 V66 C22 42 40 24 60 24 C80 24 98 42 98 66 V150"/><path d="M30 150 V68 C30 48 44 32 60 32 C76 32 90 48 90 68 V150"/></g>';
+
+/** Even portraits face right in glasses; odd ones face left with the pin. */
+const sitters = founders.map((_, index) =>
+  index % 2 === 0
+    ? BACKDROP + bust({ head: GLASSES })
+    : BACKDROP + `<g transform="translate(120 0) scale(-1 1)">${bust({ chest: gear(40, 124, 5) })}</g>`,
+);
 ---
 
 <div class="portraits">
   {founders.map((founder, index) => (
     <figure class="portrait" style={`--i:${index}`}>
       <div class="portrait__frame">
-        <svg class="portrait__placeholder" viewBox="0 0 120 150" aria-hidden="true" focusable="false">
-          <circle cx="60" cy="60" r="21" />
-          <path d="M18 150 C 20 114 38 96 60 96 C 82 96 100 114 102 150 Z" />
-        </svg>
+        <svg
+          class="portrait__placeholder"
+          viewBox="0 0 120 150"
+          aria-hidden="true"
+          focusable="false"
+          set:html={sitters[index]}
+        />
         <span class="portrait__pending">{t.about.portraitPending}</span>
       </div>
       <figcaption class="portrait__caption">
@@ -79,14 +118,51 @@ const founders = site.founders.map((person, index) => {
     inset: 0;
     width: 100%;
     height: 100%;
-    fill: var(--color-moss-700);
-    opacity: 0.16;
+    color: var(--color-moss-800);
+    --pz-ring: var(--color-mist-100);
+    --pz-mark: var(--color-paper);
   }
 
+  .portrait__placeholder :global(.portrait__arch) {
+    fill: var(--color-lichen-100);
+  }
+
+  .portrait__placeholder :global(.portrait__arch-lines) {
+    fill: none;
+    stroke: var(--color-fern-400);
+    stroke-width: 0.6;
+    opacity: 0.7;
+  }
+
+  /* A pale shirt-front: the coati's lighter chest. */
+  .portrait__placeholder :global(.portrait__chest) {
+    fill: var(--color-paper);
+    opacity: 0.35;
+  }
+
+  .portrait__placeholder :global(.portrait__glasses) {
+    fill: none;
+    stroke: var(--color-moss-950);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+  }
+
+  .portrait__placeholder :global(.portrait__pin) {
+    fill: var(--color-clay);
+  }
+
+  .portrait__placeholder :global(.portrait__pin-hole) {
+    fill: var(--color-paper);
+  }
+
+  /* A small tag in the corner, on paper so it reads over the drawing. */
   .portrait__pending {
     position: absolute;
-    inset: auto 0 0 0;
-    padding: 0.4rem;
+    top: 0.5rem;
+    left: 0.5rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--radius-sm);
+    background: rgb(244 242 234 / 0.85);
     font-family: var(--font-mono);
     font-size: 0.625rem;
     letter-spacing: var(--tracking-mono);

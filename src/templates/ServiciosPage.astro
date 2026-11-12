@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Button from '@/components/ui/Button.astro';
+import PawTrail from '@/components/visuals/PawTrail.astro';
+import Pizote from '@/components/visuals/Pizote.astro';
 import ServiceDetails from '@/components/sections/ServiceDetails.astro';
 import PageHeader from '@/components/ui/PageHeader.astro';
 import { breadcrumbJsonLd, servicesJsonLd } from '@/data/structured-data';
@@ -25,10 +27,14 @@ const meta = t.pages.servicios;
   <PageHeader eyebrow={meta.eyebrow} title={meta.heading} lede={meta.lede} />
   <ServiceDetails />
   <section class="section section--page plan-close" aria-labelledby="plan-unsure">
-    <div class="container">
+    <div class="container plan-close__layout">
       <div class="plan-close__inner">
         <h2 id="plan-unsure">{t.services.unsure}</h2>
         <Button href={path(routes.contacto)}>{t.nav.letsTalk}</Button>
+      </div>
+      <div class="plan-close__scene" aria-hidden="true">
+        <PawTrail count={5} direction="right" class="plan-close__tracks" />
+        <Pizote pose="sniff" class="plan-close__pizote" />
       </div>
     </div>
   </section>
@@ -39,6 +45,42 @@ const meta = t.pages.servicios;
      (`.section--page` assumes it continues a section of the same colour). */
   .plan-close {
     padding-top: var(--space-section-gap);
+  }
+
+  .plan-close__layout {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  /* Not sure where to start: a pizote sniffing out the way, tracks behind. */
+  .plan-close__scene {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-3);
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid var(--color-rule-strong);
+    color: var(--color-primary);
+  }
+
+  .plan-close__scene :global(.plan-close__tracks) {
+    height: 1.4rem;
+    margin-bottom: 0.2rem;
+    opacity: 0.6;
+  }
+
+  .plan-close__scene :global(.plan-close__pizote) {
+    width: clamp(7rem, 14vw, 11rem);
+    --pz-ring: var(--color-bg);
+    --pz-mark: var(--color-paper);
+  }
+
+  @media (max-width: 600px) {
+    .plan-close__scene :global(.plan-close__tracks) {
+      display: none;
+    }
   }
 
   .plan-close__inner {

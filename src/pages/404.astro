@@ -3,6 +3,7 @@ import { Font } from 'astro:assets';
 import Button from '@/components/ui/Button.astro';
 import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
 import Wordmark from '@/components/Wordmark.astro';
+import Pizote from '@/components/visuals/Pizote.astro';
 import { site } from '@/data/site';
 import {
   defaultLocale,
@@ -107,18 +108,23 @@ const fallback = packs[defaultLocale];
             </header>
             <main id={`contenido-${locale}`}>
               <section class="section not-found" aria-labelledby={`not-found-title-${locale}`}>
-                <div class="container">
-                  <p class="eyebrow">
-                    <span class="eyebrow__num">404</span>
-                    {pack.copy.eyebrow}
-                  </p>
-                  <h1 class="not-found__title" id={`not-found-title-${locale}`}>
-                    {pack.copy.heading}
-                  </h1>
-                  <p class="not-found__text text-soft">{pack.copy.text}</p>
-                  <div class="not-found__actions">
-                    <Button href={pack.home}>{pack.copy.home}</Button>
-                    <Button href={pack.contact} variant="text">{pack.copy.contact}</Button>
+                <div class="container not-found__layout">
+                  <div class="not-found__copy">
+                    <p class="eyebrow">
+                      <span class="eyebrow__num">404</span>
+                      {pack.copy.eyebrow}
+                    </p>
+                    <h1 class="not-found__title" id={`not-found-title-${locale}`}>
+                      {pack.copy.heading}
+                    </h1>
+                    <p class="not-found__text text-soft">{pack.copy.text}</p>
+                    <div class="not-found__actions">
+                      <Button href={pack.home}>{pack.copy.home}</Button>
+                      <Button href={pack.contact} variant="text">{pack.copy.contact}</Button>
+                    </div>
+                  </div>
+                  <div class="not-found__scene" aria-hidden="true">
+                    <Pizote pose="sniff" class="not-found__pizote" />
                   </div>
                 </div>
               </section>
@@ -165,6 +171,53 @@ const fallback = packs[defaultLocale];
     min-height: calc(70vh - var(--header-height));
     display: flex;
     align-items: center;
+  }
+
+  .not-found__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.6fr);
+    gap: var(--space-7);
+    align-items: end;
+  }
+
+  .not-found__scene {
+    border-bottom: 1px solid var(--color-rule-strong);
+  }
+
+  .not-found__scene :global(.not-found__pizote) {
+    width: 100%;
+    max-width: 22rem;
+    margin-left: auto;
+    color: var(--color-primary);
+    --pz-ring: var(--color-bg);
+    --pz-mark: var(--color-paper);
+  }
+
+  /* Nose to the ground, searching. */
+  @media (prefers-reduced-motion: no-preference) {
+    .not-found__scene :global(.pizote__head) {
+      transform-box: fill-box;
+      transform-origin: 0% 40%;
+      animation: not-found-sniff 1.6s ease-in-out infinite;
+    }
+  }
+
+  @keyframes not-found-sniff {
+    0%, 100% { rotate: 0deg; }
+    20% { rotate: -5deg; }
+    30% { rotate: 1deg; }
+    40% { rotate: -4deg; }
+    60% { rotate: 0deg; }
+  }
+
+  @media (max-width: 700px) {
+    .not-found__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .not-found__scene :global(.not-found__pizote) {
+      max-width: 12rem;
+    }
   }
 
   .not-found__title {

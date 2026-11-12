@@ -48,7 +48,7 @@ export interface SiteConfig {
 }
 
 export const site: SiteConfig = {
-  name: 'Foresta Works',
+  name: 'Pizote Labs',
   country: 'CR',
   founders: [
     { name: 'Erick Alpízar Prendas', alumniOf: 'Tecnológico de Costa Rica' },
