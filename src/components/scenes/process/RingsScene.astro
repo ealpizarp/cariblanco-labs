@@ -59,6 +59,13 @@ const rings = Array.from({ length: 6 }, (_, k) => ringPath(k));
     padding: var(--space-4);
   }
 
+  /* 320px phones: a smaller drawing leaves room for "Mantenimiento". */
+  @media (max-width: 359px) {
+    .scene--rings {
+      grid-template-columns: 5rem minmax(0, 1fr);
+    }
+  }
+
   .rings {
     width: 100%;
     overflow: visible;

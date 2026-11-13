@@ -328,8 +328,12 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
     opacity: 0.19;
   }
 
+  /* The open menu fits the screen without scrolling: the list takes the
+     space left after the foot, and spacing and type shrink with the
+     viewport height (dvh follows the browser bars on phones). */
   .site-menu__list {
-    padding: var(--space-6) var(--gutter) 0;
+    flex: 1 1 auto;
+    padding: clamp(var(--space-3), 3dvh, var(--space-6)) var(--gutter) 0;
   }
 
   .site-menu__list li {
@@ -345,8 +349,8 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
     display: flex;
     align-items: center;
     gap: var(--space-4);
-    min-height: 3.5rem;
-    padding: var(--space-4) 0;
+    min-height: 2.75rem;
+    padding: clamp(0.4rem, 1.7dvh, var(--space-4)) 0;
   }
 
   .site-menu__index {
@@ -370,7 +374,7 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
   .site-menu__label {
     font-family: var(--font-serif);
     font-weight: var(--weight-heading);
-    font-size: clamp(1.75rem, 7vw, 2.4rem);
+    font-size: clamp(1.35rem, min(7vw, 4.6dvh), 2.4rem);
     line-height: 1.1;
   }
 
@@ -414,8 +418,8 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
   .site-menu__foot {
     position: relative;
     display: grid;
-    gap: var(--space-4);
-    padding: var(--space-6) var(--gutter) var(--space-7);
+    gap: clamp(var(--space-2), 2dvh, var(--space-4));
+    padding: clamp(var(--space-3), 3dvh, var(--space-6)) var(--gutter) clamp(var(--space-4), 4dvh, var(--space-7));
     font-size: var(--text-sm);
     color: var(--color-dark-text-muted);
   }
@@ -437,6 +441,49 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
     width: 100%;
     justify-content: center;
     min-height: 3rem;
+  }
+
+  /* Shorter screens: the one-line summaries go first. */
+  @media (max-height: 819px) {
+    .site-menu__summary {
+      display: none;
+    }
+  }
+
+  /* Small phones: drop the tagline and the peeking cariblanco too. */
+  @media (max-height: 539px) {
+    .site-menu__foot p,
+    .site-menu__foot :global(.site-menu__cariblanco) {
+      display: none;
+    }
+
+    .site-menu__talk :global(.btn) {
+      min-height: 2.75rem;
+    }
+  }
+
+  /* Phones held sideways: the links sit in two columns. The header is wide
+     enough to show its own Contacto button there, so the foot goes. */
+  @media (orientation: landscape) and (max-height: 539px) {
+    .site-menu {
+      justify-content: center;
+    }
+
+    .site-menu__list {
+      flex: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-6);
+      padding-block: 0;
+    }
+
+    .site-menu__list li:nth-last-child(-n + 2) {
+      border-bottom: 1px solid var(--color-dark-rule);
+    }
+
+    .site-menu__foot {
+      display: none;
+    }
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -570,6 +617,22 @@ const onContact = isCurrentPage(path(routes.contacto), currentPath);
   @media (max-width: 420px) {
     .site-header__actions {
       gap: var(--space-2);
+    }
+  }
+
+  /* 320px phones: the wordmark, language switch and menu button only fit
+     side by side with tighter spacing and a slightly smaller name. */
+  @media (max-width: 359px) {
+    .site-header__inner {
+      gap: var(--space-2);
+    }
+
+    .site-header__inner :global(.wordmark) {
+      font-size: 1.05rem;
+    }
+
+    .site-header__actions {
+      gap: var(--space-1);
     }
   }
 
